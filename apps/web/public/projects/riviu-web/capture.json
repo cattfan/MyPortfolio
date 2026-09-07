@@ -1,0 +1,111 @@
+{
+  "project": "Riviu Web",
+  "repository": "https://github.com/Riviudalat/Riviu_Web",
+  "sourceCommit": "0e87c914ae1dc118c6f5890e8575792734afdb3c",
+  "sourceStatus": "M apps/api/src/chat/chat.service.ts\n M apps/web/lib/admin-types.ts\n?? tmp-deploy.sh\n?? tmp-smoke.sh\n?? tmp-smoke2.sh",
+  "sourceChangesDuringCapture": [],
+  "capturedAt": "2026-09-07T08:32:20.270Z",
+  "viewport": {
+    "width": 1440,
+    "height": 900,
+    "deviceScaleFactor": 2
+  },
+  "demo": true,
+  "dataMode": "Actual source frontend with six Puck CMS blocks, four photo services and three FAQs from deterministic demo fixtures. Built-in hero network metrics unchanged. Analytics discarded without storage.",
+  "fixtureRevision": 2,
+  "fixtureSummary": {
+    "cmsBlocks": 6,
+    "services": 4,
+    "photoAssets": [
+      "/photos/coffee.jpg",
+      "/photos/restaurant.jpg",
+      "/photos/dessert.jpg",
+      "/photos/grill.jpg"
+    ],
+    "validation": "RIVIU_WEB_FIXTURES_PASS: 6 CMS blocks; 4 services with photos; 3 complete FAQs."
+  },
+  "fontFamilies": "Bricolage Grotesque / Be Vietnam Pro",
+  "uiModifications": "Only Next.js developer controls hidden for capture; no application markup or stylesheet changes.",
+  "browserErrors": [],
+  "blockedRequests": [],
+  "fixtureRequests": [
+    {
+      "method": "GET",
+      "path": "/api/content/home"
+    },
+    {
+      "method": "GET",
+      "path": "/api/content/home"
+    },
+    {
+      "method": "POST",
+      "path": "/api/track/view"
+    },
+    {
+      "method": "POST",
+      "path": "/api/track/view"
+    },
+    {
+      "method": "GET",
+      "path": "/api/content/home"
+    },
+    {
+      "method": "POST",
+      "path": "/api/track/sections"
+    },
+    {
+      "method": "POST",
+      "path": "/api/track/duration"
+    },
+    {
+      "method": "POST",
+      "path": "/api/track/sections"
+    },
+    {
+      "method": "POST",
+      "path": "/api/track/view"
+    },
+    {
+      "method": "POST",
+      "path": "/api/track/view"
+    }
+  ],
+  "screenshots": [
+    {
+      "id": "overview",
+      "route": "/",
+      "label": "Trang chu Riviu",
+      "selector": null,
+      "png": "./overview.png",
+      "webp": "./overview.webp",
+      "width": 2880,
+      "height": 1800,
+      "sha256": "fa15518e810a93ca43f4fc17ddffffe8a63995855b35e16a1c371cd0d6e323c0",
+      "channels": [
+        32.57267389513984,
+        39.759320303662356,
+        50.546938305256376
+      ],
+      "scrollY": 0,
+      "images": 6
+    },
+    {
+      "id": "detail",
+      "route": "/",
+      "label": "Dich vu va noi dung thuong hieu",
+      "selector": "#dich-vu",
+      "png": "./detail.png",
+      "webp": "./detail.webp",
+      "width": 2880,
+      "height": 1800,
+      "sha256": "426812280678b1c41b730eeaba394016d99dbf3b3d31e218cabde364471664b5",
+      "channels": [
+        59.59085767158393,
+        62.051587477967765,
+        67.35335320892726
+      ],
+      "scrollY": 814,
+      "images": 6
+    }
+  ]
+}

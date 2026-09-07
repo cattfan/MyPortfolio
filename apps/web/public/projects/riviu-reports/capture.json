@@ -1,0 +1,66 @@
+{
+  "sourceRepo": "https://github.com/Riviudalat/Riviu_reports",
+  "sourceCommit": "0bccf433c34933eadcb8c74969d9aa5350d4e91e",
+  "sourceDirty": false,
+  "sourceSha256": {
+    "templates/index.html": "f3dfe2d59e7ce2758f46795a123c78bc0f7ed536191787bc8898223e78a039f1",
+    "static/styles.css": "0f3ce18f9c22abffb382791001e8e014241e9244df770a62a1ec499548289f02",
+    "static/app.js": "419ef915d2dfd014d69cd160b02aa18873f69b6b9d335d39565e4cb62e860e16",
+    "requirements.txt": "8a8e0fefedaceaac951988113ba27001cce343e3a32c857390ffb5ebe487edf7",
+    "package.json": "366d862ffdf2589ffbcff181edfa44e5f35178e9b9005326546ae953f73b36e5"
+  },
+  "capturedAt": "2026-09-07T08:35:51.554Z",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "deviceScaleFactor": 2,
+  "dataMode": "demo",
+  "sourceUnchanged": true,
+  "fixtureRevision": 2,
+  "fixtureSummary": {
+    "devices": 6,
+    "platforms": {
+      "ios": 3,
+      "android": 3
+    },
+    "flowNodes": 7,
+    "flowEdges": 7,
+    "flowBranches": 2,
+    "posts": 24,
+    "partners": 8,
+    "views": 1384767,
+    "aggregateChecks": "all 5 metrics reconcile with source posts",
+    "uniqueLinks": true
+  },
+  "method": "Unmodified HTML/CSS/JS served by isolated read-only HTTP fixture; 24 linked posts and 8 partner totals computed from same source rows; no production backend/database",
+  "screenshots": [
+    {
+      "name": "overview",
+      "caption": "Bảng dữ liệu bài đăng",
+      "png": {
+        "width": 2880,
+        "height": 1800
+      },
+      "webp": {
+        "width": 1920,
+        "height": 1200
+      },
+      "disclosure": "Ảnh chụp với dữ liệu demo"
+    },
+    {
+      "name": "detail",
+      "caption": "Tổng kết theo đối tác",
+      "png": {
+        "width": 2880,
+        "height": 1800
+      },
+      "webp": {
+        "width": 1920,
+        "height": 1200
+      },
+      "disclosure": "Ảnh chụp với dữ liệu demo"
+    }
+  ],
+  "pageErrors": []
+}

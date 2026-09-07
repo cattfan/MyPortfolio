@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="360" viewBox="0 0 1280 360" role="img" aria-labelledby="title desc">
+  <title id="title">Đỗ Hiền Dinh — Software Engineer</title>
+  <desc id="desc">Personal profile, based in Da Lat, Vietnam. Web and desktop software.</desc>
+  <defs>
+    <linearGradient id="paper" x2="1" y2="1"><stop stop-color="#faf7ee"/><stop offset="1" stop-color="#e9e2d2"/></linearGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#7d907c" stroke-opacity=".09"/></pattern>
+  </defs>
+  <rect width="1280" height="360" rx="18" fill="#263f36"/>
+  <path d="M920 0C820 115 1160 122 990 360M1050 0C950 98 1225 180 1140 360M810 0C740 140 1015 220 860 360" stroke="#8ba494" stroke-opacity=".12" stroke-width="36" fill="none"/>
+  <text x="70" y="75" font-family="Arial,sans-serif" font-size="14" letter-spacing="4" fill="#c6d3be">SOFTWARE ENGINEER</text>
+  <text x="65" y="174" font-family="Georgia,serif" font-size="74" fill="#fbf6e9">Đỗ Hiền Dinh</text>
+  <text x="71" y="221" font-family="Arial,sans-serif" font-size="20" fill="#d1d9cb">Web &amp; Desktop Applications</text>
+  <path d="M71 262H558" stroke="#a9b6a3" stroke-opacity=".35"/>
+  <circle cx="78" cy="298" r="4" fill="#d09c71"/>
+  <text x="95" y="304" font-family="Arial,sans-serif" font-size="15" fill="#bbcbbc">Đà Lạt, Việt Nam</text>
+  <g transform="translate(885 53) rotate(6 135 122)">
+    <rect x="-8" y="1" width="294" height="257" rx="8" fill="#182c26"/>
+    <rect x="0" width="278" height="248" rx="5" fill="url(#paper)"/>
+    <rect x="0" width="278" height="248" rx="5" fill="url(#grid)"/>
+    <path d="M139 4V245" stroke="#b0a68d" stroke-width="3"/>
+    <path d="M150 4V245" stroke="#d6ceb9" stroke-width="8" opacity=".4"/>
+    <text x="24" y="53" font-family="Georgia,serif" font-size="34" font-style="italic" fill="#9a6a3e">dh.</text>
+    <path d="M25 92H111M25 111H91M25 131H104" stroke="#a4a88e" stroke-width="2" opacity=".65"/>
+    <path d="M204 43C165 91 244 101 212 151S181 188 206 209" stroke="#a65d4b" stroke-width="2" stroke-dasharray="4 5" fill="none"/>
+    <circle cx="206" cy="209" r="6" fill="#a65d4b" stroke="#fff8e7" stroke-width="3"/>
+    <text x="23" y="216" font-family="Arial,sans-serif" font-size="10" fill="#6f795f">MY PORTFOLIO</text>
+  </g>
+</svg>

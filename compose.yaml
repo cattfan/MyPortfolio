@@ -1,0 +1,39 @@
+name: cattfan-portfolio
+services:
+  web:
+    image: cattfan-portfolio:${RELEASE_TAG:-local}
+    build:
+      context: .
+    ports:
+      - "${BIND_ADDRESS:-0.0.0.0}:${PORTFOLIO_PORT:-18088}:8080"
+    user: "101:101"
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=16m,uid=101,gid=101
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+    pids_limit: 64
+    mem_limit: 128m
+    cpus: 0.5
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "-q",
+          "-O",
+          "/dev/null",
+          "http://127.0.0.1:8080/healthz",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "3"

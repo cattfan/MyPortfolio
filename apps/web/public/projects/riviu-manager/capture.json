@@ -1,0 +1,90 @@
+{
+  "sourceRepo": "https://github.com/Riviudalat/Riviu_managers_phone",
+  "sourceCommit": "2cdb070d0843af64ea85495948ae80fe0c7cc788",
+  "sourceDirty": true,
+  "sourceSha256": {
+    "apps/desktop/package.json": "1d001b9a4f55f75452451a6e9d75f638ecd5bc4a0c5a046c86209a438a8c2ca6",
+    "apps/desktop/src/App.tsx": "fad821a57793b158bdb643e20e871d6baaa058f36da604139c0504fe195b0cfb",
+    "apps/desktop/e2e/fixtures/tauriMock.ts": "8e421657e6f064baad9da81ba5ff2e3d06c50d25ebf70ddc177f998c375dfd42"
+  },
+  "capturedAt": "2026-09-07T08:35:51.554Z",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "deviceScaleFactor": 2,
+  "dataMode": "demo",
+  "sourceUnchanged": true,
+  "fixtureRevision": 2,
+  "fixtureSummary": {
+    "devices": 6,
+    "platforms": {
+      "ios": 3,
+      "android": 3
+    },
+    "flowNodes": 7,
+    "flowEdges": 7,
+    "flowBranches": 2,
+    "posts": 24,
+    "partners": 8,
+    "views": 1384767,
+    "aggregateChecks": "all 5 metrics reconcile with source posts",
+    "uniqueLinks": true
+  },
+  "method": "Actual Vite desktop frontend + existing Tauri mock extended with six named devices and branched Flow; JPEG fixtures decoded through original view worker/protocol; no native shell",
+  "photoSources": [
+    {
+      "file": "valley.jpg",
+      "author": "Jeremy Brady",
+      "page": "https://unsplash.com/photos/misty-valley-viewed-through-pine-trees-cvvWOR85mf4",
+      "url": "https://images.unsplash.com/photo-1774081639594-0c4ab58afabb?auto=format&fit=crop&w=900&q=88",
+      "license": "Unsplash License",
+      "licenseUrl": "https://unsplash.com/license"
+    },
+    {
+      "file": "lake.jpg",
+      "author": "Điệp Zader",
+      "page": "https://unsplash.com/photos/lush-green-forest-meets-tranquil-lake-water-i29Z07meKds",
+      "url": "https://images.unsplash.com/photo-1741524427564-0173c980c432?auto=format&fit=crop&w=900&q=88",
+      "license": "Unsplash License",
+      "licenseUrl": "https://unsplash.com/license"
+    },
+    {
+      "file": "sunrise.jpg",
+      "author": "Tron Le",
+      "page": "https://unsplash.com/photos/a-foggy-mountain-with-trees-on-top-of-it-c4sOFGdTlt8",
+      "url": "https://images.unsplash.com/photo-1652829792625-055eb9e877a3?auto=format&fit=crop&w=900&q=88",
+      "license": "Unsplash License",
+      "licenseUrl": "https://unsplash.com/license"
+    }
+  ],
+  "screenshots": [
+    {
+      "name": "overview",
+      "caption": "Quản lý sáu thiết bị demo",
+      "png": {
+        "width": 2880,
+        "height": 1800
+      },
+      "webp": {
+        "width": 1920,
+        "height": 1200
+      },
+      "disclosure": "Ảnh chụp với dữ liệu demo"
+    },
+    {
+      "name": "detail",
+      "caption": "Trình biên tập Flow",
+      "png": {
+        "width": 2880,
+        "height": 1800
+      },
+      "webp": {
+        "width": 1920,
+        "height": 1200
+      },
+      "disclosure": "Ảnh chụp với dữ liệu demo"
+    }
+  ],
+  "pageErrors": []
+}

@@ -1,0 +1,40 @@
+{
+  "checkedAt": "2026-09-08",
+  "host": "113.161.254.76",
+  "serverLanAddress": "192.168.2.5",
+  "releaseDirectory": "/home/riviu/apps/cattfan-portfolio/releases/20260907-portfolio",
+  "composeProject": "cattfan-portfolio",
+  "container": "cattfan-portfolio-web-1",
+  "imageTag": "cattfan-portfolio:20260907-portfolio",
+  "runtime": "static HTML/CSS/JS served by Nginx",
+  "port": 18088,
+  "bindAddress": "0.0.0.0",
+  "containerPort": 8080,
+  "serverStatus": "healthy",
+  "publicStatus": "reachable HTTP 200; verified externally",
+  "intendedPublicUrl": "http://113.161.254.76:18088/",
+  "routerRule": {
+    "device": "Ruijie EG209GS",
+    "managementAddress": "192.168.2.1",
+    "name": "CattfanPortfolio",
+    "interface": "WAN",
+    "protocol": "TCP",
+    "externalPort": 18088,
+    "internalAddress": "192.168.2.5",
+    "internalPort": 18088,
+    "persistedAfterReload": true
+  },
+  "domain": "cattfan.site",
+  "dnsStatus": "no active A record when checked",
+  "hostVhost": "/etc/nginx/sites-available/cattfan.site",
+  "firewallRule": "18088/tcp ALLOW; Cattfan portfolio HTTP preview",
+  "verification": {
+    "dependencyAdvisories": 0,
+    "runtimeHighCriticalFindings": 0,
+    "browserTestsPassed": 58,
+    "consoleErrorsInTestedFlows": 0,
+    "consoleWarningsInTestedFlows": 0,
+    "containerRollbackCheck": "passed on isolated project",
+    "existingSitesHttpStatus": [200, 200]
+  }
+}

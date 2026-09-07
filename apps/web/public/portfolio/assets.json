@@ -1,0 +1,664 @@
+{
+  "generatedBy": "apps/web/scripts/prepare-portfolio-assets.mjs",
+  "geographicAnchor": {
+    "name": "Da Lat",
+    "longitude": 108.438,
+    "latitude": 11.941
+  },
+  "orientation": "North-up Mercator in every level; all anchor pixels and camera transforms derive from the same longitude/latitude.",
+  "maps": [
+    {
+      "id": "vietnam",
+      "src": "/portfolio/map-vietnam.webp?v=atlas-20260907",
+      "mobileSrc": "/portfolio/map-vietnam-mobile.webp?v=atlas-20260907",
+      "width": 2048,
+      "height": 1160,
+      "overscan": 2,
+      "anchor": {
+        "x": 0.649136,
+        "y": 0.734579
+      },
+      "projection": {
+        "type": "geoMercator",
+        "center": [
+          108,
+          16.3
+        ],
+        "scale": 3850,
+        "translate": [
+          1300,
+          550
+        ]
+      },
+      "kind": "national"
+    },
+    {
+      "id": "region",
+      "src": "/portfolio/map-region.webp?v=atlas-20260907",
+      "mobileSrc": "/portfolio/map-region-mobile.webp?v=atlas-20260907",
+      "width": 2048,
+      "height": 1160,
+      "overscan": 2,
+      "anchor": {
+        "x": 0.69004,
+        "y": 0.568021
+      },
+      "projection": {
+        "type": "geoMercator",
+        "center": [
+          108,
+          12.6
+        ],
+        "scale": 13500,
+        "translate": [
+          1310,
+          500
+        ]
+      },
+      "kind": "regional"
+    },
+    {
+      "id": "highlands",
+      "src": "/portfolio/map-highlands.webp?v=atlas-20260907",
+      "mobileSrc": "/portfolio/map-highlands-mobile.webp?v=atlas-20260907",
+      "width": 2048,
+      "height": 1160,
+      "overscan": 2,
+      "anchor": {
+        "x": 0.639648,
+        "y": 0.580172
+      },
+      "projection": {
+        "type": "geoMercator",
+        "center": [
+          108.438,
+          11.941
+        ],
+        "scale": 120000,
+        "translate": [
+          1310,
+          673
+        ]
+      },
+      "kind": "highlands"
+    },
+    {
+      "id": "dalat",
+      "src": "/portfolio/map-dalat.webp?v=atlas-20260907",
+      "mobileSrc": "/portfolio/map-dalat-mobile.webp?v=atlas-20260907",
+      "width": 2048,
+      "height": 1160,
+      "overscan": 2,
+      "anchor": {
+        "x": 0.639648,
+        "y": 0.637931
+      },
+      "projection": {
+        "type": "geoMercator",
+        "center": [
+          108.438,
+          11.941
+        ],
+        "scale": 1200000,
+        "translate": [
+          1310,
+          740
+        ]
+      },
+      "kind": "city"
+    }
+  ],
+  "detailMaps": [
+    {
+      "id": "region-detail",
+      "src": "/portfolio/map-region-detail.webp?v=atlas-20260907",
+      "mobileSrc": "/portfolio/map-region-detail-mobile.webp?v=atlas-20260907",
+      "width": 2048,
+      "height": 1160,
+      "overscan": 2,
+      "anchor": {
+        "x": 0.639648,
+        "y": 0.534483
+      },
+      "projection": {
+        "type": "geoMercator",
+        "center": [
+          108.438,
+          11.941
+        ],
+        "scale": 40000,
+        "translate": [
+          1310,
+          620
+        ]
+      },
+      "kind": "regional"
+    },
+    {
+      "id": "city-detail",
+      "src": "/portfolio/map-city-detail.webp?v=atlas-20260907",
+      "mobileSrc": "/portfolio/map-city-detail-mobile.webp?v=atlas-20260907",
+      "width": 2048,
+      "height": 1160,
+      "overscan": 2,
+      "anchor": {
+        "x": 0.639648,
+        "y": 0.612069
+      },
+      "projection": {
+        "type": "geoMercator",
+        "center": [
+          108.438,
+          11.941
+        ],
+        "scale": 380000,
+        "translate": [
+          1310,
+          710
+        ]
+      },
+      "kind": "city"
+    }
+  ],
+  "labels": [
+    {
+      "name": "Hà Nội",
+      "longitude": 105.854,
+      "latitude": 21.029,
+      "kind": "national"
+    },
+    {
+      "name": "Đà Nẵng",
+      "longitude": 108.203,
+      "latitude": 16.052,
+      "kind": "national"
+    },
+    {
+      "name": "TP. Hồ Chí Minh",
+      "longitude": 106.7,
+      "latitude": 10.776,
+      "kind": "national"
+    },
+    {
+      "name": "Lào",
+      "longitude": 104.75,
+      "latitude": 16.9,
+      "kind": "national"
+    },
+    {
+      "name": "Campuchia",
+      "longitude": 104.8,
+      "latitude": 12.1,
+      "kind": "national"
+    },
+    {
+      "name": "Biển Đông",
+      "longitude": 113,
+      "latitude": 14.4,
+      "kind": "national"
+    },
+    {
+      "name": "QĐ. Hoàng Sa",
+      "longitude": 112.2,
+      "latitude": 16.5,
+      "kind": "national"
+    },
+    {
+      "name": "QĐ. Trường Sa",
+      "longitude": 113.4,
+      "latitude": 10.6,
+      "kind": "national"
+    },
+    {
+      "name": "Phú Quốc",
+      "longitude": 103.990825,
+      "latitude": 10.27502,
+      "kind": "national"
+    },
+    {
+      "name": "Pleiku",
+      "longitude": 108.22,
+      "latitude": 13.98,
+      "kind": "regional"
+    },
+    {
+      "name": "Buôn Ma Thuột",
+      "longitude": 108.05,
+      "latitude": 12.67,
+      "kind": "regional"
+    },
+    {
+      "name": "Nha Trang",
+      "longitude": 109.195,
+      "latitude": 12.24,
+      "kind": "regional"
+    },
+    {
+      "name": "Phan Thiết",
+      "longitude": 108.1,
+      "latitude": 10.93,
+      "kind": "regional"
+    },
+    {
+      "name": "Bảo Lộc",
+      "longitude": 107.8,
+      "latitude": 11.55,
+      "kind": "regional"
+    },
+    {
+      "name": "Phan Rang",
+      "longitude": 108.99,
+      "latitude": 11.58,
+      "kind": "regional"
+    },
+    {
+      "name": "Lâm Đồng",
+      "longitude": 107.75,
+      "latitude": 11.8,
+      "kind": "regional"
+    },
+    {
+      "name": "Lạc Dương",
+      "longitude": 108.4190669,
+      "latitude": 12.0086648,
+      "kind": "highlands"
+    },
+    {
+      "name": "Hồ Tuyền Lâm",
+      "longitude": 108.4197,
+      "latitude": 11.8905,
+      "kind": "highlands"
+    },
+    {
+      "name": "Hồ Đan Kia",
+      "longitude": 108.386,
+      "latitude": 12.017,
+      "kind": "highlands"
+    },
+    {
+      "name": "Langbiang",
+      "longitude": 108.4405826,
+      "latitude": 12.0472573,
+      "kind": "highlands"
+    },
+    {
+      "name": "Hồ Xuân Hương",
+      "longitude": 108.4443,
+      "latitude": 11.9456,
+      "kind": "city"
+    },
+    {
+      "name": "Vườn hoa Đà Lạt",
+      "longitude": 108.449438,
+      "latitude": 11.9518581,
+      "kind": "city"
+    },
+    {
+      "name": "Chợ Đà Lạt",
+      "longitude": 108.4372097,
+      "latitude": 11.9435196,
+      "kind": "city"
+    },
+    {
+      "name": "Ga Đà Lạt",
+      "longitude": 108.4542354,
+      "latitude": 11.9415603,
+      "kind": "city"
+    },
+    {
+      "name": "Quảng trường Lâm Viên",
+      "longitude": 108.4450134,
+      "latitude": 11.9388409,
+      "kind": "city"
+    }
+  ],
+  "terrain": {
+    "revision": 1,
+    "source": "Mapzen Terrain Tiles / USGS SRTM, GMTED2010 and NOAA ETOPO1",
+    "url": "https://registry.opendata.aws/terrain-tiles/",
+    "encoding": "Terrarium RGB: (red * 256 + green + blue / 256) - 32768 meters; EPSG:3857",
+    "tiles": 927,
+    "manifest": "/portfolio/terrain-sources.json",
+    "style": "Actual elevation hypsometric tint and northwest hillshade, clipped to the existing Vietnam land geometry.",
+    "light": {
+      "azimuth": 315,
+      "altitude": 45
+    },
+    "plates": [
+      {
+        "id": "vietnam",
+        "zoom": 7,
+        "elevationRangeMeters": [
+          -2916,
+          2795
+        ],
+        "landPixels": 138806,
+        "tileCount": 54
+      },
+      {
+        "id": "region",
+        "zoom": 8,
+        "elevationRangeMeters": [
+          -1500,
+          2546
+        ],
+        "landPixels": 829524,
+        "tileCount": 90
+      },
+      {
+        "id": "highlands",
+        "zoom": 12,
+        "elevationRangeMeters": [
+          -1708,
+          2420
+        ],
+        "landPixels": 8849675,
+        "tileCount": 375
+      },
+      {
+        "id": "dalat",
+        "zoom": 13,
+        "elevationRangeMeters": [
+          996,
+          1744
+        ],
+        "landPixels": 9502720,
+        "tileCount": 42
+      },
+      {
+        "id": "region-detail",
+        "zoom": 10,
+        "elevationRangeMeters": [
+          -1861,
+          4360
+        ],
+        "landPixels": 3709594,
+        "tileCount": 221
+      },
+      {
+        "id": "city-detail",
+        "zoom": 13,
+        "elevationRangeMeters": [
+          174,
+          2292
+        ],
+        "landPixels": 9502720,
+        "tileCount": 187
+      }
+    ]
+  },
+  "boundarySource": {
+    "src": "/portfolio/vietnam-boundary.geojson",
+    "url": "https://media.githubusercontent.com/media/wmgeolab/geoBoundaries/9469f09/releaseData/gbHumanitarian/VNM/ADM0/geoBoundaries-VNM-ADM0_simplified.geojson",
+    "dataset": "Government of Viet Nam / OCHA COD-AB 2020; geoBoundaries humanitarian mirror",
+    "license": "CC BY 3.0 IGO",
+    "sourceVertices": 19959,
+    "polygons": 1158,
+    "bounds": [
+      [
+        102.144024862,
+        7.180931477
+      ],
+      [
+        117.83545743800002,
+        23.39220557
+      ]
+    ],
+    "strokeWidth": 1,
+    "color": "#7d8e78",
+    "winding": "d3-geo spherical polygon convention",
+    "validation": {
+      "dalatInside": true,
+      "originOutside": true
+    }
+  },
+  "journeyRoute": {
+    "color": "#b65049",
+    "style": "red dashed",
+    "strokeWidth": 1.3,
+    "dashArray": [
+      4,
+      4
+    ],
+    "rasterized": false,
+    "coordinates": [
+      [
+        105.854,
+        21.029
+      ],
+      [
+        105.974,
+        20.258
+      ],
+      [
+        105.76,
+        19.81
+      ],
+      [
+        105.55,
+        19.4
+      ],
+      [
+        105.5,
+        18.95
+      ],
+      [
+        105.68,
+        18.68
+      ],
+      [
+        105.9,
+        18.35
+      ],
+      [
+        106.12,
+        18.13
+      ],
+      [
+        106.2,
+        17.9
+      ],
+      [
+        106.3,
+        17.64
+      ],
+      [
+        106.59,
+        17.46
+      ],
+      [
+        106.65,
+        17.3
+      ],
+      [
+        106.91,
+        16.97
+      ],
+      [
+        107.1,
+        16.81
+      ],
+      [
+        107.3,
+        16.65
+      ],
+      [
+        107.56,
+        16.47
+      ],
+      [
+        107.7,
+        16.31
+      ],
+      [
+        107.85,
+        16.21
+      ],
+      [
+        108,
+        16.08
+      ],
+      [
+        108.17,
+        16.05
+      ],
+      [
+        108.2,
+        15.92
+      ],
+      [
+        108.43,
+        15.58
+      ],
+      [
+        108.7,
+        15.13
+      ],
+      [
+        108.92,
+        14.64
+      ],
+      [
+        108.99,
+        14.25
+      ],
+      [
+        109.05,
+        13.84
+      ],
+      [
+        109.1,
+        13.52
+      ],
+      [
+        109.12,
+        13.13
+      ],
+      [
+        109.05,
+        12.71
+      ],
+      [
+        109.13,
+        12.38
+      ],
+      [
+        109.14,
+        12.22
+      ],
+      [
+        108.97,
+        12.22
+      ],
+      [
+        108.84,
+        12.16
+      ],
+      [
+        108.67,
+        12.09
+      ],
+      [
+        108.55,
+        12.04
+      ],
+      [
+        108.438,
+        11.941
+      ]
+    ],
+    "geometry": "Illustrated mainland itinerary; not a turn-by-turn road route. Rendered at constant screen-pixel thickness; fades before street-level detail.",
+    "validation": {
+      "dataset": "Government of Viet Nam / OCHA COD-AB 2020 mainland polygon",
+      "samples": 3535,
+      "insideVietnam": true
+    }
+  },
+  "sources": [
+    {
+      "name": "Mapzen Terrain Tiles / USGS SRTM, GMTED2010 and NOAA ETOPO1",
+      "url": "https://registry.opendata.aws/terrain-tiles/",
+      "tileUrl": "https://elevation-tiles-prod.s3.amazonaws.com/terrarium/{z}/{x}/{y}.png",
+      "format": "Terrarium RGB: (red * 256 + green + blue / 256) - 32768 meters; EPSG:3857",
+      "formatUrl": "https://github.com/tilezen/joerd/blob/master/docs/formats.md",
+      "attributionUrl": "https://github.com/tilezen/joerd/blob/master/docs/attribution.md",
+      "license": "Open elevation data; SRTM/GMTED2010 courtesy of USGS, global ETOPO1 courtesy of NOAA. Provider-specific terms in attribution URL.",
+      "usage": "Actual elevation tiles reprojected to exactly the existing d3 Mercator pixels. Elevation tint and northwest hillshade are clipped to the sourced Vietnam polygon. Offline preparation only; no runtime tile requests.",
+      "localSource": "/portfolio/terrain-sources.json"
+    },
+    {
+      "name": "Government of Viet Nam / OCHA COD-AB",
+      "url": "https://media.githubusercontent.com/media/wmgeolab/geoBoundaries/9469f09/releaseData/gbHumanitarian/VNM/ADM0/geoBoundaries-VNM-ADM0_simplified.geojson",
+      "catalogUrl": "https://data.humdata.org/dataset/cod-ab-vnm",
+      "mirrorMetadata": "https://www.geoboundaries.org/api/current/gbHumanitarian/VNM/ADM0/",
+      "license": "Creative Commons Attribution 3.0 IGO",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0/igo/",
+      "year": 2020,
+      "sha256": "aebfb4ca0d20938fc87a8487f578acd268ae7dd7ffd25e9e68b89056cf66c7e6",
+      "localSource": "/portfolio/vietnam-boundary.geojson",
+      "usage": "Published simplified land polygons, coastlines and actual island shapes; only ring winding changed for d3. No fabricated islands or maritime boundary lines."
+    },
+    {
+      "name": "Natural Earth 1:10m countries",
+      "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_admin_0_countries.geojson",
+      "license": "Public domain",
+      "sha256": "239eec57ac17f100a11e2536cffc56752c318b50ae765b0918ff7aab4ce8f255",
+      "usage": "Muted surrounding land context, separate from the more detailed Vietnam COD-AB geometry."
+    },
+    {
+      "name": "Natural Earth 1:10m rivers",
+      "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_rivers_lake_centerlines.geojson",
+      "license": "Public domain",
+      "sha256": "bb854a900ecbd3b408df46d5e16e3e0f974ba55993f9d8b5c26e855273c0905a",
+      "usage": "Country and regional river geometry."
+    },
+    {
+      "name": "Natural Earth 1:10m lakes",
+      "url": "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_lakes.geojson",
+      "license": "Public domain",
+      "sha256": "2d036f53dedec578001c5c30c2959ee7d4eebc1306900fa4367c49929ec8f2d9",
+      "usage": "Country and regional lake geometry."
+    },
+    {
+      "name": "OpenStreetMap contributors",
+      "url": "https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A45%5D%3B(way%5Bnatural%3Dwater%5D(11.9%2C108.39%2C12.03%2C108.51)%3Brel(2390139)%3Bway%5Bhighway%5D(11.927%2C108.42%2C11.97%2C108.48)%3Bway%5Bleisure%5D(11.927%2C108.42%2C11.97%2C108.48)%3Bway%5Blanduse%3Dforest%5D(11.927%2C108.42%2C11.97%2C108.48)%3Bway%5Bbuilding%5D(11.938%2C108.43%2C11.953%2C108.46)%3Bway%5Bhighway~%22%5E(trunk%7Cprimary%7Csecondary)%24%22%5D(11.6%2C108%2C12.3%2C108.9)%3Bnode(id%3A1152317883%2C4426128791%2C5661470624)%3B)%3Bout%20geom%3B",
+      "license": "Open Database License 1.0",
+      "licenseUrl": "https://www.openstreetmap.org/copyright",
+      "localSource": "/portfolio/dalat-osm.json",
+      "sha256": "f98e2704c12bc6138d245a821a0f46f877f879ea842bd167a0d6fa856bead0f8",
+      "timestamp": "2026-09-06T20:00:21Z",
+      "features": 4726,
+      "usage": "Directly projected Da Lat and nearby road, water, park and building geometry. Xuan Huong shoreline uses relation/2390139. Landmark label coordinates come from OSM nodes. No runtime tile or geocoding requests."
+    },
+    {
+      "name": "Verified OSM landmark anchors",
+      "usage": "Market node/1152317883; station node/5661470624; Lam Vien Square node/4426128791; flower garden way/473547263; Lac Duong node/12925900845; Lang Biang node/2688028631.",
+      "url": "https://www.openstreetmap.org/relation/2390139"
+    },
+    {
+      "name": "ThreeUI Sketchbook",
+      "url": "https://threeui.com/landing-pages/meng-to-sketchbook/marina-bay-sands.png",
+      "usage": "Small blank-paper crop only. Original illustration is not included.",
+      "sha256": "c9cb4423072d69c4177833fa3f92923ce50ab7b395a257349793de3840b88608"
+    },
+    {
+      "name": "ThreeUI botanical accents",
+      "url": "https://threeui.com/landing-pages/meng-to-sketchbook.html",
+      "usage": "Botany-left and botany-right raster accents copied and converted to WebP from provided ThreeUI reference assets."
+    },
+    {
+      "name": "Newsreader",
+      "url": "https://github.com/google/fonts/tree/main/ofl/newsreader",
+      "license": "SIL Open Font License 1.1",
+      "usage": "Self-hosted variable font for portfolio sections below the book."
+    },
+    {
+      "name": "Source Serif 4",
+      "url": "https://github.com/google/fonts/tree/main/ofl/sourceserif4",
+      "license": "SIL Open Font License 1.1",
+      "usage": "Self-hosted variable normal and italic font for the book and identity; Vietnamese character coverage verified. License beside fonts."
+    }
+  ],
+  "treatment": "Locally rasterized north-up shaded-relief atlas with two-times overscan and intermediate detail rasters. Real Mapzen Terrarium elevation drives height-band color and hillshade in the same Mercator projection. Vietnam coastlines and islands use published COD-AB land polygons; neighboring geography is muted. No procedural island marks or invented terrain. National outline, red dashed itinerary and geographic labels are separate constant-size overlays, never magnified bitmap strokes or text. Paper texture and page fade remain fixed outside the raster artwork. Regional and city shoreline, roads, parks and building footprints derive from OpenStreetMap. The itinerary is illustrative; geographic labels are not maritime boundaries.",
+  "runtime": "All media is local; no map service, tile API or external font request."
+}
