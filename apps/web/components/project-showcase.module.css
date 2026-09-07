@@ -1,0 +1,285 @@
+.carousel {
+  position: relative;
+  aspect-ratio: 8/5;
+  border: 1px solid #2b272118;
+  border-radius: 5px;
+  background: #faf9f5;
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    border-color 240ms ease,
+    box-shadow 240ms ease;
+}
+.carousel:hover,
+.carousel:focus-within {
+  border-color: #9a6a3e55;
+  box-shadow: 0 5px 18px #2b27210c;
+}
+.imageButton {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  overflow: hidden;
+  cursor: zoom-in;
+}
+.track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 650ms cubic-bezier(0.22, 0.68, 0.2, 1);
+  will-change: transform;
+}
+.slide {
+  flex: 0 0 100%;
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.expand {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  background: #fffef9ed;
+  border: 1px solid #2b27211c;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 160ms ease;
+}
+.carousel:hover .expand,
+.carousel:focus-within .expand {
+  opacity: 1;
+}
+
+.detailsTrigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 48px;
+  padding: 0;
+  margin-top: 12px;
+  border: 0;
+  border-top: 1px solid var(--line);
+  background: transparent;
+  font-size: 11px;
+  color: var(--ink);
+  text-align: left;
+  transition:
+    color 200ms ease,
+    border-color 200ms ease;
+}
+.detailsTrigger:hover {
+  color: var(--earth);
+  border-top-color: #9a6a3e70;
+}
+.detailsTrigger svg {
+  transition: transform 180ms ease;
+}
+.detailsTrigger:hover svg {
+  transform: rotate(90deg);
+}
+.dialog {
+  padding: 0;
+  border: 1px solid #d8d6cf;
+  border-radius: 7px;
+  width: min(1320px, 96vw);
+  max-width: 96vw;
+  max-height: 96svh;
+  margin: auto;
+  background: #faf9f5;
+  color: var(--ink);
+  box-shadow: 0 18px 90px #0005;
+  overflow: auto;
+  overscroll-behavior: contain;
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 270ms ease,
+    transform 270ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.dialog[data-phase="open"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+.dialog[data-phase="closing"] {
+  opacity: 0;
+  transform: translateY(10px);
+  transition-duration: 180ms;
+}
+.dialog::backdrop {
+  background: #16171300;
+  transition: background-color 270ms ease;
+}
+.dialog[data-phase="open"]::backdrop {
+  background: #161713c9;
+}
+.dialog[data-phase="closing"]::backdrop {
+  background: #16171300;
+  transition-duration: 180ms;
+}
+.dialogPanel {
+  min-width: 0;
+}
+.dialogHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  padding: 14px 20px;
+  position: sticky;
+  top: 0;
+  background: #faf9f5;
+  z-index: 2;
+  border-bottom: 1px solid #2b272113;
+}
+.dialogHeader strong {
+  font-size: 15px;
+  font-weight: 500;
+}
+.dialog button {
+  display: grid;
+  place-items: center;
+  flex: 0 0 38px;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--ink);
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease;
+}
+.dialog button:hover {
+  background: #eae6dc;
+}
+.galleryViewport {
+  height: min(69.6vw, calc(96svh - 137px));
+  max-height: 825px;
+  overflow: hidden;
+  background: #e5e5df;
+}
+.galleryControls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  gap: 20px;
+  background: #faf9f5;
+}
+.detailsDialog {
+  width: min(900px, 94vw);
+  max-height: 92svh;
+}
+.detailContent {
+  padding: 26px 32px 32px;
+}
+.detailContent > .role {
+  color: var(--earth);
+  font-size: 11px;
+  margin: 0 0 26px;
+}
+.detailContent h3 {
+  font-family: var(--font-geist-sans), Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  margin: 24px 0 9px;
+}
+.detailContent p {
+  font-size: 13px;
+  line-height: 1.85;
+  color: var(--muted);
+}
+.detailContent img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  margin-top: 28px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+.fallback {
+  border-top: 1px solid var(--line);
+  margin-top: 12px;
+  font-size: 12px;
+}
+.fallback summary {
+  min-height: 44px;
+  cursor: pointer;
+  padding: 12px 0;
+}
+.fallback .detailContent {
+  padding: 12px 0;
+}
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  padding: 0;
+  border: 0;
+}
+@media (max-width: 700px) {
+  .expand {
+    opacity: 1;
+    right: 9px;
+    top: 9px;
+    width: 27px;
+    height: 27px;
+  }
+
+  .dialogHeader {
+    padding: 12px;
+  }
+  .galleryControls {
+    padding: 10px 12px;
+  }
+  .galleryViewport {
+    height: min(60vw, calc(96svh - 127px));
+  }
+  .detailContent {
+    padding: 18px 20px 24px;
+  }
+  .detailContent p {
+    font-size: 12px;
+  }
+  .detailContent h3 {
+    font-size: 12px;
+  }
+  .detailsDialog {
+    max-height: 94svh;
+  }
+  .dialogHeader strong {
+    font-size: 14px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .track,
+  .dialog,
+  .dialog::backdrop,
+  .detailsTrigger svg {
+    transition: none !important;
+  }
+  .track {
+    will-change: auto;
+  }
+}

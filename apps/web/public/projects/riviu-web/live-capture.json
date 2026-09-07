@@ -1,0 +1,55 @@
+{
+  "project": "Riviu Web",
+  "websiteUrl": "https://taskscatt.click/",
+  "dataMode": "live",
+  "capturedAt": "2026-09-07T09:46:16.197Z",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "deviceScaleFactor": 2,
+  "method": "Public website opened in a fresh browser context; no account, form submission, fixture responses or application DOM changes.",
+  "screenshots": [
+    {
+      "id": "live-overview",
+      "route": "/",
+      "selector": null,
+      "caption": "Trang chủ Riviu đang hoạt động",
+      "url": "https://taskscatt.click/",
+      "status": 200,
+      "title": "Riviu – Ăn khắp nơi, chơi khắp chốn",
+      "png": "live-overview.png",
+      "webp": "live-overview.webp",
+      "width": 2880,
+      "height": 1800,
+      "sha256": "b601e0055185fefdb567285464b60ee87cfb3197e9e2050481769f7d5c511089",
+      "visibleImages": [
+        {
+          "src": "https://taskscatt.click/_next/image?url=%2Friviu-logo.png&w=640&q=75",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "id": "live-detail",
+      "route": "/bang-gia",
+      "selector": "#combo",
+      "caption": "Bảng giá dịch vụ trên website",
+      "url": "https://taskscatt.click/bang-gia",
+      "status": 200,
+      "title": "Bảng giá dịch vụ truyền thông | Riviu",
+      "png": "live-detail.png",
+      "webp": "live-detail.webp",
+      "width": 2880,
+      "height": 1800,
+      "sha256": "42c956ebe9902363f1d2fc65357aab1fdad20263bc0ef748d59272e11955adc4",
+      "visibleImages": [
+        {
+          "src": "https://taskscatt.click/_next/image?url=%2Friviu-logo.png&w=640&q=75",
+          "loaded": true
+        }
+      ]
+    }
+  ],
+  "browserErrors": []
+}

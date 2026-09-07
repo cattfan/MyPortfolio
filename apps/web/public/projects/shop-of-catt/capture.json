@@ -1,0 +1,548 @@
+{
+  "repository": "https://github.com/ToolofCatt/ShopOfCatt",
+  "commit": "8851b5b213cf953007c1e05c790f48824af06a40",
+  "dirty": true,
+  "sourceUnchanged": true,
+  "sourceHashCount": 1174,
+  "fixtureRevision": 2,
+  "dataMode": "demo catalog and sales fixtures; no database/payment operations",
+  "fixtureSummary": {
+    "products": 8,
+    "variants": 24,
+    "stock": 643,
+    "sold": 1504,
+    "categories": 3,
+    "checks": [
+      "unique slugs",
+      "3 variants per product",
+      "stock sums",
+      "sales sums",
+      "VND conversions",
+      "min/max prices",
+      "nonblank product artwork"
+    ]
+  },
+  "products": [
+    {
+      "id": "demo-studio-ui-kit",
+      "name": "Studio UI Kit",
+      "category": "Thiết kế",
+      "availableStock": 68,
+      "sold": 174,
+      "variants": [
+        {
+          "id": "demo-studio-ui-kit-0",
+          "name": "Cá nhân",
+          "price": 10,
+          "priceCurrency": "VND",
+          "priceAmount": 250000,
+          "sortOrder": 0,
+          "active": true,
+          "availableStock": 42,
+          "sold": 128
+        },
+        {
+          "id": "demo-studio-ui-kit-1",
+          "name": "Nhóm 5 người",
+          "price": 24,
+          "priceCurrency": "VND",
+          "priceAmount": 600000,
+          "sortOrder": 1,
+          "active": true,
+          "availableStock": 18,
+          "sold": 34
+        },
+        {
+          "id": "demo-studio-ui-kit-2",
+          "name": "Thương mại",
+          "price": 48,
+          "priceCurrency": "VND",
+          "priceAmount": 1200000,
+          "sortOrder": 2,
+          "active": true,
+          "availableStock": 8,
+          "sold": 12
+        }
+      ]
+    },
+    {
+      "id": "demo-focus-planner",
+      "name": "Focus Planner 2026",
+      "category": "Năng suất",
+      "availableStock": 116,
+      "sold": 293,
+      "variants": [
+        {
+          "id": "demo-focus-planner-0",
+          "name": "Cá nhân",
+          "price": 4,
+          "priceCurrency": "VND",
+          "priceAmount": 100000,
+          "sortOrder": 0,
+          "active": true,
+          "availableStock": 76,
+          "sold": 216
+        },
+        {
+          "id": "demo-focus-planner-1",
+          "name": "Nhóm 5 người",
+          "price": 10,
+          "priceCurrency": "VND",
+          "priceAmount": 250000,
+          "sortOrder": 1,
+          "active": true,
+          "availableStock": 28,
+          "sold": 58
+        },
+        {
+          "id": "demo-focus-planner-2",
+          "name": "Thương mại",
+          "price": 18,
+          "priceCurrency": "VND",
+          "priceAmount": 450000,
+          "sortOrder": 2,
+          "active": true,
+          "availableStock": 12,
+          "sold": 19
+        }
+      ]
+    },
+    {
+      "id": "demo-mono-icons",
+      "name": "Mono Essential Icons",
+      "category": "Thiết kế",
+      "availableStock": 76,
+      "sold": 241,
+      "variants": [
+        {
+          "id": "demo-mono-icons-0",
+          "name": "Cá nhân",
+          "price": 6,
+          "priceCurrency": "VND",
+          "priceAmount": 150000,
+          "sortOrder": 0,
+          "active": true,
+          "availableStock": 53,
+          "sold": 184
+        },
+        {
+          "id": "demo-mono-icons-1",
+          "name": "Nhóm 5 người",
+          "price": 14,
+          "priceCurrency": "VND",
+          "priceAmount": 350000,
+          "sortOrder": 1,
+          "active": true,
+          "availableStock": 16,
+          "sold": 42
+        },
+        {
+          "id": "demo-mono-icons-2",
+          "name": "Thương mại",
+          "price": 28,
+          "priceCurrency": "VND",
+          "priceAmount": 700000,
+          "sortOrder": 2,
+          "active": true,
+          "availableStock": 7,
+          "sold": 15
+        }
+      ]
+    },
+    {
+      "id": "demo-saas-starter",
+      "name": "SaaS Starter Kit",
+      "category": "Lập trình",
+      "availableStock": 34,
+      "sold": 98,
+      "variants": [
+        {
+          "id": "demo-saas-starter-0",
+          "name": "Cá nhân",
+          "price": 16,
+          "priceCurrency": "VND",
+          "priceAmount": 400000,
+          "sortOrder": 0,
+          "active": true,
+          "availableStock": 21,
+          "sold": 67
+        },
+        {
+          "id": "demo-saas-starter-1",
+          "name": "Nhóm 5 người",
+          "price": 36,
+          "priceCurrency": "VND",
+          "priceAmount": 900000,
+          "sortOrder": 1,
+          "active": true,
+          "availableStock": 9,
+          "sold": 23
+        },
+        {
+          "id": "demo-saas-starter-2",
+          "name": "Thương mại",
+          "price": 72,
+          "priceCurrency": "VND",
+          "priceAmount": 1800000,
+          "sortOrder": 2,
+          "active": true,
+          "availableStock": 4,
+          "sold": 8
+        }
+      ]
+    },
+    {
+      "id": "demo-palette-system",
+      "name": "Palette System",
+      "category": "Thiết kế",
+      "availableStock": 128,
+      "sold": 200,
+      "variants": [
+        {
+          "id": "demo-palette-system-0",
+          "name": "Cá nhân",
+          "price": 3,
+          "priceCurrency": "VND",
+          "priceAmount": 75000,
+          "sortOrder": 0,
+          "active": true,
+          "availableStock": 84,
+          "sold": 152
+        },
+        {
+          "id": "demo-palette-system-1",
+          "name": "Nhóm 5 người",
+          "price": 8,
+          "priceCurrency": "VND",
+          "priceAmount": 200000,
+          "sortOrder": 1,
+          "active": true,
+          "availableStock": 31,
+          "sold": 37
+        },
+        {
+          "id": "demo-palette-system-2",
+          "name": "Thương mại",
+          "price": 16,
+          "priceCurrency": "VND",
+          "priceAmount": 400000,
+          "sortOrder": 2,
+          "active": true,
+          "availableStock": 13,
+          "sold": 11
+        }
+      ]
+    },
+    {
+      "id": "demo-portfolio-templates",
+      "name": "Portfolio Templates",
+      "category": "Lập trình",
+      "availableStock": 55,
+      "sold": 133,
+      "variants": [
+        {
+          "id": "demo-portfolio-templates-0",
+          "name": "Cá nhân",
+          "price": 8,
+          "priceCurrency": "VND",
+          "priceAmount": 200000,
+          "sortOrder": 0,
+          "active": true,
+          "availableStock": 36,
+          "sold": 98
+        },
+        {
+          "id": "demo-portfolio-templates-1",
+          "name": "Nhóm 5 người",
+          "price": 20,
+          "priceCurrency": "VND",
+          "priceAmount": 500000,
+          "sortOrder": 1,
+          "active": true,
+          "availableStock": 14,
+          "sold": 26
+        },
+        {
+          "id": "demo-portfolio-templates-2",
+          "name": "Thương mại",
+          "price": 40,
+          "priceCurrency": "VND",
+          "priceAmount": 1000000,
+          "sortOrder": 2,
+          "active": true,
+          "availableStock": 5,
+          "sold": 9
+        }
+      ]
+    },
+    {
+      "id": "demo-content-calendar",
+      "name": "Content Calendar",
+      "category": "Năng suất",
+      "availableStock": 95,
+      "sold": 202,
+      "variants": [
+        {
+          "id": "demo-content-calendar-0",
+          "name": "Cá nhân",
+          "price": 5,
+          "priceCurrency": "VND",
+          "priceAmount": 125000,
+          "sortOrder": 0,
+          "active": true,
+          "availableStock": 62,
+          "sold": 143
+        },
+        {
+          "id": "demo-content-calendar-1",
+          "name": "Nhóm 5 người",
+          "price": 12,
+          "priceCurrency": "VND",
+          "priceAmount": 300000,
+          "sortOrder": 1,
+          "active": true,
+          "availableStock": 24,
+          "sold": 45
+        },
+        {
+          "id": "demo-content-calendar-2",
+          "name": "Thương mại",
+          "price": 24,
+          "priceCurrency": "VND",
+          "priceAmount": 600000,
+          "sortOrder": 2,
+          "active": true,
+          "availableStock": 9,
+          "sold": 14
+        }
+      ]
+    },
+    {
+      "id": "demo-freelance-finance",
+      "name": "Freelance Finance",
+      "category": "Năng suất",
+      "availableStock": 71,
+      "sold": 163,
+      "variants": [
+        {
+          "id": "demo-freelance-finance-0",
+          "name": "Cá nhân",
+          "price": 5,
+          "priceCurrency": "VND",
+          "priceAmount": 125000,
+          "sortOrder": 0,
+          "active": true,
+          "availableStock": 48,
+          "sold": 121
+        },
+        {
+          "id": "demo-freelance-finance-1",
+          "name": "Nhóm 5 người",
+          "price": 11,
+          "priceCurrency": "VND",
+          "priceAmount": 275000,
+          "sortOrder": 1,
+          "active": true,
+          "availableStock": 17,
+          "sold": 32
+        },
+        {
+          "id": "demo-freelance-finance-2",
+          "name": "Thương mại",
+          "price": 22,
+          "priceCurrency": "VND",
+          "priceAmount": 550000,
+          "sortOrder": 2,
+          "active": true,
+          "availableStock": 6,
+          "sold": 10
+        }
+      ]
+    }
+  ],
+  "artworkMode": "Original demo-product contents rendered as HTML/CSS with Lucide icons and captured as raster PNGs; no source storefront redesign",
+  "artwork": [
+    {
+      "id": "studio-ui-kit",
+      "name": "Studio UI Kit",
+      "artwork": "product-studio-ui-kit.png",
+      "width": 960,
+      "height": 720,
+      "sha256": "c709017154fa8aa87b31af3bda48c6934464b50bf5d01a8dfa670b311fd1b2f0"
+    },
+    {
+      "id": "focus-planner",
+      "name": "Focus Planner 2026",
+      "artwork": "product-focus-planner.png",
+      "width": 960,
+      "height": 720,
+      "sha256": "55ee7671aeef36f5b1fb4f0a30784203e63f121354d19f9002e2a001c08066c6"
+    },
+    {
+      "id": "mono-icons",
+      "name": "Mono Essential Icons",
+      "artwork": "product-mono-icons.png",
+      "width": 960,
+      "height": 720,
+      "sha256": "5b2359bde38e82841271c332a662115ba7f53eb7e5b8e0ad5e6e8dab89395962"
+    },
+    {
+      "id": "saas-starter",
+      "name": "SaaS Starter Kit",
+      "artwork": "product-saas-starter.png",
+      "width": 960,
+      "height": 720,
+      "sha256": "2cb5b1ad4d272ae16736544805fc4d89d8f387a7fbdc299140832aea9ae7e532"
+    },
+    {
+      "id": "palette-system",
+      "name": "Palette System",
+      "artwork": "product-palette-system.png",
+      "width": 960,
+      "height": 720,
+      "sha256": "5c2136669ed2fbc20f9dc804732b9cc3bb3803a05ebf10bee4a89012e47dc652"
+    },
+    {
+      "id": "portfolio-templates",
+      "name": "Portfolio Templates",
+      "artwork": "product-portfolio-templates.png",
+      "width": 960,
+      "height": 720,
+      "sha256": "d645b3b5ecc59c7e8a34f2d07e2485bbef03139da38b356365e34d0133beb5d1"
+    },
+    {
+      "id": "content-calendar",
+      "name": "Content Calendar",
+      "artwork": "product-content-calendar.png",
+      "width": 960,
+      "height": 720,
+      "sha256": "0e785c2b36d4bb3843c876e7167762b2d0b58bf15478060add5fd472316a8ed2"
+    },
+    {
+      "id": "freelance-finance",
+      "name": "Freelance Finance",
+      "artwork": "product-freelance-finance.png",
+      "width": 960,
+      "height": 720,
+      "sha256": "cca53c2cf0f2451526259c4ff954cf0a2b4799cde798b094c82a281f68bdb2b0"
+    }
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900,
+    "deviceScaleFactor": 2
+  },
+  "screens": [
+    {
+      "route": "/",
+      "png": "overview.png",
+      "webp": "overview.webp",
+      "width": 2880,
+      "height": 1800
+    },
+    {
+      "route": "/products/demo-design-kit",
+      "png": "detail.png",
+      "webp": "detail.webp",
+      "width": 2880,
+      "height": 1800
+    }
+  ],
+  "browserErrors": [],
+  "blockedRequests": [],
+  "fixtureRequests": [
+    {
+      "method": "GET",
+      "path": "/api/rates"
+    },
+    {
+      "method": "GET",
+      "path": "/api/products"
+    },
+    {
+      "method": "GET",
+      "path": "/api/storefront"
+    },
+    {
+      "method": "GET",
+      "path": "/api/announcement"
+    },
+    {
+      "method": "GET",
+      "path": "/api/rates"
+    },
+    {
+      "method": "GET",
+      "path": "/api/products"
+    },
+    {
+      "method": "GET",
+      "path": "/api/storefront"
+    },
+    {
+      "method": "GET",
+      "path": "/api/announcement"
+    },
+    {
+      "method": "GET",
+      "path": "/api/images/0.png"
+    },
+    {
+      "method": "GET",
+      "path": "/api/images/1.png"
+    },
+    {
+      "method": "GET",
+      "path": "/api/images/2.png"
+    },
+    {
+      "method": "GET",
+      "path": "/api/images/3.png"
+    },
+    {
+      "method": "GET",
+      "path": "/api/images/4.png"
+    },
+    {
+      "method": "GET",
+      "path": "/api/images/5.png"
+    },
+    {
+      "method": "GET",
+      "path": "/api/images/6.png"
+    },
+    {
+      "method": "GET",
+      "path": "/api/images/7.png"
+    },
+    {
+      "method": "GET",
+      "path": "/api/rates"
+    },
+    {
+      "method": "GET",
+      "path": "/api/products/demo-design-kit"
+    },
+    {
+      "method": "GET",
+      "path": "/api/storefront"
+    },
+    {
+      "method": "GET",
+      "path": "/api/announcement"
+    },
+    {
+      "method": "GET",
+      "path": "/api/images/0.png"
+    },
+    {
+      "method": "POST",
+      "path": "/api/analytics/product-view"
+    },
+    {
+      "method": "GET",
+      "path": "/api/payment-methods"
+    }
+  ],
+  "capturedAt": "2026-09-07T08:37:18.154Z"
+}

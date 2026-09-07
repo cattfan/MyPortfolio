@@ -1,0 +1,938 @@
+.journey {
+  --map-treatment: saturate(0.96) contrast(1.025);
+  --book-cloth: #89755c;
+  --book-board: #695644;
+  --book-paper: #f8f4e9;
+  --book-edge: #c9bdab;
+  height: 420svh;
+  position: relative;
+}
+.scene {
+  --header-height: var(--site-header-height);
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: calc(var(--header-height) + 20px) 28px 18px;
+}
+.intro {
+  width: 100%;
+  max-width: 1100px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: end;
+  text-align: center;
+  margin: 0 auto 36px;
+}
+.subtitle {
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+.intro h1 {
+  font-family: var(--font-book), Georgia, serif;
+  font-size: 64px;
+  font-weight: 400;
+  line-height: 1.15;
+  font-optical-sizing: auto;
+}
+.introDescription {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 14px;
+}
+.marginNote {
+  justify-self: start;
+  font-family: var(--font-book), Georgia, serif;
+  font-size: 17px;
+  line-height: 1.4;
+  text-align: left;
+  font-style: italic;
+  transform: rotate(-5deg);
+  color: var(--muted);
+}
+.bookStage {
+  width: min(1000px, calc((100svh - 390px) * 1.8));
+  flex: 0 0 auto;
+  max-width: 100%;
+  position: relative;
+  padding: 10px 0 24px;
+}
+.book {
+  width: 100%;
+  aspect-ratio: 2048 / 1160;
+  position: relative;
+  isolation: isolate;
+  transform: rotate(-1deg);
+}
+.book::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 51.2%;
+  bottom: -31px;
+  width: 12px;
+  height: 50px;
+  background: #a5493f;
+  border-left: 2px solid #7d332d;
+  border-right: 1px solid #d18072;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 88%, 0 100%);
+  transform: rotate(-7deg);
+  pointer-events: none;
+}
+.cover {
+  position: absolute;
+  inset: -7px -10px -17px;
+  background: var(--book-board);
+  border-radius: 12px 14px 16px 13px;
+  box-shadow:
+    0 2px 0 #584736,
+    0 4px 0 #9c8569,
+    1px 9px 9px #3a2c1a24,
+    0 23px 32px -9px #3a2c1a36;
+}
+.cover::before,
+.cover::after {
+  content: "";
+  position: absolute;
+  inset: 0 50% 0 0;
+  border: 1px solid #b9a589;
+  border-radius: 11px 4px 18px 12px;
+  background: var(--book-cloth) url("/portfolio/paper-texture.webp") repeat;
+  background-blend-mode: multiply;
+  box-shadow:
+    inset 0 0 0 3px var(--book-cloth),
+    inset 0 0 0 4px #d1bea052,
+    inset 0 -4px 3px #49362466;
+}
+.cover::after {
+  inset: 0 0 0 50%;
+  border-radius: 4px 13px 13px 18px;
+}
+.cover::before {
+  border-right-color: #594633;
+}
+.cover::after {
+  border-left-color: #594633;
+}
+.pageEdges {
+  position: absolute;
+  inset: 3px -4px -11px;
+  pointer-events: none;
+}
+.pageEdges::before,
+.pageEdges::after {
+  content: "";
+  position: absolute;
+  inset: 0 50% 0 0;
+  background: repeating-linear-gradient(
+    0deg,
+    #c3b5a0 0px,
+    #eae2d2 1px,
+    #fbf7ed 2px,
+    #ddd2bf 3px
+  );
+  border: 1px solid var(--book-edge);
+  border-radius: 5px 1px 46% 7px / 8px 1px 10px 7px;
+  box-shadow:
+    inset -8px 0 9px -8px #7762479c,
+    0 2px 2px #3a2c1a40;
+}
+.pageEdges::after {
+  inset: 0 0 0 50%;
+  border-radius: 1px 5px 7px 46% / 1px 8px 7px 10px;
+  box-shadow:
+    inset 8px 0 9px -8px #7762479c,
+    0 2px 2px #3a2c1a40;
+}
+.paper {
+  position: absolute;
+  inset: 0;
+  border-radius: 5px 7px 7px 5px;
+  overflow: hidden;
+  background: var(--book-paper) url("/portfolio/paper-texture.webp") repeat;
+  background-blend-mode: multiply;
+  box-shadow:
+    0 -1px 1px #ffffffcf,
+    1px 2px 2px #79654a40,
+    inset 0 -1px 1px #8b755120;
+}
+.paper::before,
+.paper::after {
+  content: "";
+  position: absolute;
+  inset: 0 50% 0 0;
+  z-index: 1;
+  border-radius: 5px 0 35% 5px / 5px 0 8px 5px;
+  box-shadow:
+    inset 2px 0 5px #bcae9227,
+    inset -15px 0 20px -15px #79634545,
+    inset 0 -2px 3px #8a765620;
+  pointer-events: none;
+}
+.paper::after {
+  inset: 0 0 0 50%;
+  border-radius: 0 7px 7px 35% / 0 7px 7px 8px;
+  box-shadow:
+    inset -2px 0 5px #bcae9227,
+    inset 15px 0 20px -15px #79634545,
+    inset 0 -2px 3px #8a765620;
+}
+.mapWindow {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent 0%, transparent 29%, #000 43%);
+}
+.artLayer {
+  position: absolute;
+  inset: 0;
+  transform-origin: 64% 53%;
+  will-change: transform, opacity;
+}
+.artLayer img {
+  object-fit: cover;
+  filter: var(--map-treatment);
+}
+.artLayer picture {
+  position: absolute;
+  inset: 0;
+}
+.paperGrain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.14;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  background: url("/portfolio/paper-texture.webp") repeat;
+}
+.gutter {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 7%;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #8b735611 20%,
+    #6e583d25 37%,
+    #57432b57 48%,
+    #3d2b1675 50%,
+    #eee2c987 51%,
+    #fff9e8aa 57%,
+    #ffffff0a 78%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+.gutter::before,
+.gutter::after {
+  content: "";
+  position: absolute;
+  left: 35%;
+  top: -3px;
+  width: 30%;
+  height: 8px;
+  border-radius: 0 0 50% 50%;
+  background: #7963454d;
+  box-shadow: 0 1px 1px #fff9e88c;
+}
+.gutter::after {
+  top: auto;
+  bottom: -4px;
+  height: 9px;
+  border-radius: 50% 50% 0 0;
+  background: #69533870;
+  box-shadow: 0 -1px 1px #ece1cc57;
+}
+.pageCaption {
+  position: absolute;
+  left: 5%;
+  top: 7%;
+  font-size: 10px;
+  font-family: var(--font-book), Georgia, serif;
+  font-style: italic;
+  color: var(--muted);
+}
+.compass {
+  position: absolute;
+  right: 5%;
+  top: 7%;
+  display: grid;
+  grid-template-columns: 10px 32px 10px;
+  grid-template-rows: 10px 32px 10px;
+  place-items: center;
+  gap: 4px;
+  font-size: 9px;
+  color: #465e52;
+}
+.compassNorth {
+  grid-area: 1 / 2;
+}
+.compassEast {
+  grid-area: 2 / 3;
+}
+.compassSouth {
+  grid-area: 3 / 2;
+}
+.compassWest {
+  grid-area: 2 / 1;
+}
+.compassRose {
+  grid-area: 2 / 2;
+  display: block;
+  position: relative;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #607b6557;
+  border-radius: 50%;
+  background: #faf8ee80;
+  box-shadow:
+    0 0 0 3px #faf8ee80,
+    0 0 0 4px #607b6526;
+}
+.compassNeedle {
+  position: absolute;
+  inset: 5px 10px;
+  background: linear-gradient(90deg, #3d6455 50%, #b5c7ba 50%);
+  clip-path: polygon(50% 0, 100% 100%, 50% 75%, 0 100%);
+}
+.annotation {
+  position: absolute;
+  left: 5.5%;
+  top: 24%;
+  width: 32%;
+  bottom: 14%;
+}
+.chapter {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity 220ms ease,
+    transform 220ms ease;
+  pointer-events: none;
+}
+.chapter[data-current="true"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+.chapterNumber {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  margin-bottom: 18px;
+}
+.chapter h2 {
+  font-family: var(--font-book), Georgia, serif;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 1.18;
+  font-optical-sizing: auto;
+  text-wrap: balance;
+  margin-bottom: 15px;
+}
+.chapter p {
+  font-family: var(--font-book), Georgia, serif;
+  font-size: 14px;
+  line-height: 1.7;
+  max-width: 230px;
+  color: #615648;
+}
+.annotationRule {
+  display: none;
+  width: 39px;
+  border-top: 1px solid #a88c67;
+  margin-top: 24px;
+  transform: rotate(-3deg);
+}
+.destination {
+  position: absolute;
+  left: 64%;
+  top: 53%;
+  width: 0;
+  height: 0;
+}
+.pin {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  background: #ac4037;
+  border: 2px solid #fffae9;
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 3px #ac40372b,
+    0 0 0 4px #ac403756,
+    0 2px 5px #324e393d;
+  flex-shrink: 0;
+}
+.destinationLabel {
+  position: absolute;
+  left: 30px;
+  top: -34px;
+  color: #733e32;
+  font-size: 21px;
+  font-family: var(--font-book), Georgia, serif;
+  line-height: 1.2;
+  text-shadow:
+    0 1px 4px #fff9eb,
+    0 0 9px #fff9eb;
+  white-space: nowrap;
+}
+.destinationLabel small {
+  display: none;
+  font-family: var(--font-geist-sans), sans-serif;
+  font-size: 8px;
+  margin-top: 5px;
+}
+.journey[data-chapter="2"] .destinationLabel,
+.journey[data-chapter="3"] .destinationLabel {
+  left: -14px;
+  top: 9px;
+  transform: translateX(-100%);
+}
+.journey[data-chapter="3"] .destinationLabel small {
+  display: none;
+}
+.folio {
+  position: absolute;
+  bottom: 6%;
+  left: 5%;
+  color: #8b7b65;
+  font-family: var(--font-book), Georgia, serif;
+  font-size: 12px;
+}
+.signature {
+  position: absolute;
+  bottom: 5%;
+  left: 34%;
+  font-family: var(--font-book), Georgia, serif;
+  font-style: italic;
+  font-size: 26px;
+  color: var(--stamp);
+  transform: rotate(-8deg);
+}
+.mapCredit {
+  flex: 0 0 auto;
+  margin-top: 2px;
+  font-family: var(--font-geist-sans), Arial, sans-serif;
+  font-size: 8px;
+  line-height: 1.3;
+  text-align: center;
+  color: var(--muted);
+}
+.mapCredit a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.journeyRail {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  width: min(1000px, calc((100svh - 390px) * 1.8));
+  max-width: 100%;
+  margin-top: 16px;
+  min-height: 44px;
+}
+.railLabel {
+  font-size: 10px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  white-space: nowrap;
+}
+.chapterPicker {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+}
+.chapterCount {
+  font-family: var(--font-book), Georgia, serif;
+  font-size: 22px;
+  color: var(--earth);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.chapterCount span {
+  font-family: var(--font-geist-sans), sans-serif;
+  font-size: 10px;
+  color: var(--muted);
+}
+.chapterSelect {
+  display: flex;
+  position: relative;
+  align-items: center;
+  border-left: 1px solid var(--line);
+  padding-left: 16px;
+}
+.chapterSelect select {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  color: var(--ink);
+  font-size: 12px;
+  width: 166px;
+  padding: 12px 23px 12px 0;
+  cursor: pointer;
+}
+.chapterSelect svg {
+  position: absolute;
+  right: 0;
+  pointer-events: none;
+  color: var(--muted);
+}
+.chapterSkills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 13px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-geist-sans), sans-serif;
+  font-size: 10px;
+  color: var(--earth);
+  line-height: 1.5;
+}
+.chapterSkills li {
+  border-bottom: 1px solid #9a6a3e30;
+  padding-bottom: 3px;
+}
+.mapLinework {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.arrows {
+  display: flex;
+  gap: 10px;
+}
+.arrows button {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--ink);
+  background: transparent;
+}
+.arrows button:hover:enabled {
+  background: #e4d9c5;
+}
+.arrows button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+.projectsHint {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 10px;
+  margin-top: 20px;
+  padding: 8px;
+}
+.mobileAnnotation {
+  display: none;
+}
+.staticChapters {
+  display: none;
+}
+.mapFallback {
+  display: grid;
+  align-content: center;
+  justify-content: center;
+  height: 100%;
+  padding-left: 30%;
+  gap: 12px;
+  color: var(--forest);
+  background: #ede5d6;
+  font-family: var(--font-book), Georgia, serif;
+  font-size: 28px;
+}
+.journey[data-static="true"] {
+  height: auto;
+}
+.journey[data-static="true"] .scene {
+  position: relative;
+}
+.journey[data-enhanced="false"] .artLayer,
+.journey[data-static="true"] .artLayer {
+  transform: none !important;
+  opacity: 1 !important;
+}
+.journey[data-enhanced="false"] .artLayer:not(:first-child),
+.journey[data-static="true"] .artLayer:not(:first-child) {
+  display: none;
+}
+.journey[data-static="true"] .destination {
+  opacity: 1 !important;
+  top: 73.4579% !important;
+  left: 64.9136% !important;
+}
+.journey[data-enhanced="false"] .journeyRail,
+.journey[data-static="true"] .journeyRail {
+  visibility: hidden;
+}
+.journey[data-static="true"] .staticChapters {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 1100px;
+  margin: 0 auto;
+  gap: 50px;
+  padding: 30px 24px 50px;
+}
+.staticChapters span {
+  font-size: 11px;
+  color: var(--muted);
+}
+.staticChapters h2 {
+  font-family: var(--font-book), Georgia, serif;
+  font-size: 30px;
+  font-weight: 400;
+  margin: 18px 0 12px;
+}
+.staticChapters p {
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--muted);
+}
+@media (min-width: 900px) and (max-height: 850px) {
+  .scene {
+    padding-top: calc(var(--header-height) + 12px);
+  }
+  .bookStage,
+  .journeyRail {
+    width: min(1000px, calc((100svh - 400px) * 1.8));
+  }
+  .bookStage {
+    padding: 8px 0 22px;
+  }
+  .intro {
+    margin-bottom: 20px;
+  }
+  .intro h1 {
+    font-size: 48px;
+  }
+  .introDescription {
+    margin-top: 10px;
+  }
+  .subtitle {
+    margin-bottom: 8px;
+  }
+  .projectsHint {
+    margin-top: 8px;
+  }
+  .chapter h2 {
+    font-size: 27px;
+  }
+  .chapterNumber {
+    margin-bottom: 14px;
+  }
+  .chapter p {
+    font-size: 12px;
+  }
+  .annotation {
+    top: 20%;
+    bottom: 13%;
+  }
+  .chapterSkills {
+    margin-top: 10px;
+  }
+  .annotationRule {
+    margin-top: 14px;
+  }
+}
+@media (max-width: 900px) {
+  .marginNote {
+    display: none;
+  }
+  .intro {
+    display: block;
+  }
+  .intro h1 {
+    font-size: 56px;
+  }
+  .bookStage,
+  .journeyRail {
+    width: 100%;
+    max-width: 750px;
+  }
+  .chapter h2 {
+    font-size: 27px;
+  }
+  .chapterNumber {
+    margin-bottom: 14px;
+  }
+  .chapter p {
+    font-size: 12px;
+    line-height: 1.65;
+  }
+  .railLabel {
+    display: none;
+  }
+}
+@media (max-width: 800px) {
+  .scene {
+    --header-height: var(--site-header-height);
+  }
+}
+@media (max-width: 640px) {
+  .journey {
+    height: 380svh;
+  }
+  .scene {
+    height: 100svh;
+    padding: calc(var(--header-height) + 24px) 20px 16px;
+    justify-content: center;
+  }
+  .intro {
+    margin-bottom: 38px;
+  }
+  .intro h1 {
+    font-size: 40px;
+  }
+  .subtitle {
+    font-size: 10px;
+    margin-bottom: 16px;
+  }
+  .introDescription {
+    font-size: 11px;
+    margin-top: 16px;
+  }
+  .bookStage {
+    padding: 5px 0 19px;
+  }
+  .book {
+    aspect-ratio: 2048 / 1160;
+  }
+  .artLayer img {
+    object-fit: cover;
+  }
+  .cover {
+    inset: -5px -7px -12px;
+    border-radius: 9px;
+  }
+  .cover::before,
+  .cover::after {
+    border-radius: 8px;
+  }
+  .pageEdges {
+    inset: 3px -3px -8px;
+  }
+  .book::after {
+    width: 9px;
+    bottom: -22px;
+    height: 32px;
+  }
+  .paper {
+    border-radius: 4px;
+  }
+  .annotation {
+    display: none;
+  }
+  .pageCaption {
+    font-size: 8px;
+    top: 7%;
+  }
+  .compass {
+    grid-template-columns: 7px 24px 7px;
+    grid-template-rows: 7px 24px 7px;
+    gap: 2px;
+    font-size: 7px;
+  }
+  .compassRose {
+    width: 24px;
+    height: 24px;
+  }
+  .compassNeedle {
+    inset: 4px 7px;
+  }
+  .destination {
+    left: 64%;
+    top: 53%;
+  }
+  .destinationLabel {
+    position: absolute;
+    top: -25px;
+    left: 15px;
+    font-size: 15px;
+    transform: none;
+  }
+  .destinationLabel small {
+    display: none;
+  }
+  .journey[data-chapter="2"] .destinationLabel,
+  .journey[data-chapter="3"] .destinationLabel {
+    left: -10px;
+    top: 8px;
+    transform: translateX(-100%);
+  }
+  .pin {
+    width: 8px;
+    height: 8px;
+  }
+  .signature {
+    font-size: 21px;
+    left: 24%;
+  }
+  .mapCredit {
+    font-size: 8px;
+  }
+  .folio {
+    font-size: 10px;
+  }
+  .mobileAnnotation {
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-top: 26px;
+    min-height: 172px;
+  }
+  .mobileAnnotation > span {
+    font-size: 9px;
+    color: var(--muted);
+  }
+  .mobileAnnotation h2 {
+    font-family: var(--font-book), Georgia, serif;
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1.15;
+    margin: 13px auto 10px;
+    max-width: 320px;
+  }
+  .mobileAnnotation p {
+    font-size: 12px;
+    line-height: 1.8;
+    color: var(--muted);
+    max-width: 310px;
+    margin: 0 auto;
+  }
+  .journeyRail {
+    margin-top: 12px;
+    gap: 10px;
+  }
+  .chapterPicker {
+    gap: 12px;
+  }
+  .chapterCount {
+    font-size: 20px;
+  }
+  .chapterSelect {
+    padding-left: 12px;
+  }
+  .chapterSelect select {
+    width: 133px;
+    font-size: 11px;
+  }
+  .mobileAnnotation .chapterSkills {
+    justify-content: center;
+    margin-top: 13px;
+    font-size: 9px;
+  }
+  .mobileAnnotation {
+    min-height: 190px;
+  }
+  .arrows {
+    gap: 4px;
+  }
+  .arrows button {
+    width: 38px;
+    height: 38px;
+  }
+  .projectsHint {
+    margin-top: 9px;
+  }
+  .journey[data-static="true"] .staticChapters {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 25px 28px;
+  }
+}
+@media (max-width: 360px) {
+  .chapterPicker {
+    gap: 8px;
+  }
+  .chapterSelect {
+    padding-left: 8px;
+  }
+  .chapterSelect select {
+    width: 112px;
+  }
+  .arrows button {
+    width: 34px;
+    height: 34px;
+  }
+  .chapterCount {
+    font-size: 18px;
+  }
+  .intro {
+    margin-bottom: 24px;
+  }
+  .mobileAnnotation {
+    margin-top: 20px;
+  }
+}
+@media (max-width: 540px) {
+  .scene {
+    --header-height: var(--site-header-height);
+  }
+}
+@media (max-height: 620px) {
+  .scene {
+    height: auto;
+    min-height: 0;
+    padding: calc(var(--header-height) + 35px) 24px 35px;
+  }
+  .bookStage {
+    width: min(720px, 100%);
+  }
+  .intro h1 {
+    font-size: 42px;
+  }
+  .annotation h2 {
+    font-size: 28px;
+  }
+  .journeyRail {
+    display: none;
+  }
+}
+@media (min-width: 641px) and (max-height: 700px) {
+  .journey {
+    height: auto;
+  }
+  .scene {
+    position: relative;
+    height: auto;
+    min-height: 0;
+    padding: calc(var(--header-height) + 32px) 28px 32px;
+  }
+  .bookStage {
+    width: min(900px, 100%);
+  }
+  .journeyRail {
+    display: none;
+  }
+  .intro {
+    margin-bottom: 28px;
+  }
+  .chapter h2 {
+    font-size: 30px;
+  }
+  .chapter p {
+    font-size: 12px;
+  }
+}

@@ -1,0 +1,9 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+
+overrides:
+  "nanoid@<3.3.18": "3.3.18"
+  "flatted@<3.4.2": "3.4.2"
+  "picomatch@<2.3.2": "2.3.2"
+  "@humanfs/node@<0.16.8": "0.16.8"

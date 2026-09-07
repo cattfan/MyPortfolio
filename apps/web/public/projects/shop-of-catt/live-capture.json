@@ -1,0 +1,106 @@
+{
+  "project": "ShopOfCatt",
+  "liveBrand": "Catt Store",
+  "type": "live",
+  "website": "https://cattshop.site",
+  "repository": "https://github.com/ToolofCatt/ShopOfCatt",
+  "dataMode": "Public production pages; original products, artwork, prices and stock statuses; no fixture responses or application UI changes",
+  "locale": "vi-VN",
+  "viewport": {
+    "width": 1440,
+    "height": 900,
+    "deviceScaleFactor": 2
+  },
+  "browserErrors": [],
+  "consoleErrors": [],
+  "automaticNonGetRequests": [
+    {
+      "method": "POST",
+      "url": "https://cattshop.site/api/analytics/product-view"
+    }
+  ],
+  "accountActions": [],
+  "sourceChanges": [],
+  "screenshots": [
+    {
+      "name": "live-overview",
+      "url": "https://cattshop.site/",
+      "caption": "Danh mục sản phẩm trên Catt Store",
+      "finalUrl": "https://cattshop.site/",
+      "status": 200,
+      "title": "Catt Store",
+      "png": "live-overview.png",
+      "webp": "live-overview.webp",
+      "width": 2880,
+      "height": 1800,
+      "sha256": "08806d202e2da1a29d07d2447185a18f7d38f4ac2e2ea6ed5365ab323101f36a",
+      "capturedAt": "2026-09-07T09:44:36.285Z",
+      "productLinks": [
+        {
+          "url": "https://cattshop.site/products/claude-pro-7-ngay-khong-bao-hanh",
+          "title": "Claude Pro 7 ngày (Không bảo hành)"
+        },
+        {
+          "url": "https://cattshop.site/products/super-grok-account-7d",
+          "title": "Super grok account 7D"
+        },
+        {
+          "url": "https://cattshop.site/products/chatgpt-plus-account-random-date",
+          "title": "ChatGPT Plus thời hạn ngẫu nhiên định dạng json"
+        },
+        {
+          "url": "https://cattshop.site/products/chatgpt-plus-account-30d-warranty-12h",
+          "title": "Tài khoản ChatGPT Plus 30 ngày"
+        }
+      ],
+      "images": [
+        {
+          "src": "https://cattshop.site/logo-mark.png",
+          "loaded": true
+        },
+        {
+          "src": "https://cattshop.site/api/images/product/cmt4piurp001ank015uai4xcq/thumbnail?v=1788080630270",
+          "loaded": true
+        },
+        {
+          "src": "https://cattshop.site/api/images/product/cmt2qzad6002zpd0195wbyptq/thumbnail?v=1788080631635",
+          "loaded": true
+        },
+        {
+          "src": "https://cattshop.site/api/images/product/cmsyrvihd0010mm01tdwqai0r/thumbnail?v=1788431930695",
+          "loaded": true
+        },
+        {
+          "src": "https://cattshop.site/api/images/product/cmsyrjdv60001mm010jqix9g1/thumbnail?v=1788161961557",
+          "loaded": true
+        }
+      ]
+    },
+    {
+      "name": "live-detail",
+      "url": "https://cattshop.site/products/chatgpt-plus-account-30d-warranty-12h",
+      "caption": "Trang sản phẩm và các lựa chọn trên Catt Store",
+      "finalUrl": "https://cattshop.site/products/chatgpt-plus-account-30d-warranty-12h",
+      "status": 200,
+      "title": "Tài khoản ChatGPT Plus 30 ngày — Catt Store",
+      "png": "live-detail.png",
+      "webp": "live-detail.webp",
+      "width": 2880,
+      "height": 1800,
+      "sha256": "0d8a477e16d6725032ab4473740fdfe61ff7467329c142cf28886d20143884cd",
+      "capturedAt": "2026-09-07T09:44:39.048Z",
+      "productLinks": [],
+      "images": [
+        {
+          "src": "https://cattshop.site/logo-mark.png",
+          "loaded": true
+        },
+        {
+          "src": "https://cattshop.site/api/images/product/cmsyrjdv60001mm010jqix9g1/cover?v=1788161961557",
+          "loaded": true
+        }
+      ]
+    }
+  ],
+  "capturedAt": "2026-09-07T09:44:39.060Z"
+}
