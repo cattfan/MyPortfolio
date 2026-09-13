@@ -22,8 +22,10 @@ const englishProjects: Project[] = projects.map((project) =>
           "Manage multiple phones, monitor connections and handle repetitive operations without working on each device separately.",
         contribution:
           "Built the application with Tauri, Rust and React. Integrated device connections, screen streaming, remote control and device groups, alongside a visual workflow editor and device diagnostics.",
+        engineering:
+          "Separated Android and iOS connections from the React interface, using Rust for device operations and workflow execution. The Flow editor provides visual authoring, while the installer bundles required components to reduce setup on users' computers.",
         outcome:
-          "One application for managing mobile devices, controlling them and running repeatable workflows.",
+          "Users can open a device screen, control the phone and run a saved workflow from the device list. The project screenshots show the device manager and visual Flow editor.",
         screenshots: project.screenshots.map((image, index) => ({
           ...image,
           alt:
@@ -43,6 +45,8 @@ const englishProjects: Project[] = projects.map((project) =>
           "Present services and pricing clearly while helping the team update content and monitor the website.",
         contribution:
           "Built the Next.js frontend, NestJS API and PostgreSQL database. Implemented a Puck content editor, pricing pages, contact forms and traffic analytics, and deployed the website to a server.",
+        engineering:
+          "Separated the Next.js frontend from the NestJS API for content, enquiries and analytics. PostgreSQL and Prisma store the data; the Puck editor lets the team edit and publish page sections without changing interface code.",
         outcome:
           "A live website at taskscatt.click, with customer-facing service pages and an administration area for the team.",
         screenshots: project.screenshots.map((image, index) => ({
@@ -60,6 +64,7 @@ const en = {
   portfolio: {
     ...portfolio,
     location: "Da Lat, Vietnam",
+    resume: "/cv/do-hien-dinh-en.pdf",
     introduction:
       "I'm Đỗ Hiền Dinh, a Software Engineer with two years of experience building web and desktop applications. I develop websites, mobile device management software and data tools, from the interface to the backend and deployment.",
     approach:

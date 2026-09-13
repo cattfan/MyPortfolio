@@ -39,6 +39,8 @@ for (const file of await readdir(out, { withFileTypes: true })) {
     await cp(path.join(out, file.name), path.join(site, file.name));
 }
 const allowed = new Set([
+  "cv/do-hien-dinh-vi.pdf",
+  "cv/do-hien-dinh-en.pdf",
   "portfolio/vietnam-boundary.geojson",
   "portfolio/paper-texture.webp",
   "portfolio/reference-wash.webp",

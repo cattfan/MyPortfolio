@@ -6,6 +6,7 @@ import {
   ArrowUpRight,
   Check,
   Copy,
+  Download,
   Globe,
   Mail,
   Phone,
@@ -103,6 +104,15 @@ function Contact() {
         <Phone aria-hidden="true" size={18} />
         {portfolio.phone}
       </a>
+      <div className={styles.profileLinks}>
+        <a href={portfolio.resume} download>
+          <Download size={17} aria-hidden="true" />
+          {t("Tải CV (PDF)", "Download CV (PDF)")}
+        </a>
+        <a href={portfolio.github} target="_blank" rel="noopener noreferrer">
+          GitHub <ArrowUpRight size={17} aria-hidden="true" />
+        </a>
+      </div>
     </section>
   );
 }

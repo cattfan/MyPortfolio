@@ -219,6 +219,8 @@ export function ProjectShowcase({
         <p>{project.challenge}</p>
         <h3>{t("Phần mình thực hiện", "My contribution")}</h3>
         <p>{project.contribution}</p>
+        <h3>{t("Cách mình giải quyết", "Engineering decisions")}</h3>
+        <p>{project.engineering}</p>
         <h3>{t("Sản phẩm", "The result")}</h3>
         <p>{project.outcome}</p>
         <Image

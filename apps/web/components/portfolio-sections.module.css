@@ -149,7 +149,7 @@
   color: var(--muted);
 }
 .projectDescription {
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.8;
   color: var(--muted);
   margin-top: 13px;
@@ -162,7 +162,7 @@
   padding: 0;
   margin: 16px 0;
   list-style: none;
-  font-size: 10px;
+  font-size: 12px;
   line-height: 1.7;
   color: var(--forest);
 }
@@ -300,7 +300,7 @@
   margin: 9px 0 12px;
 }
 .timeline p {
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.8;
   color: var(--muted);
 }
@@ -358,6 +358,25 @@
   font-size: 17px;
   color: var(--forest);
   min-height: 44px;
+}
+.profileLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 26px;
+  margin-top: 22px;
+}
+.profileLinks a {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 44px;
+  font-size: 14px;
+  color: var(--earth);
+  border-bottom: 1px solid var(--line);
+}
+.profileLinks a:hover {
+  color: var(--ink);
+  border-color: currentColor;
 }
 .copyButton {
   display: grid;

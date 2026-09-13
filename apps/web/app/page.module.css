@@ -107,6 +107,10 @@
   font-weight: 600;
 }
 .nav a {
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
   transition: color 160ms ease;
 }
 .nav a:hover {
@@ -148,7 +152,7 @@
     margin: 0 24px;
   }
 }
-@media (max-width: 540px) {
+@media (max-width: 760px) {
   .header {
     padding: 12px 20px;
     display: grid;
