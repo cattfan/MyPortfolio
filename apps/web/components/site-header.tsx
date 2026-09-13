@@ -64,6 +64,7 @@ export function SiteHeader() {
           aria-label={t("Điều hướng chính", "Main navigation")}
         >
           <a href="#du-an">{t("Dự án", "Projects")}</a>
+          <a href="#tech-stack">{t("Công nghệ", "Tech stack")}</a>
           <a href="#kinh-nghiem">{t("Kinh nghiệm", "Experience")}</a>
           <a href="#lien-he" className={styles.contact}>
             {t("Liên hệ", "Contact")}

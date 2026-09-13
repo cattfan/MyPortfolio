@@ -126,6 +126,45 @@ export const projects = [
   },
 ] as const;
 
+export const techStack = [
+  {
+    id: "frontend",
+    label: "Frontend",
+    description: "Giao diện web và tương tác.",
+    technologies: ["TypeScript", "React", "Next.js", "Tailwind CSS"],
+  },
+  {
+    id: "backend",
+    label: "Backend",
+    description: "API và xử lý nghiệp vụ.",
+    technologies: ["Node.js", "NestJS", "REST API"],
+  },
+  {
+    id: "data",
+    label: "Cơ sở dữ liệu",
+    description: "Lưu trữ, truy vấn và mô hình dữ liệu.",
+    technologies: ["PostgreSQL", "SQL", "Prisma"],
+  },
+  {
+    id: "desktop",
+    label: "Ứng dụng desktop",
+    description: "Phần mềm trên máy tính và kết nối thiết bị.",
+    technologies: ["Rust", "Tauri", "React Flow"],
+  },
+  {
+    id: "deployment",
+    label: "Triển khai",
+    description: "Đóng gói và chạy ứng dụng trên server.",
+    technologies: ["Docker", "Nginx", "Linux"],
+  },
+  {
+    id: "workflow",
+    label: "Quy trình & kiểm thử",
+    description: "Quản lý mã nguồn và kiểm tra luồng sử dụng.",
+    technologies: ["Git", "GitHub", "Playwright"],
+  },
+] as const;
+
 export const experience = [
   {
     id: "delivery",
