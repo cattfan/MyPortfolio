@@ -3,25 +3,23 @@ import localFont from "next/font/local";
 import "./globals.css";
 
 const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
+  src: "./fonts/Geist-Regular.woff2",
   variable: "--font-geist-sans",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
+  weight: "100 900",
+  display: "swap",
 });
 
 const newsreader = localFont({
   src: [
     {
-      path: "./fonts/Newsreader-Regular.ttf",
+      path: "./fonts/Newsreader-Regular.woff2",
       style: "normal",
-      weight: "200 800",
+      weight: "400",
     },
     {
-      path: "./fonts/Newsreader-Italic.ttf",
+      path: "./fonts/Newsreader-Italic.woff2",
       style: "italic",
-      weight: "200 800",
+      weight: "400",
     },
   ],
   variable: "--font-newsreader",
@@ -31,14 +29,14 @@ const newsreader = localFont({
 const bookSerif = localFont({
   src: [
     {
-      path: "./fonts/SourceSerif4-Regular.ttf",
+      path: "./fonts/SourceSerif4-Regular.woff2",
       style: "normal",
-      weight: "200 900",
+      weight: "400",
     },
     {
-      path: "./fonts/SourceSerif4-Italic.ttf",
+      path: "./fonts/SourceSerif4-Italic.woff2",
       style: "italic",
-      weight: "200 900",
+      weight: "400",
     },
   ],
   variable: "--font-book",
@@ -67,7 +65,7 @@ export default function RootLayout({
   return (
     <html lang="vi">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${newsreader.variable} ${bookSerif.variable}`}
+        className={`${geistSans.variable} ${newsreader.variable} ${bookSerif.variable}`}
       >
         {children}
       </body>

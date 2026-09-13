@@ -1,0 +1,4 @@
+Google Fonts / Geist
+Revision: 718e1db4deb9e4d9d85a0ead1b9f5fde2761ccfd
+Source: https://raw.githubusercontent.com/google/fonts/718e1db4deb9e4d9d85a0ead1b9f5fde2761ccfd/ofl/geist/Geist%5Bwght%5D.ttf
+License: SIL OFL 1.1 (Geist-OFL.txt)

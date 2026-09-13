@@ -33,6 +33,9 @@ export function MapLinework({
     let width = 0;
     let height = 0;
     let dpr = 1;
+    let mobile = false;
+    let compassBox = { x: 0, y: 0, width: 0, height: 0 };
+    let destinationSize = { width: 80, height: 29 };
     let mainlandPath: Path2D | undefined;
     const baseScale = mapAssets.maps[0]!.projection.scale;
     const origin: [number, number] = [
@@ -101,12 +104,28 @@ export function MapLinework({
         [];
       const pinX = camera.anchor.x * width,
         pinY = camera.anchor.y * height;
+      const earlyChapter = getChapter(p) < 2;
       bounds.push({
-        x: pinX + (getChapter(p) < 2 ? (width < 500 ? 12 : 28) : -95),
-        y: pinY + (getChapter(p) < 2 ? -37 : 6),
-        width: width < 500 ? 55 : 80,
-        height: 29,
+        x:
+          pinX +
+          (earlyChapter
+            ? mobile
+              ? 15
+              : 30
+            : -(mobile ? 10 : 14) - destinationSize.width) -
+          5,
+        y: pinY + (earlyChapter ? (mobile ? -25 : -34) : mobile ? 8 : 9) - 5,
+        width: destinationSize.width + 10,
+        height: destinationSize.height + 10,
       });
+      const pinRadius = mobile ? 11 : 15;
+      bounds.push({
+        x: pinX - pinRadius,
+        y: pinY - pinRadius,
+        width: pinRadius * 2,
+        height: pinRadius * 2,
+      });
+      bounds.push(compassBox);
       bounds.push({
         x: width * 0.75,
         y: height * 0.925 - (width < 500 ? 13 : 19),
@@ -125,6 +144,13 @@ export function MapLinework({
           }
         ).labels ?? [];
       const drawnLabels: string[] = [];
+      const labelBoxes: {
+        name: string;
+        x: number;
+        y: number;
+        width: number;
+        height: number;
+      }[] = [];
       for (const label of labels) {
         const labelText =
           language === "en" ? (mapNames[label.name] ?? label.name) : label.name;
@@ -149,35 +175,51 @@ export function MapLinework({
           ? `italic ${fontSize + 1}px Georgia, serif`
           : `${fontSize}px Arial, sans-serif`;
         const belowAnchor = width < 500 && label.name === "TP. Hồ Chí Minh";
-        const x =
+        const defaultX =
             isIsland && width < 500
               ? Math.max(point[0] - 27, width * 0.4 + 3)
               : point[0] + 7,
-          y = point[1] + (isIsland ? 5 : belowAnchor ? 4 : -7);
-        const box = {
-          x: x - 2,
-          y: y - fontSize - 2,
-          width: context.measureText(labelText).width + 4,
-          height: fontSize + 6,
-        };
-        if (
-          box.x < width * (isIsland ? 0.4 : 0.43) ||
-          box.x + box.width > width - 15 ||
-          box.y < (width < 500 ? 12 : 30) ||
-          box.y + box.height > height - (width < 500 || isIsland ? 12 : 28)
-        )
-          continue;
-        if (
-          bounds.some(
-            (b) =>
-              box.x < b.x + b.width &&
-              box.x + box.width > b.x &&
-              box.y < b.y + b.height &&
-              box.y + box.height > b.y,
-          )
-        )
-          continue;
+          defaultY = point[1] + (isIsland ? 5 : belowAnchor ? 4 : -7);
+        const textWidth = context.measureText(labelText).width;
+        const candidates = [
+          [defaultX, defaultY],
+          [point[0] - textWidth - 7, defaultY],
+          [defaultX, point[1] + fontSize + 10],
+          [point[0] - textWidth - 7, point[1] + fontSize + 10],
+          [point[0] - textWidth / 2, point[1] - 18],
+          [point[0] - textWidth / 2, point[1] + fontSize + 10],
+          [point[0] - textWidth / 2, point[1] + fontSize + 18],
+        ];
+        const placement = candidates
+          .map(([x, y]) => ({
+            x: x!,
+            y: y!,
+            box: {
+              x: x! - 3,
+              y: y! - fontSize - 3,
+              width: textWidth + 6,
+              height: fontSize + 7,
+            },
+          }))
+          .find(
+            ({ box }) =>
+              box.x >= width * (isIsland ? 0.4 : 0.43) &&
+              box.x + box.width <= width - 15 &&
+              box.y >= (width < 500 ? 12 : 30) &&
+              box.y + box.height <=
+                height - (width < 500 || isIsland ? 12 : 28) &&
+              !bounds.some(
+                (b) =>
+                  box.x < b.x + b.width &&
+                  box.x + box.width > b.x &&
+                  box.y < b.y + b.height &&
+                  box.y + box.height > b.y,
+              ),
+          );
+        if (!placement) continue;
+        const { x, y, box } = placement;
         bounds.push(box);
+        labelBoxes.push({ name: labelText, ...box });
         context.globalAlpha = alpha;
         context.fillStyle = isWater
           ? "#416f78"
@@ -249,6 +291,7 @@ export function MapLinework({
       element.dataset.atlas = "true";
       element.dataset.labelSize = String(fontSize);
       element.dataset.labels = JSON.stringify(drawnLabels);
+      element.dataset.labelBoxes = JSON.stringify(labelBoxes);
       element.dataset.routeWidth = String(lineWidth);
       element.dataset.cameraScale = String(camera.scale);
       element.dataset.rendered = "true";
@@ -263,6 +306,22 @@ export function MapLinework({
     const measure = () => {
       width = element.clientWidth;
       height = element.clientHeight;
+      mobile = window.matchMedia("(max-width: 640px)").matches;
+      const paper = element.closest("[data-book-paper]");
+      const compass = paper?.querySelector<HTMLElement>("[data-compass]");
+      const destination = paper?.querySelector<HTMLElement>("[data-map-label]");
+      if (compass)
+        compassBox = {
+          x: compass.offsetLeft - 6,
+          y: compass.offsetTop - 6,
+          width: compass.offsetWidth + 12,
+          height: compass.offsetHeight + 12,
+        };
+      if (destination)
+        destinationSize = {
+          width: destination.offsetWidth,
+          height: destination.offsetHeight,
+        };
       dpr = Math.min(window.devicePixelRatio || 1, 2);
       const pixelWidth = Math.round(width * dpr);
       const pixelHeight = Math.round(height * dpr);
@@ -275,6 +334,10 @@ export function MapLinework({
     const unsubscribe = progress.on("change", schedule);
     const observer = new ResizeObserver(() => frame.read(measure));
     observer.observe(element);
+    const paper = element.closest("[data-book-paper]");
+    paper
+      ?.querySelectorAll("[data-map-label], [data-compass]")
+      .forEach((node) => observer.observe(node));
     fetch("/portfolio/vietnam-boundary.geojson", { signal: controller.signal })
       .then((response) => (response.ok ? response.json() : undefined))
       .then((data) => {

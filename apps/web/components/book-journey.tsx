@@ -7,7 +7,13 @@ import {
   useScroll,
   useTransform,
 } from "motion/react";
-import { useRef, useState, useSyncExternalStore } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import { useLanguage } from "./language-provider";
 import mapAssets from "../public/portfolio/assets.json";
 import { CHAPTER_STOPS, getCameraPose, getChapter } from "../lib/book-camera";
@@ -55,6 +61,39 @@ export function BookJourney() {
     offset: ["start start", "end end"],
   });
   const bookProgress = scrollYProgress;
+  const [requestedLayers, setRequestedLayers] = useState<readonly string[]>([
+    mapLayers[0]!.id,
+  ]);
+  const requested = useRef(new Set([mapLayers[0]!.id]));
+  const [readyLayers, setReadyLayers] = useState<readonly string[]>([]);
+  const markReady = useCallback((id: string, ready: boolean) => {
+    setReadyLayers((previous) =>
+      ready
+        ? previous.includes(id)
+          ? previous
+          : [...previous, id]
+        : previous.filter((value) => value !== id),
+    );
+  }, []);
+  useEffect(() => {
+    if (staticMode) return;
+    const prepare = (p: number) => {
+      const scale = getCameraPose(p, mapAssets.maps).scale;
+      const needed = mapLayers
+        .filter(
+          (map, index) =>
+            index === 0 ||
+            (scale >= map.projection.scale * 0.4 &&
+              scale <= map.projection.scale * 2.5),
+        )
+        .map((map) => map.id);
+      if (needed.every((id) => requested.current.has(id))) return;
+      needed.forEach((id) => requested.current.add(id));
+      setRequestedLayers([...requested.current]);
+    };
+    prepare(bookProgress.get());
+    return bookProgress.on("change", prepare);
+  }, [bookProgress, staticMode]);
   const pinTop = useTransform(
     bookProgress,
     (p) => `${getCameraPose(p, mapAssets.maps).anchor.y * 100}%`,
@@ -150,6 +189,9 @@ export function BookJourney() {
                     layers={mapLayers}
                     index={index}
                     progress={bookProgress}
+                    requested={requestedLayers.includes(map.id)}
+                    readyLayers={readyLayers}
+                    onReady={markReady}
                   />
                 ))}
                 <MapLinework progress={bookProgress} staticMode={staticMode} />

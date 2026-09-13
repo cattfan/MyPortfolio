@@ -6,6 +6,8 @@ export const portfolio = {
   phone: "+84 964 173 913",
   phoneHref: "+84964173913",
   location: "Đà Lạt, Việt Nam",
+  github: "https://github.com/cattfan",
+  resume: "/cv/do-hien-dinh-vi.pdf",
   introduction:
     "Mình là Đỗ Hiền Dinh, có 2 năm kinh nghiệm lập trình web và ứng dụng. Mình phát triển website, phần mềm quản lý thiết bị di động và công cụ tổng hợp dữ liệu, từ giao diện đến backend và triển khai.",
   approach:
@@ -71,8 +73,10 @@ export const projects = [
       "Quản lý nhiều điện thoại cùng lúc, theo dõi kết nối và thực hiện các thao tác lặp lại mà không phải xử lý từng máy riêng lẻ.",
     contribution:
       "Xây ứng dụng bằng Tauri, Rust và React; tích hợp kết nối thiết bị, xem màn hình, điều khiển và quản lý theo nhóm. Phát triển trình tạo kịch bản Flow kéo thả cùng các công cụ kiểm tra trạng thái thiết bị.",
+    engineering:
+      "Tách phần kết nối Android và iOS khỏi giao diện React, dùng Rust để xử lý thiết bị và chạy kịch bản. Trình Flow giữ phần tạo luồng thao tác trực quan; bộ cài đóng gói các thành phần cần thiết để giảm bước thiết lập trên máy người dùng.",
     outcome:
-      "Phần mềm tập trung việc quản lý điện thoại, điều khiển và chạy kịch bản thao tác trong cùng một giao diện.",
+      "Từ danh sách thiết bị, người dùng có thể mở màn hình, điều khiển điện thoại và chạy luồng thao tác đã tạo. Hai phần quản lý thiết bị và trình biên tập Flow được thể hiện trong ảnh dự án.",
     screenshots: [
       {
         src: "/projects/riviu-manager/overview.webp?v=20260907-2",
@@ -105,6 +109,8 @@ export const projects = [
       "Trình bày dịch vụ và bảng giá rõ ràng cho khách hàng, đồng thời giúp đội ngũ cập nhật nội dung và theo dõi website.",
     contribution:
       "Xây giao diện Next.js, API NestJS và cơ sở dữ liệu PostgreSQL. Phát triển trình chỉnh sửa nội dung Puck, bảng giá, biểu mẫu liên hệ và dashboard thống kê truy cập; triển khai website lên server.",
+    engineering:
+      "Tách frontend Next.js và API NestJS để quản lý nội dung, liên hệ và thống kê. Nội dung được lưu trong PostgreSQL qua Prisma; trang quản trị dùng Puck để chỉnh sửa và xuất bản các section mà không phải sửa trực tiếp mã giao diện.",
     outcome:
       "Website đang hoạt động tại taskscatt.click, với các trang dịch vụ dành cho khách hàng và hệ thống quản trị cho đội ngũ vận hành.",
     screenshots: [
@@ -198,6 +204,7 @@ export type Project = {
   technologies: readonly string[];
   challenge: string;
   contribution: string;
+  engineering: string;
   outcome: string;
   screenshots: readonly {
     src: string;

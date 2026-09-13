@@ -410,7 +410,10 @@ test("two projects show clear descriptions without source-code links or removed 
   await expect(page.getByRole("link", { name: /OpenStreetMap/ })).toHaveCount(
     0,
   );
-  await expect(page.locator('a[href*="github.com"]')).toHaveCount(0);
+  await expect(page.locator('#du-an a[href*="github.com"]')).toHaveCount(0);
+  await expect(
+    page.locator('#lien-he a[href="https://github.com/cattfan"]'),
+  ).toHaveCount(1);
   await expect(page.locator('[data-project-id="shop-of-catt"]')).toHaveCount(0);
   await expect(page.locator("body")).not.toContainText("ShopOfCatt");
   await expect(page.locator("body")).not.toContainText("Portfolio cá nhân");

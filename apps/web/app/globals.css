@@ -5,7 +5,7 @@
   --color-background: var(--paper);
   --color-foreground: var(--ink);
   --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-mono: ui-monospace, monospace;
 }
 
 @layer base {
@@ -13,9 +13,9 @@
     --site-header-height: 88px;
     --paper: #ece7dc;
     --ink: #2b2721;
-    --muted: #786f62;
+    --muted: #62594e;
     --line: #2b272124;
-    --earth: #9a6a3e;
+    --earth: #80542f;
     --forest: var(--earth);
     --lake: #7f8c90;
     --stamp: #a35444;
@@ -88,7 +88,7 @@
     --site-header-height: 76px;
   }
 }
-@media (max-width: 540px) {
+@media (max-width: 760px) {
   :root {
     --site-header-height: 108px;
   }
