@@ -934,6 +934,52 @@ test("route stays thin and canvas contains visible ink through zoom", async ({
   }
 });
 
+test("map outline and artwork share the same camera during forward and reverse zoom", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await expect(page.locator("[data-map-linework]")).toHaveAttribute(
+    "data-rendered",
+    "true",
+  );
+  const layers = [...mapAssets.maps, ...mapAssets.detailMaps].map((map) => ({
+    id: map.id,
+    scale: map.projection.scale,
+  }));
+  const result = await page.evaluate(async (layers) => {
+    const section = document.querySelector(
+      "section[data-chapter]",
+    ) as HTMLElement;
+    const canvas = document.querySelector(
+      "[data-map-linework]",
+    ) as HTMLCanvasElement;
+    const distance = section.offsetHeight - innerHeight;
+    const errors: number[] = [];
+    let samples = 0;
+    for (let step = 0; step < 100; step++) {
+      const p = (step < 50 ? step / 49 : (99 - step) / 49) * 0.96;
+      window.scrollTo({ top: p * distance, behavior: "instant" });
+      await new Promise<void>((resolve) =>
+        requestAnimationFrame(() => resolve()),
+      );
+      const drawnScale = Number(canvas.dataset.cameraScale);
+      for (const layer of layers) {
+        const element = document.querySelector(`[data-layer="${layer.id}"]`)!;
+        const style = getComputedStyle(element);
+        if (Number(style.opacity) < 0.1) continue;
+        const displayedScale =
+          new DOMMatrixReadOnly(style.transform).a * layer.scale;
+        errors.push(Math.abs(displayedScale - drawnScale) / drawnScale);
+        samples++;
+      }
+    }
+    return { samples, largestRelativeError: Math.max(...errors) };
+  }, layers);
+  expect(result.samples).toBeGreaterThan(80);
+  // CSS matrix serialization rounds floats; tolerate that, not a stale frame.
+  expect(result.largestRelativeError).toBeLessThan(0.00001);
+});
+
 test("rapid direction changes settle on the latest requested chapter", async ({
   page,
 }) => {

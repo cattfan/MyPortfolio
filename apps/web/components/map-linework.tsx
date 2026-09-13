@@ -7,7 +7,7 @@ import {
   type GeoPermissibleObjects,
 } from "d3-geo";
 import { useEffect, useRef } from "react";
-import type { MotionValue } from "motion/react";
+import { cancelFrame, frame, type MotionValue } from "motion/react";
 import mapAssets from "../public/portfolio/assets.json";
 import { getCameraPose, getChapter } from "../lib/book-camera";
 import styles from "./book-journey.module.css";
@@ -28,73 +28,71 @@ export function MapLinework({
     if (!element) return;
     const context = element.getContext("2d");
     if (!context) return;
-    let frame = 0;
+    let scheduled = false;
     let disposed = false;
-    let boundary: GeoPermissibleObjects | undefined;
-    let mainland: GeoPermissibleObjects | undefined;
+    let width = 0;
+    let height = 0;
+    let dpr = 1;
+    let mainlandPath: Path2D | undefined;
+    const baseScale = mapAssets.maps[0]!.projection.scale;
+    const origin: [number, number] = [
+      mapAssets.geographicAnchor.longitude,
+      mapAssets.geographicAnchor.latitude,
+    ];
+    // Retain geographic paths in one Mercator coordinate space. Only the camera
+    // matrix changes during a zoom; never stream thousands of rings per frame.
+    const baseProjection = geoMercator()
+      .center(origin)
+      .scale(baseScale)
+      .translate([0, 0]);
+    const projection = geoMercator().center(origin);
+    const routePath = new Path2D();
+    mapAssets.journeyRoute.coordinates.forEach((point, index) => {
+      const [x, y] = baseProjection(point as [number, number])!;
+      if (index === 0) routePath.moveTo(x, y);
+      else routePath.lineTo(x, y);
+    });
     const controller = new AbortController();
     const draw = () => {
-      frame = 0;
-      const width = element.clientWidth,
-        height = element.clientHeight;
-      if (!width || !height) return;
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      if (
-        element.width !== Math.round(width * dpr) ||
-        element.height !== Math.round(height * dpr)
-      ) {
-        element.width = Math.round(width * dpr);
-        element.height = Math.round(height * dpr);
-      }
+      scheduled = false;
+      if (disposed || !width || !height) return;
       context.setTransform(dpr, 0, 0, dpr, 0, 0);
       context.clearRect(0, 0, width, height);
       const p = staticMode ? 0 : progress.get();
       const camera = getCameraPose(p, mapAssets.maps);
-      const projection = geoMercator()
-        .center([
-          mapAssets.geographicAnchor.longitude,
-          mapAssets.geographicAnchor.latitude,
-        ])
+      projection
         .scale((camera.scale * width) / 2048)
         .translate([camera.anchor.x * width, camera.anchor.y * height]);
-      const path = geoPath(projection, context);
-      const fade = Math.max(0, Math.min(1, (0.58 - p) / 0.15));
-      context.save();
-      context.beginPath();
-      context.rect(0, 0, width, height);
-      context.clip();
-      if (boundary && fade > 0) {
-        context.beginPath();
-        path(mainland ?? boundary);
-        context.lineWidth = 2.6;
-        context.strokeStyle = `rgba(250, 249, 234, ${0.7 * fade})`;
-        context.stroke();
-        context.lineWidth = 0.85;
-        context.strokeStyle = `rgba(58, 91, 77, ${0.75 * fade})`;
-        context.stroke();
-        context.beginPath();
-        path(boundary);
-        context.clip();
-      }
-      context.beginPath();
-      mapAssets.journeyRoute.coordinates.forEach((point, index) => {
-        const projected = projection(point as [number, number]);
-        if (!projected) return;
-        if (index === 0) context.moveTo(projected[0], projected[1]);
-        else context.lineTo(projected[0], projected[1]);
-      });
+      const fadeAmount = Math.max(0, Math.min(1, (0.58 - p) / 0.15));
+      const fade = fadeAmount * fadeAmount * (3 - 2 * fadeAmount);
       const lineWidth = width < 500 ? 1 : 1.25;
-      context.lineWidth = lineWidth;
-      context.lineCap = "round";
-      context.lineJoin = "round";
-      context.lineWidth = lineWidth + 2;
-      context.strokeStyle = `rgba(255, 250, 234, ${fade * 0.8})`;
-      context.stroke();
-      context.lineWidth = lineWidth;
-      context.setLineDash([4, 4]);
-      context.strokeStyle = `rgba(170, 62, 52, ${fade * 0.95})`;
-      context.stroke();
-      context.restore();
+      if (fade > 0) {
+        const zoom = projection.scale() / baseScale;
+        context.save();
+        context.translate(camera.anchor.x * width, camera.anchor.y * height);
+        context.scale(zoom, zoom);
+        context.lineCap = "round";
+        context.lineJoin = "round";
+        if (mainlandPath) {
+          context.lineWidth = 2.6 / zoom;
+          context.strokeStyle = `rgba(250, 249, 234, ${0.7 * fade})`;
+          context.stroke(mainlandPath);
+          context.lineWidth = 0.85 / zoom;
+          context.strokeStyle = `rgba(58, 91, 77, ${0.75 * fade})`;
+          context.stroke(mainlandPath);
+          // The itinerary is validated against mainland land geometry at build
+          // time. Islands remain in the atlas; they are not needed for this clip.
+          context.clip(mainlandPath);
+        }
+        context.lineWidth = (lineWidth + 2) / zoom;
+        context.strokeStyle = `rgba(255, 250, 234, ${fade * 0.8})`;
+        context.stroke(routePath);
+        context.lineWidth = lineWidth / zoom;
+        context.setLineDash([4 / zoom, 4 / zoom]);
+        context.strokeStyle = `rgba(170, 62, 52, ${fade * 0.95})`;
+        context.stroke(routePath);
+        context.restore();
+      }
       const fontSize = width < 500 ? 8 : 11;
       context.font = `${fontSize}px Arial, sans-serif`;
       context.lineJoin = "round";
@@ -252,41 +250,71 @@ export function MapLinework({
       element.dataset.labelSize = String(fontSize);
       element.dataset.labels = JSON.stringify(drawnLabels);
       element.dataset.routeWidth = String(lineWidth);
+      element.dataset.cameraScale = String(camera.scale);
       element.dataset.rendered = "true";
     };
     const schedule = () => {
-      if (!disposed && !frame) frame = requestAnimationFrame(draw);
+      if (disposed || scheduled) return;
+      scheduled = true;
+      // Share Motion's render phase with GeographicPlate transforms. A separate
+      // requestAnimationFrame would leave linework one frame behind the artwork.
+      frame.render(draw, false, true);
+    };
+    const measure = () => {
+      width = element.clientWidth;
+      height = element.clientHeight;
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const pixelWidth = Math.round(width * dpr);
+      const pixelHeight = Math.round(height * dpr);
+      if (element.width !== pixelWidth || element.height !== pixelHeight) {
+        element.width = pixelWidth;
+        element.height = pixelHeight;
+      }
+      schedule();
     };
     const unsubscribe = progress.on("change", schedule);
-    const observer = new ResizeObserver(schedule);
+    const observer = new ResizeObserver(() => frame.read(measure));
     observer.observe(element);
     fetch("/portfolio/vietnam-boundary.geojson", { signal: controller.signal })
       .then((response) => (response.ok ? response.json() : undefined))
       .then((data) => {
         if (!disposed) {
-          boundary = data;
           const geometry = data?.geometry as
             | Extract<
                 GeoPermissibleObjects,
                 { type: "MultiPolygon" | "Polygon" }
               >
             | undefined;
+          let mainland: GeoPermissibleObjects | undefined;
           if (geometry?.type === "MultiPolygon") {
-            mainland = geometry.coordinates
-              .map((coordinates) => ({ type: "Polygon" as const, coordinates }))
-              .sort((a, b) => geoArea(b) - geoArea(a))[0];
+            let largestArea = 0;
+            for (const coordinates of geometry.coordinates) {
+              const polygon = { type: "Polygon" as const, coordinates };
+              const area = geoArea(polygon);
+              if (area > largestArea) {
+                mainland = polygon;
+                largestArea = area;
+              }
+            }
+          } else {
+            mainland = geometry;
+          }
+          if (mainland) {
+            const outline = geoPath(baseProjection).digits(6)(mainland);
+            if (outline) mainlandPath = new Path2D(outline);
           }
           schedule();
         }
       })
       .catch(() => {});
-    schedule();
+    frame.read(measure);
     return () => {
       disposed = true;
       unsubscribe();
       observer.disconnect();
       controller.abort();
-      cancelAnimationFrame(frame);
+      cancelFrame(draw);
+      cancelFrame(measure);
     };
   }, [progress, staticMode, language]);
   return (
