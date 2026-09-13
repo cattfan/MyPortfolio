@@ -2,10 +2,10 @@
   "checkedAt": "2026-09-14",
   "host": "113.161.254.76",
   "serverLanAddress": "192.168.2.5",
-  "releaseDirectory": "/home/riviu/apps/cattfan-portfolio/releases/20260914-map-smooth",
+  "releaseDirectory": "/home/riviu/apps/cattfan-portfolio/releases/20260914-polish",
   "composeProject": "cattfan-portfolio",
   "container": "cattfan-portfolio-web-1",
-  "imageTag": "cattfan-portfolio:20260914-map-smooth",
+  "imageTag": "cattfan-portfolio:20260914-polish",
   "runtime": "static HTML/CSS/JS served by Nginx",
   "port": 18088,
   "bindAddress": "0.0.0.0",
@@ -47,8 +47,26 @@
     "sourceRollbackCheck": "original file hashes restored on isolated copy",
     "previousSecurityReview": "deploy/SECURITY_REVIEW.md; dependency audit not repeated for this content change",
     "mapGeometryAndMotionTestsPassed": 13,
-    "mapRenderer": "Cached mainland Path2D, screen-space stroke widths, shared Motion render phase"
+    "mapRenderer": "Cached mainland Path2D, screen-space stroke widths, shared Motion render phase",
+    "polishRegressionTestsPassed": 6,
+    "fullRegressionCasesPassedAfterFixes": 62,
+    "sourceCommit": "1819d86",
+    "fontBytes": 207076,
+    "initialResourceBytes": 1390227,
+    "initialMapImages": 1,
+    "axeViolationGroups": 0,
+    "axeViewports": [
+      1440,
+      768,
+      390,
+      320
+    ],
+    "cvLanguages": [
+      "vi",
+      "en"
+    ],
+    "deferredWork": "Review step 5: domain, HTTPS and metadata/crawler changes"
   },
-  "rollbackScript": "/home/riviu/apps/cattfan-portfolio/releases/20260914-map-smooth/rollback.sh",
-  "previousRelease": "/home/riviu/apps/cattfan-portfolio/releases/20260914-tech-stack"
+  "rollbackScript": "/home/riviu/apps/cattfan-portfolio/releases/20260914-polish/rollback.sh",
+  "previousRelease": "/home/riviu/apps/cattfan-portfolio/releases/20260914-map-smooth"
 }
