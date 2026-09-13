@@ -3,6 +3,7 @@ import {
   journeyChapters,
   portfolio,
   projects,
+  techStack,
   type Project,
 } from "./portfolio";
 
@@ -103,6 +104,26 @@ const en = {
     },
   ],
   projects: englishProjects,
+  techStack: techStack.map((group, index) => ({
+    ...group,
+    ...[
+      { label: "Frontend", description: "Web interfaces and interactions." },
+      { label: "Backend", description: "APIs and business logic." },
+      { label: "Databases", description: "Storage, queries and data models." },
+      {
+        label: "Desktop applications",
+        description: "Desktop software and device connections.",
+      },
+      {
+        label: "Deployment",
+        description: "Packaging and running applications on a server.",
+      },
+      {
+        label: "Workflow & testing",
+        description: "Version control and testing user flows.",
+      },
+    ][index]!,
+  })),
   experience: [
     {
       id: "delivery",
@@ -129,6 +150,7 @@ const vi = {
   portfolio,
   journeyChapters,
   projects: projects as readonly Project[],
+  techStack,
   experience,
 };
 export const localizedContent = { en, vi };

@@ -49,7 +49,7 @@ function Contact() {
     >
       <div className={styles.contactTop} data-reveal>
         <span className={styles.eyebrow}>
-          {t("04 / Trang tiếp theo", "04 / The next chapter")}
+          {t("05 / Trang tiếp theo", "05 / The next chapter")}
         </span>
         <span className={styles.contactAvailability}>
           {t("Tuyển dụng & hợp tác", "Opportunities & collaboration")}
@@ -111,7 +111,7 @@ export function PortfolioSections() {
   const sectionRef = useSectionReveal();
   const {
     t,
-    content: { portfolio, projects, experience },
+    content: { portfolio, projects, experience, techStack },
   } = useLanguage();
   return (
     <div className={styles.sections} ref={sectionRef}>
@@ -209,13 +209,46 @@ export function PortfolioSections() {
         </div>
       </section>
       <section
+        id="tech-stack"
+        className={styles.techStackSection}
+        aria-labelledby="tech-stack-title"
+      >
+        <div className={styles.techStackIntro} data-reveal>
+          <span className={styles.eyebrow}>03 / Tech stack</span>
+          <h2 id="tech-stack-title">
+            {t("Công nghệ mình dùng.", "The tools I work with.")}
+          </h2>
+          <p>
+            {t(
+              "Mình dùng những công nghệ này trong các dự án web và phần mềm, từ viết code đến đưa sản phẩm lên server.",
+              "These are the technologies I use for web and desktop projects, from writing the code to running it on a server.",
+            )}
+          </p>
+        </div>
+        <dl className={styles.techStackGroups}>
+          {techStack.map((group) => (
+            <div key={group.id} className={styles.techStackGroup} data-reveal>
+              <dt>{group.label}</dt>
+              <dd>
+                <p>{group.description}</p>
+                <ul aria-label={group.label}>
+                  {group.technologies.map((technology) => (
+                    <li key={technology}>{technology}</li>
+                  ))}
+                </ul>
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+      <section
         id="kinh-nghiem"
         className={styles.experienceSection}
         aria-labelledby="experience-title"
       >
         <div className={styles.experienceIntro} data-reveal>
           <span className={styles.eyebrow}>
-            {t("03 / Kinh nghiệm", "03 / Experience")}
+            {t("04 / Kinh nghiệm", "04 / Experience")}
           </span>
           <h2 id="experience-title">
             {t("Hai năm đi cùng", "Two years of")}
