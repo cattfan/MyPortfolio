@@ -2,10 +2,10 @@
   "checkedAt": "2026-09-14",
   "host": "113.161.254.76",
   "serverLanAddress": "192.168.2.5",
-  "releaseDirectory": "/home/riviu/apps/cattfan-portfolio/releases/20260914-scrollbar",
+  "releaseDirectory": "/home/riviu/apps/cattfan-portfolio/releases/20260914-contact",
   "composeProject": "cattfan-portfolio",
   "container": "cattfan-portfolio-web-1",
-  "imageTag": "cattfan-portfolio:20260914-scrollbar",
+  "imageTag": "cattfan-portfolio:20260914-contact",
   "runtime": "static HTML/CSS/JS served by Nginx",
   "port": 18088,
   "bindAddress": "0.0.0.0",
@@ -50,7 +50,7 @@
     "mapRenderer": "Cached mainland Path2D, screen-space stroke widths, shared Motion render phase",
     "polishRegressionTestsPassed": 6,
     "fullRegressionCasesPassedAfterFixes": 62,
-    "sourceCommit": "3920766",
+    "sourceCommit": "256d344",
     "fontBytes": 207076,
     "initialResourceBytes": 1390227,
     "initialMapImages": 1,
@@ -66,8 +66,9 @@
       "en"
     ],
     "deferredWork": "Review step 5: domain, HTTPS and metadata/crawler changes",
-    "scrollbar": "Page scrollbar hidden; native wheel, keyboard, touch and modal scroll restoration verified"
+    "scrollbar": "Page scrollbar hidden; native wheel, keyboard, touch and modal scroll restoration verified",
+    "contactLayout": "CV button removed; GitHub beside email; VI/EN and 320-1440px verified; copy-email works"
   },
-  "rollbackScript": "/home/riviu/apps/cattfan-portfolio/releases/20260914-scrollbar/rollback.sh",
-  "previousRelease": "/home/riviu/apps/cattfan-portfolio/releases/20260914-polish"
+  "rollbackScript": "/home/riviu/apps/cattfan-portfolio/releases/20260914-contact/rollback.sh",
+  "previousRelease": "/home/riviu/apps/cattfan-portfolio/releases/20260914-scrollbar"
 }
