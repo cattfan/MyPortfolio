@@ -28,6 +28,10 @@
   html {
     scroll-behavior: smooth;
     scroll-padding-top: calc(var(--site-header-height) + 12px);
+    scrollbar-width: none;
+  }
+  html::-webkit-scrollbar {
+    display: none;
   }
   body {
     position: relative;
