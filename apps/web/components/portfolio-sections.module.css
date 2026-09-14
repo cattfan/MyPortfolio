@@ -359,22 +359,17 @@
   color: var(--forest);
   min-height: 44px;
 }
-.profileLinks {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px 26px;
-  margin-top: 22px;
-}
-.profileLinks a {
+.githubLink {
   display: inline-flex;
   align-items: center;
   gap: 9px;
+  flex-shrink: 0;
   min-height: 44px;
   font-size: 14px;
   color: var(--earth);
   border-bottom: 1px solid var(--line);
 }
-.profileLinks a:hover {
+.githubLink:hover {
   color: var(--ink);
   border-color: currentColor;
 }
@@ -551,11 +546,18 @@
     font-size: 43px;
   }
   .emailLink {
-    font-size: 24px;
+    font-size: 20px;
     gap: 8px;
   }
   .emailLink > svg:first-child {
     display: none;
+  }
+  .emailLink > svg:last-child {
+    display: none;
+  }
+  .githubLink {
+    gap: 5px;
+    font-size: 13px;
   }
   .emailRow {
     gap: 12px;
