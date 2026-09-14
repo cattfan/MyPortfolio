@@ -83,9 +83,8 @@ test("a slow detail image keeps the overview visible until decoding finishes", a
 });
 
 for (const language of ["vi", "en"]) {
-  test(`header stays on one line per label at 640px and CV downloads in ${language}`, async ({
+  test(`header stays on one line per label at 640px and contact links are grouped in ${language}`, async ({
     page,
-    request,
   }) => {
     await page.setViewportSize({ width: 640, height: 900 });
     await page.addInitScript(
@@ -106,22 +105,18 @@ for (const language of ["vi", "en"]) {
         (v) => v.height <= 36 && v.whitespace === "nowrap" && v.right <= 640,
       ),
     ).toBe(true);
-    const link = page.locator("#lien-he a[download]");
-    await expect(link).toHaveAttribute(
-      "href",
-      `/cv/do-hien-dinh-${language}.pdf`,
-    );
-    const downloadPromise = page.waitForEvent("download");
-    await link.click();
-    expect((await downloadPromise).suggestedFilename()).toBe(
-      `do-hien-dinh-${language}.pdf`,
-    );
-    const pdf = await request.get(`/cv/do-hien-dinh-${language}.pdf`);
-    expect(pdf.status()).toBe(200);
-    expect((await pdf.body()).subarray(0, 5).toString()).toBe("%PDF-");
+    await expect(page.locator("#lien-he a[download]")).toHaveCount(0);
     await expect(
       page.locator('#lien-he a[href="https://github.com/cattfan"]'),
     ).toBeVisible();
+    expect(
+      await page
+        .locator('#lien-he a[href="https://github.com/cattfan"]')
+        .evaluate(
+          (link) =>
+            link.parentElement?.querySelector('a[href^="mailto:"]') !== null,
+        ),
+    ).toBe(true);
   });
 }
 
