@@ -387,7 +387,11 @@
     border-color 200ms ease,
     transform 200ms ease;
 }
-.copyButton:active {
+.copyButton:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+.copyButton:active:not(:disabled) {
   transform: scale(0.94);
 }
 .copyButton:hover {

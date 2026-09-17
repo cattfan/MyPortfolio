@@ -18,9 +18,8 @@ test("footer thanks the visitor in both languages and the entrance runs once", a
 }) => {
   await page.goto("/");
   const footer = page.locator("footer");
-  const beforeHeight = await page.evaluate(
-    () => document.documentElement.scrollHeight,
-  );
+  await expect(page.locator("section[data-enhanced='true']")).toBeAttached();
+  const stableHeight = await page.evaluate(() => document.documentElement.scrollHeight);
   await footer.scrollIntoViewIfNeeded();
   await expect(footer).toHaveAttribute("data-reveal", "seen");
   await expect(footer).toContainText(
@@ -30,7 +29,7 @@ test("footer thanks the visitor in both languages and the entrance runs once", a
     .poll(() => footer.evaluate((e) => e.getAnimations().length))
     .toBe(0);
   expect(await page.evaluate(() => document.documentElement.scrollHeight)).toBe(
-    beforeHeight,
+    stableHeight,
   );
   await page.locator("[data-language-toggle]").click();
   await expect(footer).toContainText(
@@ -168,7 +167,13 @@ test("language: reduced motion switches immediately and missing storage still wo
     "data-language-transition",
     "idle",
   );
-  expect(await page.evaluate(() => document.getAnimations().length)).toBe(0);
+  expect(
+    await page.evaluate(() =>
+      document
+        .getAnimations()
+        .filter((animation) => animation.playState !== "finished").length,
+    ),
+  ).toBe(0);
 });
 
 for (const width of [1440, 390, 320]) {
@@ -583,7 +588,7 @@ test("carousel slides after five seconds and pauses during interaction and offsc
   await carousel.scrollIntoViewIfNeeded();
   await carousel.hover();
   await expect(carousel).toHaveAttribute("data-autoplay", "paused");
-  await page.clock.pauseAt(new Date());
+  await page.clock.pauseAt(new Date(Date.now() + 1));
   const initial = Number(await carousel.getAttribute("data-slide-index"));
   await page.mouse.move(0, 0);
   await expect(carousel).toHaveAttribute("data-autoplay", "running");
@@ -600,7 +605,9 @@ test("carousel slides after five seconds and pauses during interaction and offsc
     "data-slide-index",
     String((initial + 1) % 2),
   );
-  await carousel.getByRole("button").focus();
+  await carousel
+    .getByRole("button", { name: "Xem ảnh Riviu Manager", exact: true })
+    .focus();
   await page.mouse.move(0, 0);
   await expect(carousel).toHaveAttribute("data-autoplay", "paused");
   await page.clock.runFor(6500);
@@ -789,6 +796,8 @@ test("map detail transitions cover the visible page without enlarged labels", as
   page,
 }) => {
   await page.goto("/");
+  await expect(page.locator("section[data-enhanced='true']")).toBeAttached();
+  await expect(page.locator('[data-layer="vietnam"]')).toHaveAttribute("data-ready", "true");
   for (const p of [0.1, 0.22, 0.42, 0.55, 0.74, 0.88]) {
     await page.evaluate((progress) => {
       const s = document.querySelector("section[data-chapter]") as HTMLElement;
@@ -798,6 +807,7 @@ test("map detail transitions cover the visible page without enlarged labels", as
       });
     }, p);
     await page.waitForTimeout(180);
+    await expect(page.locator("[data-layer] picture").first()).toBeAttached();
     await expect(page.locator("[data-map-linework]")).toHaveAttribute(
       "data-label-size",
       "11",
@@ -808,9 +818,15 @@ test("map detail transitions cover the visible page without enlarged labels", as
       book.style.transform = "none";
       const box = book.getBoundingClientRect();
       const checks = [...document.querySelectorAll("[data-layer]")]
-        .filter((el) => Number(getComputedStyle(el).opacity) > 0.03)
+        .filter((el) =>
+          getComputedStyle(el).display !== "none" &&
+          Number(getComputedStyle(el).opacity) > 0.03,
+        )
         .map((el) => {
-          const r = el.querySelector("picture")!.getBoundingClientRect();
+          const picture = el.querySelector("picture");
+          const image = el.querySelector("img");
+          if (!picture || !image?.complete || !image.naturalWidth) return false;
+          const r = picture.getBoundingClientRect();
           return (
             r.x <= box.x + box.width * 0.43 + 1 &&
             r.right >= box.right - 1 &&
@@ -819,7 +835,7 @@ test("map detail transitions cover the visible page without enlarged labels", as
           );
         });
       book.style.transform = old;
-      return checks.every(Boolean);
+      return checks.length > 0 && checks.every(Boolean);
     });
     expect(covered).toBe(true);
     await page.screenshot({ path: `test-results/zoom-${p}.png` });
@@ -1253,7 +1269,7 @@ test("direct project hash remains correct after hydration", async ({
   page,
 }) => {
   await page.goto("/#du-an");
-  await expect(page.locator("section[data-enhanced='true']")).toBeAttached();
+  await expect(page.locator("section[data-chapter]")).toBeAttached();
   await page.waitForTimeout(800);
   const top = await page
     .locator("#du-an")

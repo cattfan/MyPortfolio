@@ -91,7 +91,13 @@ for (const project of projects) {
   });
 }
 await writeFile(path.join(site, "credits.json"), JSON.stringify(credits));
-await writeFile(path.join(site, "robots.txt"), "User-agent: *\nDisallow: /\n");
+const indexable = process.env.PORTFOLIO_INDEXABLE === "1";
+await writeFile(
+  path.join(site, "robots.txt"),
+  indexable
+    ? "User-agent: *\nAllow: /\n"
+    : "User-agent: *\nDisallow: /\n",
+);
 const scripts = new Set();
 for (const file of await readdir(site)) {
   if (!file.endsWith(".html")) continue;

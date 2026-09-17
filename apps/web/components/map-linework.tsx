@@ -14,6 +14,43 @@ import styles from "./book-journey.module.css";
 import { useLanguage } from "./language-provider";
 import { mapNames } from "../content/translations";
 
+let cachedMainlandPath: Path2D | undefined;
+let mainlandRequest: Promise<Path2D | undefined> | undefined;
+
+function loadMainlandPath(baseProjection: ReturnType<typeof geoMercator>) {
+  mainlandRequest ??= fetch("/portfolio/vietnam-boundary.geojson")
+    .then((response) => (response.ok ? response.json() : undefined))
+    .then((data) => {
+      const geometry = data?.geometry as
+        | Extract<GeoPermissibleObjects, { type: "MultiPolygon" | "Polygon" }>
+        | undefined;
+      let mainland: GeoPermissibleObjects | undefined;
+      if (geometry?.type === "MultiPolygon") {
+        let largestArea = 0;
+        for (const coordinates of geometry.coordinates) {
+          const polygon = { type: "Polygon" as const, coordinates };
+          const area = geoArea(polygon);
+          if (area > largestArea) {
+            mainland = polygon;
+            largestArea = area;
+          }
+        }
+      } else {
+        mainland = geometry;
+      }
+      if (mainland) {
+        const outline = geoPath(baseProjection).digits(6)(mainland);
+        if (outline) cachedMainlandPath = new Path2D(outline);
+      }
+      return cachedMainlandPath;
+    })
+    .catch(() => {
+      mainlandRequest = undefined;
+      return undefined;
+    });
+  return mainlandRequest;
+}
+
 export function MapLinework({
   progress,
   staticMode,
@@ -36,7 +73,7 @@ export function MapLinework({
     let mobile = false;
     let compassBox = { x: 0, y: 0, width: 0, height: 0 };
     let destinationSize = { width: 80, height: 29 };
-    let mainlandPath: Path2D | undefined;
+    let mainlandPath = cachedMainlandPath;
     const baseScale = mapAssets.maps[0]!.projection.scale;
     const origin: [number, number] = [
       mapAssets.geographicAnchor.longitude,
@@ -55,7 +92,6 @@ export function MapLinework({
       if (index === 0) routePath.moveTo(x, y);
       else routePath.lineTo(x, y);
     });
-    const controller = new AbortController();
     const draw = () => {
       scheduled = false;
       if (disposed || !width || !height) return;
@@ -338,44 +374,17 @@ export function MapLinework({
     paper
       ?.querySelectorAll("[data-map-label], [data-compass]")
       .forEach((node) => observer.observe(node));
-    fetch("/portfolio/vietnam-boundary.geojson", { signal: controller.signal })
-      .then((response) => (response.ok ? response.json() : undefined))
-      .then((data) => {
-        if (!disposed) {
-          const geometry = data?.geometry as
-            | Extract<
-                GeoPermissibleObjects,
-                { type: "MultiPolygon" | "Polygon" }
-              >
-            | undefined;
-          let mainland: GeoPermissibleObjects | undefined;
-          if (geometry?.type === "MultiPolygon") {
-            let largestArea = 0;
-            for (const coordinates of geometry.coordinates) {
-              const polygon = { type: "Polygon" as const, coordinates };
-              const area = geoArea(polygon);
-              if (area > largestArea) {
-                mainland = polygon;
-                largestArea = area;
-              }
-            }
-          } else {
-            mainland = geometry;
-          }
-          if (mainland) {
-            const outline = geoPath(baseProjection).digits(6)(mainland);
-            if (outline) mainlandPath = new Path2D(outline);
-          }
-          schedule();
-        }
-      })
-      .catch(() => {});
+    void loadMainlandPath(baseProjection).then((path) => {
+      if (!disposed) {
+        mainlandPath = path;
+        schedule();
+      }
+    });
     frame.read(measure);
     return () => {
       disposed = true;
       unsubscribe();
       observer.disconnect();
-      controller.abort();
       cancelFrame(draw);
       cancelFrame(measure);
     };

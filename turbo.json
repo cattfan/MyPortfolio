@@ -1,7 +1,7 @@
 {
   "$schema": "https://turborepo.dev/schema.json",
   "ui": "tui",
-  "globalEnv": ["PORTFOLIO_EXPORT"],
+  "globalEnv": ["PORTFOLIO_EXPORT", "PORTFOLIO_INDEXABLE"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],

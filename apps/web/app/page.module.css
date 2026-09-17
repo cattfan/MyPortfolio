@@ -61,11 +61,16 @@
   color: var(--muted);
   background: transparent;
 }
-.copyContact:hover,
-.copyContact:focus-visible {
+.copyContact:hover:not(:disabled),
+.copyContact:focus-visible:not(:disabled) {
   background: #e7dfd080;
   color: var(--ink);
   border-color: var(--line);
+}
+.copyContact:disabled,
+.languageToggle:disabled {
+  cursor: default;
+  opacity: 0.6;
 }
 .headerNotice {
   position: absolute;

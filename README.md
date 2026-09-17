@@ -6,9 +6,9 @@
 
 Portfolio cá nhân của **Đỗ Hiền Dinh**, Software Engineer tại Đà Lạt. Một cuốn sổ mở, bản đồ Việt Nam và hành trình cuộn dần tới Đà Lạt.
 
-**[Xem website](http://<server-ip>:18088/)** · **[GitHub profile](https://github.com/cattfan)** · **[Liên hệ](mailto:dohiendinh.work@gmail.com)**
+**[Xem website](https://cattfan.site/)** · **[GitHub profile](https://github.com/cattfan)** · **[Liên hệ](mailto:dohiendinh.work@gmail.com)**
 
-<a href="http://<server-ip>:18088/">
+<a href="https://cattfan.site/">
   <picture>
     <source media="(prefers-reduced-motion: reduce)" srcset="docs/github-profile/assets/portfolio.png" />
     <img src="docs/github-profile/assets/portfolio.gif" alt="Bản đồ trong cuốn sách zoom từ Việt Nam đến Đà Lạt" width="100%" />

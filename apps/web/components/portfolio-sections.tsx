@@ -15,8 +15,10 @@ import styles from "./portfolio-sections.module.css";
 import { ProjectShowcase } from "./project-showcase";
 import { useSectionReveal } from "./use-section-reveal";
 import { copyText } from "../lib/copy-text";
+import { useHydrated } from "./use-hydrated";
 
 function Contact() {
+  const hydrated = useHydrated();
   const {
     t,
     content: { portfolio },
@@ -77,6 +79,7 @@ function Contact() {
         </a>
         <button
           className={styles.copyButton}
+          disabled={!hydrated}
           onClick={copyEmail}
           aria-label={
             copyState === "copied"

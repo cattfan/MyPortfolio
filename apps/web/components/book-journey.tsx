@@ -19,13 +19,12 @@ import mapAssets from "../public/portfolio/assets.json";
 import { CHAPTER_STOPS, getCameraPose, getChapter } from "../lib/book-camera";
 import { GeographicPlate } from "./geographic-plate";
 import { MapLinework } from "./map-linework";
+import { useInitialEnhancementEligibility } from "./use-hydrated";
 import styles from "./book-journey.module.css";
 
-const subscribeHydration = () => () => {};
-const isClient = () => true;
 const isServer = () => false;
 const staticQuery =
-  "(prefers-reduced-motion: reduce), (max-height: 620px), (min-width: 641px) and (max-height: 700px)";
+  "(prefers-reduced-motion: reduce), (max-height: 720px), (min-width: 360px) and (max-width: 640px) and (max-height: 780px), (min-width: 641px) and (max-width: 900px) and (max-height: 810px)";
 const getStaticMode = () => window.matchMedia(staticQuery).matches;
 const subscribeStaticMode = (notify: () => void) => {
   const query = window.matchMedia(staticQuery);
@@ -48,14 +47,15 @@ export function BookJourney() {
       ? ["Việt Nam", "Phía Nam", "Cao nguyên", "Đà Lạt"]
       : ["Vietnam", "Southern Vietnam", "The highlands", "Da Lat"];
   const section = useRef<HTMLElement>(null);
-  const enhanced = useSyncExternalStore(subscribeHydration, isClient, isServer);
+  const canEnhance = useInitialEnhancementEligibility();
   const staticMode = useSyncExternalStore(
     subscribeStaticMode,
     getStaticMode,
     isServer,
   );
+  const staticPresentation = staticMode || !canEnhance;
   const [active, setActive] = useState(0);
-  const visibleChapter = staticMode ? 0 : active;
+  const visibleChapter = staticPresentation ? 0 : active;
   const { scrollYProgress } = useScroll({
     target: section,
     offset: ["start start", "end end"],
@@ -76,7 +76,7 @@ export function BookJourney() {
     );
   }, []);
   useEffect(() => {
-    if (staticMode) return;
+    if (staticPresentation) return;
     const prepare = (p: number) => {
       const scale = getCameraPose(p, mapAssets.maps).scale;
       const needed = mapLayers
@@ -93,7 +93,7 @@ export function BookJourney() {
     };
     prepare(bookProgress.get());
     return bookProgress.on("change", prepare);
-  }, [bookProgress, staticMode]);
+  }, [bookProgress, staticPresentation]);
   const pinTop = useTransform(
     bookProgress,
     (p) => `${getCameraPose(p, mapAssets.maps).anchor.y * 100}%`,
@@ -124,17 +124,14 @@ export function BookJourney() {
     <section
       ref={section}
       className={styles.journey}
-      data-enhanced={enhanced}
-      data-static={staticMode}
+      data-enhanced={canEnhance}
+      data-static={staticPresentation}
       data-chapter={visibleChapter}
       aria-label={t(
         "Hành trình Việt Nam đến Đà Lạt",
         "A journey from Vietnam to Da Lat",
       )}
     >
-      <noscript>
-        <style>{`section[data-enhanced="false"]{height:auto!important}section[data-enhanced="false"]>div:first-of-type{position:relative!important}section[data-enhanced="false"] nav[aria-label="Các chặng hành trình"],section[data-enhanced="false"] button{display:none!important}section[data-enhanced="false"]>div:last-child{display:grid!important;grid-template-columns:1fr!important;max-width:800px;margin:auto;padding:30px;gap:30px}`}</style>
-      </noscript>
       <p
         className="sr-only"
         role="status"
@@ -194,7 +191,7 @@ export function BookJourney() {
                     onReady={markReady}
                   />
                 ))}
-                <MapLinework progress={bookProgress} staticMode={staticMode} />
+                <MapLinework progress={bookProgress} staticMode={staticPresentation} />
               </div>
               <div className={styles.paperGrain} aria-hidden="true" />
               <div className={styles.gutter} aria-hidden="true" />

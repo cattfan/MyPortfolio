@@ -129,8 +129,8 @@ export function GeographicPlate({
             alt=""
             fill
             unoptimized
-            priority={index === 0}
-            loading={index === 0 ? undefined : "eager"}
+            loading="eager"
+            fetchPriority={index === 0 ? "high" : undefined}
             sizes="(max-width: 640px) 95vw, 1100px"
             onLoad={(event) => void loaded(event.currentTarget)}
             onError={() => {

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowLeft, ArrowRight, Maximize2, Plus, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, Maximize2, Pause, Play, Plus, X } from "lucide-react";
 import {
   useCallback,
   useEffect,
@@ -11,6 +11,7 @@ import {
 } from "react";
 import type { Project } from "../content/portfolio";
 import { useLanguage } from "./language-provider";
+import { useHydrated } from "./use-hydrated";
 import styles from "./project-showcase.module.css";
 
 type ModalKind = "gallery" | "details";
@@ -45,7 +46,11 @@ export function ProjectShowcase({
   children: ReactNode;
 }) {
   const { t } = useLanguage();
+  const hydrated = useHydrated();
+  const [enhanced, setEnhanced] = useState(false);
   const carousel = useRef<HTMLDivElement>(null);
+  const fallbackDetails = useRef<HTMLDetailsElement>(null);
+  const pauseButton = useRef<HTMLButtonElement>(null);
   const dialog = useRef<HTMLDialogElement>(null);
   const closeButton = useRef<HTMLButtonElement>(null);
   const opener = useRef<HTMLElement | null>(null);
@@ -63,10 +68,23 @@ export function ProjectShowcase({
   const [pageVisible, setPageVisible] = useState(true);
   const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState(false);
+  const [userPaused, setUserPaused] = useState(false);
   const [announcement, setAnnouncement] = useState("");
   const count = project.screenshots.length;
   const autoplay =
-    !reducedMotion && visible && pageVisible && !hovered && !focused && !modal;
+    enhanced && !userPaused && !reducedMotion && visible && pageVisible && !hovered && !focused && !modal;
+
+  useEffect(() => {
+    if (!hydrated) return;
+    const frame = requestAnimationFrame(() => {
+      if (
+        !fallbackDetails.current?.open &&
+        !fallbackDetails.current?.contains(document.activeElement)
+      )
+        setEnhanced(true);
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [hydrated]);
 
   useEffect(() => {
     const query = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -246,41 +264,71 @@ export function ProjectShowcase({
         onMouseLeave={() => setHovered(false)}
         onFocusCapture={() => setFocused(true)}
         onBlurCapture={(event) => {
-          if (!event.currentTarget.contains(event.relatedTarget as Node | null))
+          if (
+            !event.currentTarget.contains(event.relatedTarget as Node | null) &&
+            event.relatedTarget !== pauseButton.current
+          )
             setFocused(false);
         }}
       >
-        <button
-          type="button"
-          className={styles.imageButton}
-          aria-label={`${t("Xem ảnh", "View images")} ${project.name}`}
-          title={`${t("Xem ảnh", "View images")} ${project.name}`}
-          onClick={(event) => open("gallery", event.currentTarget)}
-        >
-          {imageTrack(selected)}
-          <span className={styles.expand}>
-            <Maximize2 size={16} aria-hidden="true" />
-          </span>
-        </button>
+        {enhanced ? (
+          <button
+            type="button"
+            className={styles.imageButton}
+            aria-label={`${t("Xem ảnh", "View images")} ${project.name}`}
+            title={`${t("Xem ảnh", "View images")} ${project.name}`}
+            onClick={(event) => open("gallery", event.currentTarget)}
+          >
+            {imageTrack(selected)}
+            <span className={styles.expand}>
+              <Maximize2 size={16} aria-hidden="true" />
+            </span>
+          </button>
+        ) : (
+          <a
+            className={styles.imageButton}
+            href={project.screenshots[0]!.src}
+            aria-label={`${t("Xem ảnh", "View images")} ${project.name}`}
+          >
+            {imageTrack(selected)}
+          </a>
+        )}
       </div>
       {children}
-      <button
-        type="button"
-        className={styles.detailsTrigger}
-        data-project-details-trigger={project.id}
-        aria-label={`${t("Khám phá dự án", "Explore project")} ${project.name}`}
-        onClick={(event) => open("details", event.currentTarget)}
-      >
-        <span>{t("Khám phá dự án", "Explore project")}</span>
-        <Plus size={17} aria-hidden="true" />
-      </button>
-      <noscript>
-        <style>{`[data-carousel="${project.id}"] [data-carousel-controls], [data-project-details-trigger="${project.id}"] { display: none !important; }`}</style>
-        <details className={styles.fallback}>
+      {enhanced && (
+        <button
+          type="button"
+          ref={pauseButton}
+          className={styles.pauseButton}
+          aria-label={`${userPaused ? t("Tiếp tục chuyển ảnh", "Resume slideshow") : t("Dừng chuyển ảnh", "Pause slideshow")} ${project.name}`}
+          aria-pressed={userPaused}
+          onFocus={() => setFocused(true)}
+          onBlur={(event) => {
+            if (!carousel.current?.contains(event.relatedTarget as Node | null))
+              setFocused(false);
+          }}
+          onClick={() => setUserPaused((paused) => !paused)}
+        >
+          {userPaused ? <Play size={14} aria-hidden="true" /> : <Pause size={14} aria-hidden="true" />}
+        </button>
+      )}
+      {enhanced ? (
+        <button
+          type="button"
+          className={styles.detailsTrigger}
+          data-project-details-trigger={project.id}
+          aria-label={`${t("Khám phá dự án", "Explore project")} ${project.name}`}
+          onClick={(event) => open("details", event.currentTarget)}
+        >
+          <span>{t("Khám phá dự án", "Explore project")}</span>
+          <Plus size={17} aria-hidden="true" />
+        </button>
+      ) : (
+        <details ref={fallbackDetails} className={styles.fallback}>
           <summary>{t("Khám phá dự án", "Explore project")}</summary>
           {detailsContent()}
         </details>
-      </noscript>
+      )}
       <dialog
         ref={dialog}
         className={`${styles.dialog} ${modal === "details" ? styles.detailsDialog : ""}`}

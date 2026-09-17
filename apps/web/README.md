@@ -22,7 +22,7 @@ pnpm --filter web exec next start --port 3003
 
 See [deployment instructions](../../deploy/README.md) and the [security review](../../deploy/SECURITY_REVIEW.md). `pnpm --filter web build:static` exports and packages only active public assets into `dist/site`, plus hash-based CSP headers. Docker builds the same artifact and serves it with unprivileged Nginx. Native app code, capture archives, source maps and environment files are excluded from the runtime.
 
-The deployment includes a custom favicon/404 page, patched audited dependencies and clipboard support for a temporary HTTP IP preview. Its four-direction compass uses B/Đ/N/T or N/E/S/W. Public reachability still depends on the upstream router forwarding the selected port to the host.
+The deployment includes a custom favicon/404 page, patched audited dependencies and clipboard support for the canonical HTTPS site at `https://cattfan.site/`. Its four-direction compass uses B/Đ/N/T or N/E/S/W. Host Nginx terminates TLS and proxies to the loopback-only static container.
 
 ## Portfolio content
 
@@ -42,7 +42,7 @@ See [the capture guide](../../scripts/capture/README.md) for prerequisites, comm
 
 ## Book Journey
 
-At normal viewport heights, the title, open book and controls share one full-viewport sticky frame from the first wheel movement. The header is fixed outside that frame and remains visible below the book too. The map zooms with scrolling and blends detail layers; there is no page flip, timed animation queue or page-turn asset request. A continuous monotone cubic camera curve in log scale avoids abrupt zoom stops. A chapter selector and previous/next arrows replace the old geographic dot rail. Book copy omits technology badges; full project skills remain in the portfolio below. Reduced-motion and short viewports show the full text in document flow. Disabled JavaScript also retains the whole story. Map loading errors preserve the written content.
+At normal viewport heights, the title, open book and controls share one full-viewport sticky frame from the first wheel movement. Lower viewports use normal document flow when the full frame would not fit. The server HTML always retains readable chapters and native project disclosures, including when JavaScript is enabled but its bundle fails. Late hydration keeps an already-open disclosure and does not replace a reading position or a direct section link with the sticky journey. The header is fixed outside that frame and remains visible below the book too. The map zooms with scrolling and blends detail layers; there is no page flip, timed animation queue or page-turn asset request. A continuous monotone cubic camera curve in log scale avoids abrupt zoom stops. A chapter selector and previous/next arrows replace the old geographic dot rail. Book copy omits technology badges; full project skills remain in the portfolio below. Reduced-motion and short viewports show the full text in document flow. Disabled JavaScript also retains the whole story. Map loading errors preserve the written content.
 
 ## Local Assets
 

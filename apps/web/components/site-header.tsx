@@ -3,10 +3,12 @@
 import { Check, Mail, Phone } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "./language-provider";
+import { useHydrated } from "./use-hydrated";
 import styles from "../app/page.module.css";
 import { copyText } from "../lib/copy-text";
 
 export function SiteHeader() {
+  const hydrated = useHydrated();
   const {
     language,
     requestedLanguage,
@@ -81,6 +83,7 @@ export function SiteHeader() {
             )}
             title={`${t("Sao chép email", "Copy email")}: ${portfolio.email}`}
             data-header-copy="email"
+            disabled={!hydrated}
             data-language-static
           >
             {copied === "email" ? (
@@ -96,6 +99,7 @@ export function SiteHeader() {
             aria-label={t("Sao chép số điện thoại", "Copy phone number")}
             title={`${t("Sao chép số điện thoại", "Copy phone number")}: ${portfolio.phone}`}
             data-header-copy="phone"
+            disabled={!hydrated}
             data-language-static
           >
             {copied === "phone" ? (
@@ -111,6 +115,8 @@ export function SiteHeader() {
               setLanguage(requestedLanguage === "en" ? "vi" : "en")
             }
             aria-label={t("Switch to English", "Chuyển sang tiếng Việt")}
+            lang={language === "vi" ? "en" : "vi"}
+            disabled={!hydrated}
             data-language-toggle
             data-language-static
           >
