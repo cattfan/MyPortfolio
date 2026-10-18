@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import {
   ArrowDown,
+  ArrowUp,
   ArrowUpRight,
   Check,
   Copy,
@@ -118,6 +119,76 @@ function Contact() {
   );
 }
 
+const credits = [
+  {
+    href: "https://www.openstreetmap.org/copyright",
+    vi: "Dữ liệu bản đồ © OpenStreetMap contributors (ODbL)",
+    en: "Map data © OpenStreetMap contributors (ODbL)",
+  },
+  {
+    href: "https://data.humdata.org/dataset/cod-ab-vnm",
+    vi: "Ranh giới: OCHA COD-AB (CC BY 3.0 IGO)",
+    en: "Boundaries: OCHA COD-AB (CC BY 3.0 IGO)",
+  },
+  {
+    href: "https://github.com/tilezen/joerd/blob/master/docs/attribution.md",
+    vi: "Địa hình: Mapzen Terrain Tiles (SRTM, GMTED2010, ETOPO1)",
+    en: "Elevation: Mapzen Terrain Tiles (SRTM, GMTED2010, ETOPO1)",
+  },
+  {
+    href: "https://www.naturalearthdata.com/",
+    vi: "Nền địa lý: Natural Earth",
+    en: "Base geography: Natural Earth",
+  },
+] as const;
+
+function Colophon() {
+  const {
+    t,
+    language,
+    content: { portfolio },
+  } = useLanguage();
+  return (
+    <section
+      id="ve-trang-nay"
+      className={styles.colophon}
+      aria-labelledby="colophon-title"
+    >
+      <div data-reveal>
+        <span className={styles.eyebrow}>
+          {t("Ghi chú cuối sổ", "Back-of-the-notebook notes")}
+        </span>
+        <h2 id="colophon-title">
+          {t("Trang này được làm thế nào", "How this site is made")}
+        </h2>
+      </div>
+      <div className={styles.colophonBody} data-reveal>
+        <p>
+          {t(
+            "Bản đồ trong cuốn sổ được dựng từ dữ liệu thật: độ cao địa hình, đường bờ biển, sông hồ và đường phố Đà Lạt, cùng một phép chiếu Mercator để zoom liền mạch từ cả nước tới một thành phố. Trang được xuất tĩnh bằng Next.js, chạy trong Docker sau Nginx với Content Security Policy chặt, và được kiểm thử tự động bằng Playwright.",
+            "The atlas in the notebook is built from real data: terrain elevation, coastlines, rivers, lakes and Da Lat's streets, all in one Mercator projection so the zoom flows from the whole country to a single city. The site is exported as static files with Next.js, served from Docker behind Nginx with a strict Content Security Policy, and tested automatically with Playwright.",
+          )}
+        </p>
+        <ul className={styles.credits}>
+          {credits.map((credit) => (
+            <li key={credit.href}>
+              <a href={credit.href} target="_blank" rel="noopener noreferrer">
+                {language === "vi" ? credit.vi : credit.en}
+              </a>
+            </li>
+          ))}
+          <li>
+            <a href={portfolio.source} target="_blank" rel="noopener noreferrer">
+              {t("Mã nguồn của trang này", "Source code for this site")}
+              <ArrowUpRight size={13} aria-hidden="true" />
+            </a>
+          </li>
+        </ul>
+      </div>
+    </section>
+  );
+}
+
 export function PortfolioSections() {
   const sectionRef = useSectionReveal();
   const {
@@ -139,11 +210,9 @@ export function PortfolioSections() {
         </div>
         <div className={styles.aboutContent} data-reveal>
           <h2 id="about-title">
-            {t("Hiểu bài toán.", "Understand the problem.")}
+            {t("Một người,", "One developer,")}
             <br />
-            <em>
-              {t("Làm rõ từng trải nghiệm.", "Make each experience clear.")}
-            </em>
+            <em>{t("trọn một sản phẩm.", "the whole product.")}</em>
           </h2>
           <div className={styles.aboutColumns}>
             <p>{portfolio.introduction}</p>
@@ -264,12 +333,12 @@ export function PortfolioSections() {
           <h2 id="experience-title">
             {t("Hai năm đi cùng", "Two years of")}
             <br />
-            <em>{t("những dòng code.", "writing software.")}</em>
+            <em>{t("những dòng code.", "shipping software.")}</em>
           </h2>
           <p>
             {t(
-              "Có phần làm xong khá nhanh, có lỗi phải ngồi tìm lâu hơn mình nghĩ. Sau mỗi lần như vậy, mình hiểu thêm một chút về việc mình đang làm.",
-              "Some parts come together quickly. Some bugs take much longer than I expect. Each time, I come away understanding a little more of what I'm doing.",
+              "Hai năm làm sản phẩm thật cho mình thấy phần khó thường nằm sau bản demo: dữ liệu thật, thiết bị thật và người dùng thật.",
+              "Two years of real products taught me that the hard part usually comes after the demo: real data, real devices and real users.",
             )}
           </p>
         </div>
@@ -285,6 +354,19 @@ export function PortfolioSections() {
         </ul>
       </section>
       <Contact />
+      <Colophon />
+    </div>
+  );
+}
+
+export function SiteFooter() {
+  const revealRef = useSectionReveal();
+  const {
+    t,
+    content: { portfolio },
+  } = useLanguage();
+  return (
+    <div className={styles.sections} ref={revealRef}>
       <footer className={styles.footer} data-reveal>
         <a href="#top" className={styles.footerName}>
           Đỗ Hiền Dinh<span>{portfolio.title}</span>
@@ -297,7 +379,7 @@ export function PortfolioSections() {
         </span>
         <a href="#top" className={styles.backToTop}>
           {t("Về đầu trang", "Back to top")}{" "}
-          <ArrowUpRight aria-hidden="true" size={15} />
+          <ArrowUp aria-hidden="true" size={15} />
         </a>
       </footer>
     </div>

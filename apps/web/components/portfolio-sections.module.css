@@ -23,8 +23,9 @@
 }
 .eyebrow {
   display: block;
-  font-size: 10px;
+  font-size: 11px;
   line-height: 1.5;
+  letter-spacing: 0.02em;
   color: var(--muted);
   margin-bottom: 16px;
 }
@@ -60,8 +61,8 @@
   margin-top: 28px;
 }
 .aboutColumns p {
-  font-size: 13px;
-  line-height: 1.9;
+  font-size: 16px;
+  line-height: 1.75;
   color: var(--muted);
 }
 .textLink {
@@ -69,7 +70,7 @@
   align-items: center;
   gap: 15px;
   margin-top: 25px;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--forest);
   border-bottom: 1px solid var(--line);
   padding-bottom: 8px;
@@ -91,9 +92,11 @@
   transform: translateY(3px);
 }
 .liveLink:hover svg:last-child,
-.emailLink:hover svg:last-child,
-.backToTop:hover svg {
+.emailLink:hover svg:last-child {
   transform: translate(2px, -2px);
+}
+.backToTop:hover svg {
+  transform: translateY(-3px);
 }
 .emailLink:hover,
 .phoneLink:hover {
@@ -134,7 +137,8 @@
 .projectCategory {
   display: block;
   color: var(--muted);
-  font-size: 10px;
+  font-size: 11px;
+  letter-spacing: 0.02em;
   margin-bottom: 8px;
   line-height: 1.6;
 }
@@ -149,20 +153,19 @@
   color: var(--muted);
 }
 .projectDescription {
-  font-size: 14px;
-  line-height: 1.8;
+  font-size: 16px;
+  line-height: 1.7;
   color: var(--muted);
   margin-top: 13px;
 }
-.technologies,
-.skills {
+.technologies {
   display: flex;
   flex-wrap: wrap;
   gap: 7px 16px;
   padding: 0;
   margin: 16px 0;
   list-style: none;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.7;
   color: var(--forest);
 }
@@ -176,7 +179,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 11px;
+  font-size: 12px;
   min-height: 36px;
   white-space: nowrap;
   color: var(--earth);
@@ -213,10 +216,10 @@
   text-wrap: balance;
 }
 .techStackIntro > p {
-  max-width: 300px;
+  max-width: 320px;
   margin-top: 24px;
-  font-size: 13px;
-  line-height: 1.9;
+  font-size: 15px;
+  line-height: 1.75;
   color: var(--muted);
 }
 .techStackGroups {
@@ -241,8 +244,8 @@
 }
 .techStackGroup p {
   margin-bottom: 10px;
-  font-size: 12px;
-  line-height: 1.7;
+  font-size: 14px;
+  line-height: 1.6;
   color: var(--muted);
 }
 .techStackGroup dd {
@@ -257,7 +260,7 @@
   list-style: none;
 }
 .techStackGroup li {
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.6;
   color: var(--forest);
 }
@@ -269,11 +272,11 @@
   border-top: 1px solid var(--line);
 }
 .experienceIntro > p {
-  font-size: 13px;
-  line-height: 1.9;
+  font-size: 15px;
+  line-height: 1.75;
   color: var(--muted);
   margin-top: 24px;
-  max-width: 310px;
+  max-width: 330px;
 }
 
 .timeline {
@@ -289,19 +292,14 @@
 .timeline > li:first-child {
   padding-top: 0;
 }
-.timelineNumber,
-.timelineYear {
-  font-size: 10px;
-  color: var(--muted);
-}
 .timeline h3 {
   font-size: 28px;
   line-height: 1.2;
   margin: 9px 0 12px;
 }
 .timeline p {
-  font-size: 14px;
-  line-height: 1.8;
+  font-size: 16px;
+  line-height: 1.7;
   color: var(--muted);
 }
 .contact {
@@ -319,15 +317,15 @@
   margin: 0;
 }
 .contactAvailability {
-  font-size: 10px;
+  font-size: 11px;
   color: var(--forest);
 }
 .contact h2 {
   font-size: 58px;
 }
 .contact > p {
-  font-size: 13px;
-  line-height: 1.8;
+  font-size: 16px;
+  line-height: 1.7;
   color: var(--muted);
   margin-top: 20px;
 }
@@ -399,10 +397,51 @@
 }
 .copyStatus {
   display: block;
-  height: 18px;
+  height: 20px;
   margin-top: 12px;
-  font-size: 10px;
+  font-size: 12px;
   color: var(--muted);
+}
+.colophon {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.45fr);
+  gap: 72px;
+  padding: 56px 0 64px;
+  border-top: 1px solid var(--line);
+}
+.sections .colophon h2 {
+  font-size: 30px;
+  line-height: 1.2;
+  max-width: 300px;
+  text-wrap: balance;
+}
+.colophonBody p {
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--muted);
+}
+.credits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.credits a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--forest);
+  text-decoration: underline;
+  text-decoration-color: #9a6a3e59;
+  text-underline-offset: 4px;
+  transition: text-decoration-color 160ms ease;
+}
+.credits a:hover {
+  text-decoration-color: currentColor;
 }
 .footer {
   border-top: 1px solid var(--line);
@@ -419,13 +458,13 @@
 .footerName span {
   display: block;
   font-family: var(--font-geist-sans), sans-serif;
-  font-size: 9px;
+  font-size: 11px;
   margin-top: 4px;
   color: var(--muted);
 }
 .footer > span {
   color: var(--muted);
-  font-size: 10px;
+  font-size: 13px;
   line-height: 1.7;
 }
 @media (prefers-reduced-motion: reduce) {
@@ -441,7 +480,8 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 10px;
+  min-height: 32px;
+  font-size: 12px;
 }
 
 @media (max-width: 900px) {
@@ -466,9 +506,13 @@
   .experienceSection {
     gap: 35px;
   }
-  .techStackSection {
+  .techStackSection,
+  .colophon {
     grid-template-columns: 1fr;
     gap: 36px;
+  }
+  .colophon {
+    gap: 20px;
   }
   .techStackIntro h2,
   .techStackIntro > p {
@@ -540,6 +584,16 @@
   }
   .contact {
     padding: 35px 0 50px;
+  }
+  .colophon {
+    padding: 40px 0 48px;
+  }
+  .sections .colophon h2 {
+    font-size: 26px;
+  }
+  .credits {
+    flex-direction: column;
+    gap: 10px;
   }
   .contactTop {
     align-items: flex-start;

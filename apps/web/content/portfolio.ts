@@ -5,13 +5,12 @@ export const portfolio = {
   email: "dohiendinh.work@gmail.com",
   phone: "+84 964 173 913",
   phoneHref: "+84964173913",
-  location: "Đà Lạt, Việt Nam",
   github: "https://github.com/cattfan",
-  resume: "/cv/do-hien-dinh-vi.pdf",
+  source: "https://github.com/cattfan/MyPortfolio",
   introduction:
-    "Mình là Đỗ Hiền Dinh, có 2 năm kinh nghiệm lập trình web và ứng dụng. Mình phát triển website, phần mềm quản lý thiết bị di động và công cụ tổng hợp dữ liệu, từ giao diện đến backend và triển khai.",
+    "Mình là Software Engineer với 2 năm kinh nghiệm, làm từ giao diện, API, cơ sở dữ liệu đến triển khai server. Hai sản phẩm bên dưới do mình phát triển toàn bộ: một ứng dụng desktop điều khiển nhiều điện thoại cùng lúc và một website thương hiệu đang chạy thật.",
   approach:
-    "Mình thích hiểu rõ việc cần làm trước khi bắt tay vào code. Chỗ nào chưa rõ thì hỏi lại; làm xong thì tự dùng thử, thấy bất tiện ở đâu thì sửa ở đó.",
+    "Trước khi code, mình làm rõ bài toán và hỏi lại những chỗ chưa chắc. Làm xong, mình tự dùng thử, viết kiểm thử cho các luồng quan trọng và sửa những chỗ còn bất tiện.",
 } as const;
 
 export const journeyChapters = [
@@ -19,41 +18,33 @@ export const journeyChapters = [
     id: "viet-nam",
     title: "Lập trình từ sự tò mò.",
     description:
-      "Mình là Đỗ Hiền Dinh, Software Engineer với 2 năm kinh nghiệm. Mình thích tìm hiểu cách mọi thứ hoạt động và giải quyết vấn đề bằng phần mềm.",
+      "Mình thích hiểu cách mọi thứ vận hành. Hai năm qua, sự tò mò đó thành những sản phẩm thật: website, ứng dụng desktop và hệ thống chạy trên server.",
     label: "Giới thiệu",
     place: "Việt Nam",
-    kicker: "01 / Giới thiệu",
-    skills: ["TypeScript", "React"],
   },
   {
     id: "phia-nam",
     title: "Hiểu vấn đề trước khi viết code.",
     description:
-      "Mình bắt đầu bằng việc lắng nghe, đặt câu hỏi và làm rõ điều cần giải quyết. Với mình, giải pháp tốt cần phù hợp với người sử dụng.",
+      "Mình bắt đầu bằng việc lắng nghe, đặt câu hỏi và làm rõ điều cần giải quyết. Giải pháp tốt là giải pháp người dùng thấy dễ dùng.",
     label: "Cách mình làm việc",
     place: "Phía Nam",
-    kicker: "02 / Cách mình làm việc",
-    skills: ["Next.js", "Tailwind CSS"],
   },
   {
     id: "cao-nguyen",
-    title: "Luôn có điều để học thêm.",
+    title: "Học bằng cách làm.",
     description:
-      "Mình học qua việc thử, kiểm tra và nhận phản hồi. Mỗi vấn đề mới là dịp để hiểu sâu hơn và cải thiện cách làm của mình.",
+      "Rust cho ứng dụng desktop, NestJS cho API, Docker để triển khai. Mỗi dự án, mình học thêm một công cụ và dùng nó cho việc thật.",
     label: "Học hỏi",
     place: "Cao nguyên Lâm Viên",
-    kicker: "03 / Học hỏi",
-    skills: ["Tauri", "REST API"],
   },
   {
     id: "da-lat",
     title: "Sẵn sàng cho dự án tiếp theo.",
     description:
-      "Mình tìm cơ hội phát triển web và ứng dụng cùng một nhóm có trao đổi rõ ràng. Mình sẵn sàng nhận phản hồi, kiểm thử và cải thiện từng phiên bản.",
+      "Mình tìm cơ hội làm web và ứng dụng cùng một nhóm trao đổi rõ ràng, nơi mình nhận việc từ đầu đến cuối và cải thiện qua từng phiên bản.",
     label: "Hợp tác",
     place: "Đà Lạt",
-    kicker: "04 / Hợp tác",
-    skills: ["Git", "Testing"],
   },
 ] as const;
 
@@ -76,19 +67,19 @@ export const projects = [
     engineering:
       "Tách phần kết nối Android và iOS khỏi giao diện React, dùng Rust để xử lý thiết bị và chạy kịch bản. Trình Flow giữ phần tạo luồng thao tác trực quan; bộ cài đóng gói các thành phần cần thiết để giảm bước thiết lập trên máy người dùng.",
     outcome:
-      "Từ danh sách thiết bị, người dùng có thể mở màn hình, điều khiển điện thoại và chạy luồng thao tác đã tạo. Hai phần quản lý thiết bị và trình biên tập Flow được thể hiện trong ảnh dự án.",
+      "Từ danh sách thiết bị, người dùng mở màn hình, điều khiển điện thoại và chạy cùng một luồng thao tác trên nhiều máy thay vì làm tay từng máy.",
     screenshots: [
       {
         src: "/projects/riviu-manager/overview.webp?v=20260907-2",
+        card: "/projects/riviu-manager/overview-card.webp",
         alt: "Riviu Manager hiển thị màn hình và trạng thái kết nối của nhiều thiết bị di động",
-        caption: "Quản lý thiết bị",
         width: 1920,
         height: 1200,
       },
       {
         src: "/projects/riviu-manager/detail.webp?v=20260907-2",
+        card: "/projects/riviu-manager/detail-card.webp",
         alt: "Trình biên tập Flow với sơ đồ hành động và bảng cấu hình",
-        caption: "Trình biên tập Flow",
         width: 1920,
         height: 1200,
       },
@@ -116,15 +107,15 @@ export const projects = [
     screenshots: [
       {
         src: "/projects/riviu-web/live-overview.webp",
+        card: "/projects/riviu-web/live-overview-card.webp",
         alt: "Trang chủ Riviu giới thiệu thương hiệu và dịch vụ truyền thông",
-        caption: "Trang chủ Riviu",
         width: 2880,
         height: 1800,
       },
       {
         src: "/projects/riviu-web/live-detail.webp",
+        card: "/projects/riviu-web/live-detail-card.webp",
         alt: "Bảng so sánh các gói dịch vụ trên website Riviu đang hoạt động",
-        caption: "Bảng giá dịch vụ",
         width: 2880,
         height: 1800,
       },
@@ -176,19 +167,19 @@ export const experience = [
     id: "delivery",
     title: "Không chỉ viết cho chạy",
     description:
-      "Mình muốn hiểu vì sao một đoạn code chạy được, và khi nào nó sẽ hỏng. Có lỗi thì tìm lại nguyên nhân, thay vì sửa tạm rồi bỏ qua.",
+      "Mình muốn hiểu vì sao code chạy được và khi nào nó sẽ hỏng. Gặp lỗi thì tìm đến nguyên nhân gốc, rồi thêm kiểm thử để lỗi đó không quay lại.",
   },
   {
-    id: "devices",
-    title: "Có gì chưa rõ thì trao đổi",
+    id: "communication",
+    title: "Trao đổi bằng ví dụ cụ thể",
     description:
-      "Mình thích trao đổi bằng ví dụ cụ thể. Một màn hình, một thao tác hoặc một lỗi gặp phải thường giúp mọi người hiểu nhau nhanh hơn.",
+      "Một màn hình, một thao tác hay một lỗi tái hiện được thường giúp mọi người hiểu nhau nhanh hơn một đoạn mô tả dài.",
   },
   {
-    id: "operation",
-    title: "Vẫn còn nhiều thứ để học",
+    id: "shipping",
+    title: "Làm đến khi chạy thật",
     description:
-      "Hai năm chưa phải là nhiều. Mình đang rèn cách đọc code, tìm lỗi và chọn giải pháp vừa đủ cho việc cần làm.",
+      "Từ đóng gói ứng dụng desktop đến Docker, Nginx và HTTPS, mình đưa sản phẩm tới tay người dùng chứ không dừng ở bản demo.",
   },
 ] as const;
 
@@ -208,8 +199,8 @@ export type Project = {
   outcome: string;
   screenshots: readonly {
     src: string;
+    card: string;
     alt: string;
-    caption: string;
     width: number;
     height: number;
   }[];

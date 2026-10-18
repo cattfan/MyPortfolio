@@ -9,146 +9,171 @@ import {
 
 export type Language = "en" | "vi";
 
-const englishProjects: Project[] = projects.map((project) =>
-  project.id === "riviu-manager"
-    ? {
-        ...project,
-        platform: "Software",
-        category: "Multi-device mobile management",
-        description:
-          "Desktop software for managing multiple Android and iOS devices, with screen monitoring, remote control and workflow automation.",
-        role: "Full product development",
-        challenge:
-          "Manage multiple phones, monitor connections and handle repetitive operations without working on each device separately.",
-        contribution:
-          "Built the application with Tauri, Rust and React. Integrated device connections, screen streaming, remote control and device groups, alongside a visual workflow editor and device diagnostics.",
-        engineering:
-          "Separated Android and iOS connections from the React interface, using Rust for device operations and workflow execution. The Flow editor provides visual authoring, while the installer bundles required components to reduce setup on users' computers.",
-        outcome:
-          "Users can open a device screen, control the phone and run a saved workflow from the device list. The project screenshots show the device manager and visual Flow editor.",
-        screenshots: project.screenshots.map((image, index) => ({
-          ...image,
-          alt:
-            index === 0
-              ? "Riviu Manager showing multiple mobile screens and connection states"
-              : "Riviu Manager workflow editor with branching actions",
-          caption: index === 0 ? "Device management" : "Workflow editor",
-        })),
-      }
-    : {
-        ...project,
-        category: "Brand and services website",
-        description:
-          "Riviu's brand website, presenting media services and pricing with content management and contact enquiries.",
-        role: "Full product development",
-        challenge:
-          "Present services and pricing clearly while helping the team update content and monitor the website.",
-        contribution:
-          "Built the Next.js frontend, NestJS API and PostgreSQL database. Implemented a Puck content editor, pricing pages, contact forms and traffic analytics, and deployed the website to a server.",
-        engineering:
-          "Separated the Next.js frontend from the NestJS API for content, enquiries and analytics. PostgreSQL and Prisma store the data; the Puck editor lets the team edit and publish page sections without changing interface code.",
-        outcome:
-          "A live website at taskscatt.click, with customer-facing service pages and an administration area for the team.",
-        screenshots: project.screenshots.map((image, index) => ({
-          ...image,
-          alt:
-            index === 0
-              ? "The live Riviu homepage presenting the brand and media services"
-              : "Service package comparison on the live Riviu website",
-          caption: index === 0 ? "Riviu homepage" : "Service pricing",
-        })),
-      },
-);
+// English copy is keyed by id so adding or reordering Vietnamese entries can never
+// silently borrow another entry's translation; a missing key fails the build.
+function translate<T extends { id: string }, C, R>(
+  items: readonly T[],
+  copy: Record<string, C>,
+  merge: (item: T, copy: C) => R,
+): R[] {
+  return items.map((item) => {
+    const english = copy[item.id];
+    if (!english) throw new Error(`Missing English copy for "${item.id}"`);
+    return merge(item, english);
+  });
+}
+
+type ProjectCopy = Omit<
+  Project,
+  "id" | "name" | "liveUrl" | "screenshotSource" | "technologies" | "screenshots"
+> & { alts: readonly string[] };
+
+const projectCopy: Record<string, ProjectCopy> = {
+  "riviu-manager": {
+    platform: "Software",
+    category: "Multi-device mobile management",
+    description:
+      "Desktop software for managing multiple Android and iOS devices, with screen monitoring, remote control and workflow automation.",
+    role: "Full product development",
+    challenge:
+      "Manage multiple phones, monitor connections and handle repetitive operations without working on each device separately.",
+    contribution:
+      "Built the application with Tauri, Rust and React. Integrated device connections, screen streaming, remote control and device groups, alongside a visual workflow editor and device diagnostics.",
+    engineering:
+      "Separated Android and iOS connections from the React interface, using Rust for device operations and workflow execution. The Flow editor provides visual authoring, while the installer bundles required components to reduce setup on users' computers.",
+    outcome:
+      "From the device list, users open a phone's screen, control it and run the same workflow across many devices instead of repeating it by hand.",
+    alts: [
+      "Riviu Manager showing multiple mobile screens and connection states",
+      "Riviu Manager workflow editor with branching actions",
+    ],
+  },
+  "riviu-web": {
+    platform: "Web",
+    category: "Brand and services website",
+    description:
+      "Riviu's brand website, presenting media services and pricing with content management and contact enquiries.",
+    role: "Full product development",
+    challenge:
+      "Present services and pricing clearly while helping the team update content and monitor the website.",
+    contribution:
+      "Built the Next.js frontend, NestJS API and PostgreSQL database. Implemented a Puck content editor, pricing pages, contact forms and traffic analytics, and deployed the website to a server.",
+    engineering:
+      "Separated the Next.js frontend from the NestJS API for content, enquiries and analytics. PostgreSQL and Prisma store the data; the Puck editor lets the team edit and publish page sections without changing interface code.",
+    outcome:
+      "A live website at taskscatt.click, with customer-facing service pages and an administration area for the team.",
+    alts: [
+      "The live Riviu homepage presenting the brand and media services",
+      "Service package comparison on the live Riviu website",
+    ],
+  },
+};
+
+const chapterCopy: Record<
+  string,
+  { title: string; description: string; label: string; place: string }
+> = {
+  "viet-nam": {
+    title: "It starts with curiosity.",
+    description:
+      "I like understanding how things work. Over two years, that curiosity has turned into real products: websites, desktop apps and systems running on servers.",
+    label: "About me",
+    place: "Vietnam",
+  },
+  "phia-nam": {
+    title: "Understand before building.",
+    description:
+      "I begin by listening, asking questions and defining the problem. A good solution is one people find easy to use.",
+    label: "How I work",
+    place: "Southern Vietnam",
+  },
+  "cao-nguyen": {
+    title: "Learning by building.",
+    description:
+      "Rust for desktop apps, NestJS for APIs, Docker for deployment. Each project adds a tool that I then put to work on something real.",
+    label: "Learning",
+    place: "Lam Vien Plateau",
+  },
+  "da-lat": {
+    title: "Ready for what's next.",
+    description:
+      "I'm looking to build web and desktop software with a team that communicates openly, where I can own work end to end and improve it with every release.",
+    label: "Let's work together",
+    place: "Da Lat",
+  },
+};
+
+const techStackCopy: Record<string, { label: string; description: string }> = {
+  frontend: { label: "Frontend", description: "Web interfaces and interactions." },
+  backend: { label: "Backend", description: "APIs and business logic." },
+  data: { label: "Databases", description: "Storage, queries and data models." },
+  desktop: {
+    label: "Desktop applications",
+    description: "Desktop software and device connections.",
+  },
+  deployment: {
+    label: "Deployment",
+    description: "Packaging and running applications on a server.",
+  },
+  workflow: {
+    label: "Workflow & testing",
+    description: "Version control and testing user flows.",
+  },
+};
+
+const experienceCopy: Record<string, { title: string; description: string }> = {
+  delivery: {
+    title: "More than getting it to run",
+    description:
+      "I want to understand why code works and where it might break. When something fails, I trace it to the root cause and add a test so it stays fixed.",
+  },
+  communication: {
+    title: "Talk through concrete examples",
+    description:
+      "A screen, an action or a reproducible bug usually helps people understand each other faster than a long description.",
+  },
+  shipping: {
+    title: "Shipped, not just demoed",
+    description:
+      "From packaging desktop apps to Docker, Nginx and HTTPS, I get products into users' hands instead of stopping at a demo.",
+  },
+};
 
 const en = {
   portfolio: {
     ...portfolio,
-    location: "Da Lat, Vietnam",
-    resume: "/cv/do-hien-dinh-en.pdf",
     introduction:
-      "I'm Đỗ Hiền Dinh, a Software Engineer with two years of experience building web and desktop applications. I develop websites, mobile device management software and data tools, from the interface to the backend and deployment.",
+      "I'm a Software Engineer with two years of experience across interfaces, APIs, databases and server deployment. I built both products below end to end: a desktop app that controls many phones at once and a brand website that is live today.",
     approach:
-      "I like to understand the task before writing code. If something is unclear, I ask. Once it's built, I try it myself and fix the parts that feel awkward.",
+      "Before writing code, I clarify the problem and ask about anything I'm unsure of. Once it's built, I use it myself, write tests for the important flows and fix what still feels awkward.",
   },
-  journeyChapters: [
-    {
-      ...journeyChapters[0],
-      title: "It starts with curiosity.",
-      description:
-        "I'm Đỗ Hiền Dinh, a Software Engineer with two years of experience. I enjoy understanding how things work and solving problems through software.",
-      label: "About me",
-      place: "Vietnam",
-      kicker: "01 / About me",
-    },
-    {
-      ...journeyChapters[1],
-      title: "Understand before building.",
-      description:
-        "I begin by listening, asking questions and defining the problem. A useful solution should make sense for the people using it.",
-      label: "How I work",
-      place: "Southern Vietnam",
-      kicker: "02 / How I work",
-    },
-    {
-      ...journeyChapters[2],
-      title: "Always more to learn.",
-      description:
-        "I learn by trying, testing and listening to feedback. Each new problem is a chance to understand more and improve how I work.",
-      label: "Learning",
-      place: "The highlands",
-      kicker: "03 / Learning",
-    },
-    {
-      ...journeyChapters[3],
-      title: "Ready for what's next.",
-      description:
-        "I'm looking to build software with a team that communicates openly. I welcome feedback, test my work and improve it with each release.",
-      label: "Let's work together",
-      place: "Da Lat",
-      kicker: "04 / Let's work together",
-    },
-  ],
-  projects: englishProjects,
-  techStack: techStack.map((group, index) => ({
-    ...group,
-    ...[
-      { label: "Frontend", description: "Web interfaces and interactions." },
-      { label: "Backend", description: "APIs and business logic." },
-      { label: "Databases", description: "Storage, queries and data models." },
-      {
-        label: "Desktop applications",
-        description: "Desktop software and device connections.",
-      },
-      {
-        label: "Deployment",
-        description: "Packaging and running applications on a server.",
-      },
-      {
-        label: "Workflow & testing",
-        description: "Version control and testing user flows.",
-      },
-    ][index]!,
+  journeyChapters: translate(journeyChapters, chapterCopy, (chapter, copy) => ({
+    ...chapter,
+    ...copy,
   })),
-  experience: [
-    {
-      id: "delivery",
-      title: "More than getting it to run",
-      description:
-        "I want to understand why the code works and where it might break. When something goes wrong, I look for the cause instead of leaving a quick fix behind.",
+  projects: translate(
+    projects as readonly Project[],
+    projectCopy,
+    (project, copy): Project => {
+      const { alts, ...text } = copy;
+      return {
+        ...project,
+        ...text,
+        screenshots: project.screenshots.map((image, index) => ({
+          ...image,
+          alt: alts[index] ?? image.alt,
+        })),
+      };
     },
-    {
-      id: "devices",
-      title: "Talk through what's unclear",
-      description:
-        "I prefer concrete examples. A screen, an action or a bug usually helps people understand each other faster.",
-    },
-    {
-      id: "operation",
-      title: "Still plenty to learn",
-      description:
-        "Two years isn't a long time. I'm still getting better at reading code, finding bugs and choosing a solution that fits the task.",
-    },
-  ],
+  ),
+  techStack: translate(techStack, techStackCopy, (group, copy) => ({
+    ...group,
+    ...copy,
+  })),
+  experience: translate(experience, experienceCopy, (item, copy) => ({
+    ...item,
+    ...copy,
+  })),
 };
 
 const vi = {

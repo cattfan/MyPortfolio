@@ -1,9 +1,10 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 
 const siteUrl = new URL("https://cattfan.site");
-const indexable = process.env.PORTFOLIO_INDEXABLE === "1";
+const description =
+  "Software Engineer ở Đà Lạt với 2 năm kinh nghiệm làm web và ứng dụng desktop, từ giao diện đến server. Dự án, công nghệ và thông tin liên hệ.";
 
 const geistSans = localFont({
   src: "./fonts/Geist-Regular.woff2",
@@ -27,6 +28,8 @@ const newsreader = localFont({
   ],
   variable: "--font-newsreader",
   display: "swap",
+  // Section headings below the book use it; keep it off the critical path.
+  preload: false,
 });
 
 const bookSerif = localFont({
@@ -49,21 +52,27 @@ const bookSerif = localFont({
 export const metadata: Metadata = {
   metadataBase: siteUrl,
   alternates: { canonical: "/" },
-  robots: indexable
-    ? { index: true, follow: true }
-    : { index: false, follow: false, nocache: true },
   title: "Đỗ Hiền Dinh | Software Engineer",
-  description:
-    "Đỗ Hiền Dinh, Software Engineer với 2 năm kinh nghiệm. Đôi điều về mình, những dự án đã làm và thông tin liên hệ.",
+  description,
+  authors: [{ name: "Đỗ Hiền Dinh", url: siteUrl }],
   openGraph: {
     title: "Đỗ Hiền Dinh | Software Engineer",
-    description:
-      "Đỗ Hiền Dinh, Software Engineer. Giới thiệu, dự án và liên hệ.",
+    description,
+    siteName: "Đỗ Hiền Dinh",
     locale: "vi_VN",
     alternateLocale: "en_US",
     type: "website",
     url: "/",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Đỗ Hiền Dinh | Software Engineer",
+    description,
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#ece7dc",
 };
 
 export default function RootLayout({

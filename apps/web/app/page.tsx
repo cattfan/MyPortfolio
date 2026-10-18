@@ -1,44 +1,15 @@
-"use client";
+import type { Metadata } from "next";
+import { Home } from "../components/home";
 
-import { ArrowDownRight } from "lucide-react";
-import { BookJourney } from "../components/book-journey";
-import { PortfolioSections } from "../components/portfolio-sections";
-import { LanguageProvider, useLanguage } from "../components/language-provider";
-import { SiteHeader } from "../components/site-header";
-import styles from "./page.module.css";
+const indexable = process.env.PORTFOLIO_INDEXABLE === "1";
 
-export default function Home() {
-  return (
-    <LanguageProvider>
-      <HomeContent />
-    </LanguageProvider>
-  );
-}
+// Robots live on the home page only: the 404 page keeps Next's own noindex tag.
+export const metadata: Metadata = {
+  robots: indexable
+    ? { index: true, follow: true }
+    : { index: false, follow: false, nocache: true },
+};
 
-function HomeContent() {
-  const { t } = useLanguage();
-  return (
-    <>
-      <a className="skip-link" href="#du-an">
-        {t("Đến dự án", "Skip to projects")}
-      </a>
-      <SiteHeader />
-      <main id="top">
-        <BookJourney />
-        <div className={styles.bridge}>
-          <span>
-            {t(
-              "Mỗi hành trình đều để lại một điều gì đó.",
-              "Every journey leaves something behind.",
-            )}
-          </span>
-          <a href="#du-an">
-            {t("Đây là những gì mình đã làm", "Here's what I've built")}{" "}
-            <ArrowDownRight size={20} />
-          </a>
-        </div>
-        <PortfolioSections />
-      </main>
-    </>
-  );
+export default function Page() {
+  return <Home />;
 }
