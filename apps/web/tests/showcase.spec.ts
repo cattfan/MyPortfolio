@@ -67,9 +67,7 @@ test("the colophon credits map data in both languages", async ({ page }) => {
     colophon.getByRole("link", { name: /Mã nguồn của trang này/ }),
   ).toHaveAttribute("href", "https://github.com/cattfan/MyPortfolio");
   await page.locator("[data-language-toggle]").click();
-  await expect(colophon).toContainText(
-    "Map data © OpenStreetMap contributors",
-  );
+  await expect(colophon).toContainText("Map data © OpenStreetMap contributors");
 });
 
 test("the compact mobile menu opens, closes and returns focus", async ({
@@ -77,10 +75,23 @@ test("the compact mobile menu opens, closes and returns focus", async ({
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
+  // Escape and outside clicks close the menu only once the page has hydrated.
+  await expect(page.locator("[data-language-toggle]")).toBeEnabled();
   const header = page.getByRole("banner");
   const toggle = header.locator("details summary");
   const nav = header.getByRole("navigation", { name: "Điều hướng chính" });
   await expect(nav).toBeHidden();
+  // An outside tap that lands before the asynchronous toggle event still closes it.
+  expect(
+    await page.evaluate(() => {
+      const menu = document.querySelector<HTMLDetailsElement>(
+        "[data-site-header] details",
+      );
+      menu?.querySelector("summary")?.click();
+      document.querySelector("main")?.click();
+      return menu?.open;
+    }),
+  ).toBe(false);
   await toggle.click();
   await expect(nav).toBeVisible();
   await page.keyboard.press("Escape");

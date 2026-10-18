@@ -30,11 +30,11 @@ export function SiteHeader() {
     [],
   );
   useEffect(() => {
-    if (!menuOpen) return;
     // The compact menu is a native <details>; close it on outside clicks and Escape.
+    // Listen from mount: input can arrive before the asynchronous toggle event.
     const close = (event: Event) => {
       const element = menu.current;
-      if (!element) return;
+      if (!element?.open) return;
       if (event instanceof KeyboardEvent) {
         if (event.key !== "Escape") return;
         element.open = false;
@@ -50,7 +50,7 @@ export function SiteHeader() {
       document.removeEventListener("click", close);
       document.removeEventListener("keydown", close);
     };
-  }, [menuOpen]);
+  }, []);
 
   async function copy(kind: "email" | "phone") {
     const sequence = ++copySequence.current;
@@ -164,7 +164,9 @@ export function SiteHeader() {
               // The links precede the toggle in the DOM; move focus into the open menu.
               if (open)
                 requestAnimationFrame(() =>
-                  nav.current?.querySelector("a")?.focus({ preventScroll: true }),
+                  nav.current
+                    ?.querySelector("a")
+                    ?.focus({ preventScroll: true }),
                 );
             }}
           >
