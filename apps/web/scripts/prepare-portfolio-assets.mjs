@@ -5,6 +5,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { geoArea, geoBounds, geoContains, geoMercator, geoPath } from "d3-geo";
 import sharp from "sharp";
+import { mainlandOutline } from "./prepare-outline.mjs";
 import { renderTerrain, terrainSource } from "./terrain-relief.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -73,6 +74,8 @@ const mainland = { type: "Polygon", coordinates: vietnam.geometry.coordinates.re
 if (!geoContains(mainland, DALAT) || geoContains(vietnam, [0, 0])) throw new Error("Vietnam boundary winding validation failed");
 const boundaryOutput = { ...vietnam, properties: { name: "Việt Nam", source: "Government of Viet Nam / OCHA COD-AB, geoBoundaries humanitarian mirror", sourceUrl: sources.vietnam } };
 await writeFile(path.join(output, "vietnam-boundary.geojson"), JSON.stringify(boundaryOutput) + "\n");
+// The browser loads only this compact mainland outline; the full boundary stays as provenance.
+await writeFile(path.join(output, "vietnam-outline.geojson"), JSON.stringify(mainlandOutline(boundaryOutput, JOURNEY)) + "\n");
 let routeSamples = 0;
 for (let index = 1; index < JOURNEY.length; index++) {
   for (let step = 0; step <= 100; step++) {
@@ -142,23 +145,6 @@ for (const [url, name] of mapsOnly ? [] : [[sources.font, "Newsreader-Regular.tt
   if (name.endsWith(".ttf")) assertVietnameseCoverage(data);
   await writeFile(path.join(fonts, name), data);
 }
-
-for (const side of mapsOnly ? [] : ["left", "right"]) {
-  const url = `https://threeui.com/landing-pages/meng-to-sketchbook/botany-${side}.png`;
-  const data = await cachedDownload(url, `portfolio-botany-${side}.png`);
-  await sharp(data).webp({ quality: 92 }).toFile(path.join(output, `botany-${side}.webp`));
-}
-
-const paperTiles = [];
-for (let y = 0; y < H; y += 175) {
-  for (let x = 0; x < W; x += 250) {
-    const width = Math.min(250, W - x);
-    const height = Math.min(175, H - y);
-    paperTiles.push({ input: await sharp(paper).extract({ left: 0, top: 0, width, height }).toBuffer(), left: x, top: y });
-  }
-}
-const pagePaper = await sharp({ create: { width: W, height: H, channels: 3, background: "#fafaf6" } }).composite(paperTiles).png().toBuffer();
-if (!mapsOnly) await sharp(pagePaper).webp({ quality: 86 }).toFile(path.join(output, "book-paper.webp"));
 
 function mapBackground(color) {
   return `<rect x="${MAP_BOUNDS[0][0]}" y="${MAP_BOUNDS[0][1]}" width="${W * OVERSCAN}" height="${H * OVERSCAN}" fill="${color}"/>`;
@@ -305,6 +291,7 @@ await writeFile(path.join(output,"assets.json"),JSON.stringify({
   detailMaps:detailMetadata,
   labels,
   terrain:{revision:1,source:terrainSource.name,url:terrainSource.url,encoding:terrainSource.format,tiles:terrainTiles.length,manifest:"/portfolio/terrain-sources.json",style:"Actual elevation hypsometric tint and northwest hillshade, clipped to the existing Vietnam land geometry.",light:{azimuth:315,altitude:45},plates:terrainMetadata.map(({id,zoom,elevationRangeMeters,landPixels,tiles})=>({id,zoom,elevationRangeMeters,landPixels,tileCount:tiles.length}))},
+  outline:{src:"/portfolio/vietnam-outline.geojson",usage:"Runtime mainland outline and route clip: largest COD-AB polygon, Douglas-Peucker simplified, 4 decimals.",generatedBy:"apps/web/scripts/prepare-outline.mjs"},
   boundarySource:{src:"/portfolio/vietnam-boundary.geojson",url:sources.vietnam,dataset:"Government of Viet Nam / OCHA COD-AB 2020; geoBoundaries humanitarian mirror",license:"CC BY 3.0 IGO",sourceVertices:19959,polygons:vietnam.geometry.coordinates.length,bounds:geoBounds(vietnam),strokeWidth:1,color:"#7d8e78",winding:"d3-geo spherical polygon convention",validation:{dalatInside:geoContains(mainland,DALAT),originOutside:!geoContains(vietnam,[0,0])}},
   journeyRoute:{color:"#b65049",style:"red dashed",strokeWidth:1.3,dashArray:[4,4],rasterized:false,coordinates:JOURNEY,geometry:"Illustrated mainland itinerary; not a turn-by-turn road route. Rendered at constant screen-pixel thickness; fades before street-level detail.",validation:{dataset:"Government of Viet Nam / OCHA COD-AB 2020 mainland polygon",samples:routeSamples,insideVietnam:true}},
   sources:[
@@ -316,7 +303,6 @@ await writeFile(path.join(output,"assets.json"),JSON.stringify({
     {name:"OpenStreetMap contributors",url:osmUrl,license:"Open Database License 1.0",licenseUrl:"https://www.openstreetmap.org/copyright",localSource:"/portfolio/dalat-osm.json",sha256:createHash("sha256").update(osmBytes).digest("hex"),timestamp:osm.timestamp,features:osm.elements.length,usage:"Directly projected Da Lat and nearby road, water, park and building geometry. Xuan Huong shoreline uses relation/2390139. Landmark label coordinates come from OSM nodes. No runtime tile or geocoding requests."},
     {name:"Verified OSM landmark anchors",usage:"Market node/1152317883; station node/5661470624; Lam Vien Square node/4426128791; flower garden way/473547263; Lac Duong node/12925900845; Lang Biang node/2688028631.",url:"https://www.openstreetmap.org/relation/2390139"},
     {name:"ThreeUI Sketchbook",url:sources.paper,usage:"Small blank-paper crop only. Original illustration is not included.",sha256:createHash("sha256").update(plate).digest("hex")},
-    {name:"ThreeUI botanical accents",url:"https://threeui.com/landing-pages/meng-to-sketchbook.html",usage:"Botany-left and botany-right raster accents copied and converted to WebP from provided ThreeUI reference assets."},
     {name:"Newsreader",url:"https://github.com/google/fonts/tree/main/ofl/newsreader",license:"SIL Open Font License 1.1",usage:"Self-hosted variable font for portfolio sections below the book."},
     {name:"Source Serif 4",url:"https://github.com/google/fonts/tree/main/ofl/sourceserif4",license:"SIL Open Font License 1.1",usage:"Self-hosted variable normal and italic font for the book and identity; Vietnamese character coverage verified. License beside fonts."},
   ],

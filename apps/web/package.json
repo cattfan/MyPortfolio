@@ -11,6 +11,9 @@
     "check-types": "next typegen && tsc --noEmit",
     "test:e2e": "playwright test",
     "assets:prepare": "node scripts/prepare-portfolio-assets.mjs",
+    "assets:outline": "node scripts/prepare-outline.mjs",
+    "assets:cards": "node scripts/prepare-project-cards.mjs",
+    "assets:og": "node scripts/og-image.mjs",
     "build:static": "node scripts/build-static.mjs"
   },
   "dependencies": {

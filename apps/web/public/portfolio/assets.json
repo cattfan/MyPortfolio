@@ -387,6 +387,11 @@
       }
     ]
   },
+  "outline": {
+    "src": "/portfolio/vietnam-outline.geojson",
+    "usage": "Runtime mainland outline and route clip: largest COD-AB polygon, Douglas-Peucker simplified, 4 decimals.",
+    "generatedBy": "apps/web/scripts/prepare-outline.mjs"
+  },
   "boundarySource": {
     "src": "/portfolio/vietnam-boundary.geojson",
     "url": "https://media.githubusercontent.com/media/wmgeolab/geoBoundaries/9469f09/releaseData/gbHumanitarian/VNM/ADM0/geoBoundaries-VNM-ADM0_simplified.geojson",
@@ -640,11 +645,6 @@
       "url": "https://threeui.com/landing-pages/meng-to-sketchbook/marina-bay-sands.png",
       "usage": "Small blank-paper crop only. Original illustration is not included.",
       "sha256": "c9cb4423072d69c4177833fa3f92923ce50ab7b395a257349793de3840b88608"
-    },
-    {
-      "name": "ThreeUI botanical accents",
-      "url": "https://threeui.com/landing-pages/meng-to-sketchbook.html",
-      "usage": "Botany-left and botany-right raster accents copied and converted to WebP from provided ThreeUI reference assets."
     },
     {
       "name": "Newsreader",

@@ -34,25 +34,22 @@ for (const file of await readdir(out, { withFileTypes: true })) {
   if (
     file.isFile() &&
     (/\.(html|txt)$/.test(file.name) ||
-      ["icon.svg", "favicon.ico"].includes(file.name))
+      ["icon.svg", "favicon.ico", "opengraph-image.jpg"].includes(file.name))
   )
     await cp(path.join(out, file.name), path.join(site, file.name));
 }
+const local = (src) => new URL(src, "http://local").pathname.slice(1);
 const allowed = new Set([
   "cv/do-hien-dinh-vi.pdf",
   "cv/do-hien-dinh-en.pdf",
-  "portfolio/vietnam-boundary.geojson",
+  local(assets.outline.src),
   "portfolio/paper-texture.webp",
   "portfolio/reference-wash.webp",
   ...[...assets.maps, ...assets.detailMaps].flatMap((map) =>
-    [map.src, map.mobileSrc].map((src) =>
-      new URL(src, "http://local").pathname.slice(1),
-    ),
+    [map.src, map.mobileSrc].map(local),
   ),
   ...projects.flatMap((project) =>
-    project.screenshots.map((image) =>
-      new URL(image.src, "http://local").pathname.slice(1),
-    ),
+    project.screenshots.flatMap((image) => [local(image.src), local(image.card)]),
   ),
 ]);
 for (const file of allowed) {
@@ -95,9 +92,15 @@ const indexable = process.env.PORTFOLIO_INDEXABLE === "1";
 await writeFile(
   path.join(site, "robots.txt"),
   indexable
-    ? "User-agent: *\nAllow: /\n"
+    ? "User-agent: *\nAllow: /\nSitemap: https://cattfan.site/sitemap.xml\n"
     : "User-agent: *\nDisallow: /\n",
 );
+// Only the indexable production build advertises the single canonical page.
+if (indexable)
+  await writeFile(
+    path.join(site, "sitemap.xml"),
+    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url><loc>https://cattfan.site/</loc><lastmod>${new Date().toISOString().slice(0, 10)}</lastmod></url>\n</urlset>\n`,
+  );
 const scripts = new Set();
 for (const file of await readdir(site)) {
   if (!file.endsWith(".html")) continue;
