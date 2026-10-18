@@ -3,11 +3,15 @@
 The site is exported to static HTML/CSS/JavaScript and served by unprivileged Nginx. The runtime image contains only the selected public assets: no Node server, environment files, source maps, capture archives or build tools. Browser JavaScript remains publicly downloadable as with any website.
 
 ```sh
+export RELEASE_TAG=<release> PORTFOLIO_INDEXABLE=1   # production domain only; previews leave it unset
 docker compose config
 docker compose build --pull
-RELEASE_TAG=<release> docker compose up -d   # binds 127.0.0.1:18088 by default
+docker compose up -d   # binds 127.0.0.1:18088 by default
 curl -I http://127.0.0.1:18088/
+curl -s http://127.0.0.1:18088/robots.txt   # production build: "Allow: /" and a Sitemap line
 ```
+
+Export both variables before building: `compose up` builds any missing `cattfan-portfolio:$RELEASE_TAG` image itself, and a build without `PORTFOLIO_INDEXABLE=1` ships noindex pages.
 
 The container runs as UID/GID 101 with a read-only filesystem, an isolated temporary directory, dropped Linux capabilities, no privilege escalation, resource limits, health checks and bounded logs. Base image digests and the dependency lockfile are pinned. Rebuild and refresh them when applying future patches.
 
