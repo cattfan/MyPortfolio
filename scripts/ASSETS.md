@@ -14,7 +14,8 @@ python scripts/prepare-resume.py
 ```
 
 The CV script creates one-page Vietnamese and English PDFs in `output/pdf` and
-copies them to `apps/web/public/cv`. Names and contacts come from portfolio content;
+copies them to `apps/web/public/cv`; the contact line links the email,
+`cattfan.site` and GitHub. Names and contacts come from portfolio content;
 project copy in the script is intentionally limited to verified responsibilities.
 Update both CV languages alongside project descriptions. Inspect rendered pages
 and check selectable text before publishing. Employment dates and usage metrics

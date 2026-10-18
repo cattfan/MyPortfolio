@@ -50,3 +50,6 @@ __pycache__/
 
 # Supplied reference notes, separate from the portfolio implementation
 note/
+
+# Operational records (hosts, release paths, evidence) stay out of the public repo
+ops/

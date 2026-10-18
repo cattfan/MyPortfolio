@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Dependency audit (advisory)
+        run: pnpm audit --audit-level high
+        continue-on-error: true
+
+      - name: Lint and type-check
+        run: pnpm exec turbo run lint check-types --filter=web
+
+      # The Docker build runs build:static, so this also checks the export and asset allowlist.
+      - name: Build and start the production image
+        run: docker compose up --build --detach --wait
+        env:
+          RELEASE_TAG: ci
+          BIND_ADDRESS: 127.0.0.1
+          PORTFOLIO_PORT: "18088"
+
+      - name: Install Playwright Chromium
+        run: pnpm --filter web exec playwright install --with-deps chromium
+
+      - name: End-to-end tests against the static image
+        run: pnpm --filter web test:e2e
+        env:
+          PORTFOLIO_URL: http://127.0.0.1:18088
+          PORTFOLIO_STATIC: "1"
+
+      - name: Upload test results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-results
+          path: apps/web/test-results
+          retention-days: 7
+
+      - name: Stop the container
+        if: always()
+        run: docker compose down

@@ -5,7 +5,7 @@
 
 Mình làm web và ứng dụng desktop, từ giao diện đến phần chạy phía sau. Mình thích hiểu rõ việc cần làm trước khi bắt tay vào code; làm xong thì tự dùng thử và sửa những chỗ còn bất tiện.
 
-**[Xem portfolio](http://<server-ip>:18088/)** &nbsp; / &nbsp; **[Mã nguồn portfolio](https://github.com/cattfan/MyPortfolio)** &nbsp; / &nbsp; **[Email](mailto:dohiendinh.work@gmail.com)**
+**[Xem portfolio](https://cattfan.site/)** &nbsp; / &nbsp; **[Mã nguồn portfolio](https://github.com/cattfan/MyPortfolio)** &nbsp; / &nbsp; **[Email](mailto:dohiendinh.work@gmail.com)**
 
 ### Dự án
 
@@ -23,7 +23,7 @@ Mình đảm nhận toàn bộ phần phát triển của hai sản phẩm này.
 
 ### Một góc portfolio
 
-<a href="http://<server-ip>:18088/">
+<a href="https://cattfan.site/">
   <picture>
     <source media="(prefers-reduced-motion: reduce)" srcset="assets/portfolio.png" />
     <img src="assets/portfolio.gif" alt="Cuốn sách với bản đồ zoom từ Việt Nam tới Đà Lạt" width="720" />

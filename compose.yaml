@@ -6,8 +6,9 @@ services:
       context: .
       args:
         PORTFOLIO_INDEXABLE: "${PORTFOLIO_INDEXABLE:-0}"
+    # Loopback by default: production is reached through the host's TLS proxy.
     ports:
-      - "${BIND_ADDRESS:-0.0.0.0}:${PORTFOLIO_PORT:-18088}:8080"
+      - "${BIND_ADDRESS:-127.0.0.1}:${PORTFOLIO_PORT:-18088}:8080"
     user: "101:101"
     read_only: true
     tmpfs:

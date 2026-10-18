@@ -21,7 +21,7 @@ try {
     viewport: { width: 1440, height: 1000 },
     deviceScaleFactor: 1,
   });
-  await page.goto(process.env.PORTFOLIO_URL || "http://<server-ip>:18088/", {
+  await page.goto(process.env.PORTFOLIO_URL || "https://cattfan.site/", {
     waitUntil: "networkidle",
   });
   await page.evaluate(() => document.fonts.ready);

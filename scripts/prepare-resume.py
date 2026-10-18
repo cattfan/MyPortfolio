@@ -84,7 +84,7 @@ for language,c in content.items():
     def p(text,style='body'):elements.append(Paragraph(text,styles[style]))
     p(escape(person['name']),'title');p('Software Engineer','role')
     p(c['location']+'  |  '+person['phone'],'contact')
-    p(f'<link href="mailto:{person["email"]}">{person["email"]}</link>  |  <link href="{person["github"]}">github.com/cattfan</link>','contact')
+    p(f'<link href="mailto:{person["email"]}">{person["email"]}</link>  |  <link href="https://cattfan.site/">cattfan.site</link>  |  <link href="{person["github"]}">github.com/cattfan</link>','contact')
     elements.extend([Spacer(1,12),HRFlowable(width='100%',thickness=.6,color=colors.HexColor('#cad1cb'))])
     p(c['summary'],'heading');p(c['about'])
     p(c['skills'],'heading')
@@ -106,6 +106,6 @@ for language,c in content.items():
     doc.build(elements)
     reader=PdfReader(target);assert len(reader.pages)==1
     text=''.join(page.extract_text() for page in reader.pages)
-    assert person['name'] in text and person['email'] in text and 'Riviu Manager' in text and 'Riviu Web' in text
+    assert person['name'] in text and person['email'] in text and 'cattfan.site' in text and 'Riviu Manager' in text and 'Riviu Web' in text
     shutil.copy2(target,PUBLIC/target.name)
     print(f'RESUME_PASS: {target.name}; one page; selectable Vietnamese text; {target.stat().st_size} bytes')
