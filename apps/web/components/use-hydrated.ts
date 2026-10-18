@@ -17,14 +17,32 @@ export function useHydrated() {
 export function useInitialEnhancementEligibility() {
   const [eligible, setEligible] = useState(false);
   useEffect(() => {
+    let removeScroll = () => {};
     const frame = requestAnimationFrame(() => {
-      setEligible(
+      if (
         window.location.hash === "" &&
-          window.scrollY < 2 &&
-          document.activeElement === document.body,
-      );
+        window.scrollY < 2 &&
+        document.activeElement === document.body
+      ) {
+        setEligible(true);
+        return;
+      }
+      // The visitor arrived mid-page (a hash link, a restored scroll position or
+      // an early scroll). Upgrade once they are back at the very top, where no
+      // reading position or open disclosure can be disturbed.
+      const upgradeAtTop = () => {
+        if (window.scrollY >= 2 || document.querySelector("details[open]"))
+          return;
+        setEligible(true);
+        removeScroll();
+      };
+      window.addEventListener("scroll", upgradeAtTop, { passive: true });
+      removeScroll = () => window.removeEventListener("scroll", upgradeAtTop);
     });
-    return () => cancelAnimationFrame(frame);
+    return () => {
+      cancelAnimationFrame(frame);
+      removeScroll();
+    };
   }, []);
   return eligible;
 }

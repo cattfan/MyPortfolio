@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Mail, Phone } from "lucide-react";
+import { Check, Mail, Menu, Phone, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "./language-provider";
 import { useHydrated } from "./use-hydrated";
@@ -18,6 +18,9 @@ export function SiteHeader() {
   } = useLanguage();
   const [copied, setCopied] = useState<"email" | "phone" | null>(null);
   const [message, setMessage] = useState("");
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menu = useRef<HTMLDetailsElement>(null);
+  const nav = useRef<HTMLElement>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const copySequence = useRef(0);
   useEffect(
@@ -26,6 +29,28 @@ export function SiteHeader() {
     },
     [],
   );
+  useEffect(() => {
+    if (!menuOpen) return;
+    // The compact menu is a native <details>; close it on outside clicks and Escape.
+    const close = (event: Event) => {
+      const element = menu.current;
+      if (!element) return;
+      if (event instanceof KeyboardEvent) {
+        if (event.key !== "Escape") return;
+        element.open = false;
+        element.querySelector("summary")?.focus();
+        return;
+      }
+      const header = element.closest("[data-site-header]");
+      if (!header?.contains(event.target as Node)) element.open = false;
+    };
+    document.addEventListener("click", close);
+    document.addEventListener("keydown", close);
+    return () => {
+      document.removeEventListener("click", close);
+      document.removeEventListener("keydown", close);
+    };
+  }, [menuOpen]);
 
   async function copy(kind: "email" | "phone") {
     const sequence = ++copySequence.current;
@@ -62,8 +87,14 @@ export function SiteHeader() {
           </span>
         </a>
         <nav
+          ref={nav}
+          id="site-navigation"
           className={styles.nav}
           aria-label={t("Điều hướng chính", "Main navigation")}
+          onClick={(event) => {
+            if (menu.current?.open && (event.target as Element).closest("a"))
+              menu.current.open = false;
+          }}
         >
           <a href="#du-an">{t("Dự án", "Projects")}</a>
           <a href="#tech-stack">{t("Công nghệ", "Tech stack")}</a>
@@ -124,6 +155,34 @@ export function SiteHeader() {
             <span aria-hidden="true">/</span>
             <span data-active={language === "en"}>EN</span>
           </button>
+          <details
+            ref={menu}
+            className={styles.menu}
+            onToggle={(event) => {
+              const open = event.currentTarget.open;
+              setMenuOpen(open);
+              // The links precede the toggle in the DOM; move focus into the open menu.
+              if (open)
+                requestAnimationFrame(() =>
+                  nav.current?.querySelector("a")?.focus({ preventScroll: true }),
+                );
+            }}
+          >
+            <summary
+              aria-label={
+                menuOpen
+                  ? t("Đóng menu", "Close menu")
+                  : t("Mở menu", "Open menu")
+              }
+              data-language-static
+            >
+              {menuOpen ? (
+                <X size={18} aria-hidden="true" />
+              ) : (
+                <Menu size={18} aria-hidden="true" />
+              )}
+            </summary>
+          </details>
         </div>
         <span
           className={styles.headerNotice}

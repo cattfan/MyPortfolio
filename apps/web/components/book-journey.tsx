@@ -23,8 +23,9 @@ import { useInitialEnhancementEligibility } from "./use-hydrated";
 import styles from "./book-journey.module.css";
 
 const isServer = () => false;
+// Mirrors the normal-flow media queries at the end of book-journey.module.css.
 const staticQuery =
-  "(prefers-reduced-motion: reduce), (max-height: 720px), (min-width: 360px) and (max-width: 640px) and (max-height: 780px), (min-width: 641px) and (max-width: 900px) and (max-height: 810px)";
+  "(prefers-reduced-motion: reduce), (max-height: 599px), (max-width: 640px) and (max-height: 639px)";
 const getStaticMode = () => window.matchMedia(staticQuery).matches;
 const subscribeStaticMode = (notify: () => void) => {
   const query = window.matchMedia(staticQuery);
@@ -39,13 +40,9 @@ const mapLayers = [...mapAssets.maps, ...mapAssets.detailMaps].sort(
 export function BookJourney() {
   const {
     t,
-    language,
     content: { journeyChapters, portfolio },
   } = useLanguage();
-  const places =
-    language === "vi"
-      ? ["Việt Nam", "Phía Nam", "Cao nguyên", "Đà Lạt"]
-      : ["Vietnam", "Southern Vietnam", "The highlands", "Da Lat"];
+  const places = journeyChapters.map((chapter) => chapter.place);
   const section = useRef<HTMLElement>(null);
   const canEnhance = useInitialEnhancementEligibility();
   const staticMode = useSyncExternalStore(
@@ -158,8 +155,8 @@ export function BookJourney() {
             <h1>Đỗ Hiền Dinh</h1>
             <p className={styles.introDescription}>
               {t(
-                "Software Engineer · Tò mò, học hỏi và giải quyết vấn đề.",
-                "Software Engineer · Curious, learning and solving problems.",
+                "Software Engineer · Web & ứng dụng desktop, từ giao diện đến server.",
+                "Software Engineer · Web and desktop apps, from interface to server.",
               )}
             </p>
           </div>
@@ -194,7 +191,7 @@ export function BookJourney() {
                 <MapLinework progress={bookProgress} staticMode={staticPresentation} />
               </div>
               <div className={styles.paperGrain} aria-hidden="true" />
-              <div className={styles.gutter} aria-hidden="true" />
+              <div className={styles.gutter} aria-hidden="true" data-gutter />
               <span className={styles.pageCaption}>
                 {t("Những điều mình làm", "Notes from my journey")}
               </span>
@@ -249,7 +246,9 @@ export function BookJourney() {
                 ))}
               </div>
               <span className={styles.folio}>0{visibleChapter + 1}</span>
-              <span className={styles.signature}>Dinh.</span>
+              <span className={styles.signature} data-signature>
+                Dinh.
+              </span>
             </div>
           </div>
         </div>

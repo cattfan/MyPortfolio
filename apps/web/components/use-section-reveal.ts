@@ -13,6 +13,7 @@ export function useSectionReveal() {
       animations.forEach((animation) => animation.cancel());
       animations.clear();
     };
+    let initial = true;
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -20,7 +21,12 @@ export function useSectionReveal() {
           const element = entry.target as HTMLElement;
           observer.unobserve(element);
           element.dataset.reveal = "seen";
-          if (query.matches || typeof element.animate !== "function") continue;
+          // Content already on screen when the observer starts stays still:
+          // dimming text the visitor is reading would look like a flicker.
+          const onScreen =
+            initial && entry.boundingClientRect.top < window.innerHeight;
+          if (onScreen || query.matches || typeof element.animate !== "function")
+            continue;
           const animation = element.animate(
             [
               { opacity: 0.35, translate: "0 12px" },
@@ -34,8 +40,11 @@ export function useSectionReveal() {
             () => animations.delete(element),
           );
         }
+        initial = false;
       },
-      { threshold: 0.12 },
+      // Start just before an element scrolls in, so its first visible frame is
+      // already part of the entrance rather than a full-opacity flash.
+      { rootMargin: "0px 0px 10% 0px" },
     );
     root
       .querySelectorAll<HTMLElement>("[data-reveal]")

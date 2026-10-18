@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@source "../../../packages/ui/src";
 
 @theme inline {
   --color-background: var(--paper);
@@ -94,7 +93,7 @@
 }
 @media (max-width: 760px) {
   :root {
-    --site-header-height: 108px;
+    --site-header-height: 60px;
   }
 }
 .skip-link {
