@@ -27,7 +27,7 @@ export default [
     },
   },
   {
-    files: ["playwright.config.ts", "tests/**/*.ts"],
+    files: ["playwright.config.ts", "tests/**/*.ts", "scripts/og-image.mjs"],
     rules: { "turbo/no-undeclared-env-vars": "off" },
   },
 ];

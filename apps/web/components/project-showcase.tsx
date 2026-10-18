@@ -1,7 +1,16 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowLeft, ArrowRight, Maximize2, Pause, Play, Plus, X } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Lock,
+  Maximize2,
+  Pause,
+  Play,
+  Plus,
+  X,
+} from "lucide-react";
 import {
   useCallback,
   useEffect,
@@ -15,6 +24,8 @@ import { useHydrated } from "./use-hydrated";
 import styles from "./project-showcase.module.css";
 
 type ModalKind = "gallery" | "details";
+// Card thumbnails are pre-rendered at this width; the gallery keeps the originals.
+const CARD_WIDTH = 1100;
 type SavedProperty = {
   element: HTMLElement;
   name: string;
@@ -71,6 +82,7 @@ export function ProjectShowcase({
   const [userPaused, setUserPaused] = useState(false);
   const [announcement, setAnnouncement] = useState("");
   const count = project.screenshots.length;
+  const host = project.liveUrl ? new URL(project.liveUrl).hostname : null;
   const autoplay =
     enhanced && !userPaused && !reducedMotion && visible && pageVisible && !hovered && !focused && !modal;
 
@@ -203,29 +215,43 @@ export function ProjectShowcase({
   }
 
   function imageTrack(index: number, expanded = false) {
+    // Spans keep the markup valid inside the card's <button>.
     return (
-      <div
+      <span
         className={styles.track}
         style={{ transform: `translateX(-${index * 100}%)` }}
       >
         {project.screenshots.map((image, imageIndex) => (
-          <div
+          <span
             key={image.src}
             className={styles.slide}
             aria-hidden={imageIndex !== index}
           >
-            <Image
-              src={image.src}
-              alt={imageIndex === index ? image.alt : ""}
-              width={image.width}
-              height={image.height}
-              sizes={expanded ? "95vw" : "(max-width: 700px) 100vw, 550px"}
-              loading={visible || expanded ? "eager" : "lazy"}
-              unoptimized={expanded}
-            />
-          </div>
+            {expanded ? (
+              <Image
+                src={image.src}
+                alt={imageIndex === index ? image.alt : ""}
+                width={image.width}
+                height={image.height}
+                sizes="95vw"
+                loading="eager"
+                unoptimized
+              />
+            ) : (
+              <Image
+                src={image.card}
+                alt={imageIndex === index ? image.alt : ""}
+                width={CARD_WIDTH}
+                height={Math.round((CARD_WIDTH * image.height) / image.width)}
+                sizes="(max-width: 700px) 100vw, 560px"
+                loading={visible ? "eager" : "lazy"}
+                fetchPriority="low"
+                unoptimized
+              />
+            )}
+          </span>
         ))}
-      </div>
+      </span>
     );
   }
 
@@ -254,64 +280,90 @@ export function ProjectShowcase({
 
   return (
     <>
-      <div
-        ref={carousel}
-        className={styles.carousel}
-        data-carousel={project.id}
-        data-slide-index={selected}
-        data-autoplay={autoplay ? "running" : "paused"}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        onFocusCapture={() => setFocused(true)}
-        onBlurCapture={(event) => {
-          if (
-            !event.currentTarget.contains(event.relatedTarget as Node | null) &&
-            event.relatedTarget !== pauseButton.current
-          )
-            setFocused(false);
-        }}
-      >
-        {enhanced ? (
-          <button
-            type="button"
-            className={styles.imageButton}
-            aria-label={`${t("Xem ảnh", "View images")} ${project.name}`}
-            title={`${t("Xem ảnh", "View images")} ${project.name}`}
-            onClick={(event) => open("gallery", event.currentTarget)}
-          >
-            {imageTrack(selected)}
-            <span className={styles.expand}>
-              <Maximize2 size={16} aria-hidden="true" />
-            </span>
-          </button>
-        ) : (
-          <a
-            className={styles.imageButton}
-            href={project.screenshots[0]!.src}
-            aria-label={`${t("Xem ảnh", "View images")} ${project.name}`}
-          >
-            {imageTrack(selected)}
-          </a>
-        )}
-      </div>
-      {children}
-      {enhanced && (
-        <button
-          type="button"
-          ref={pauseButton}
-          className={styles.pauseButton}
-          aria-label={`${userPaused ? t("Tiếp tục chuyển ảnh", "Resume slideshow") : t("Dừng chuyển ảnh", "Pause slideshow")} ${project.name}`}
-          aria-pressed={userPaused}
-          onFocus={() => setFocused(true)}
-          onBlur={(event) => {
-            if (!carousel.current?.contains(event.relatedTarget as Node | null))
+      <div className={styles.window} data-window={host ? "browser" : "app"}>
+        <div className={styles.windowBar}>
+          <span className={styles.windowDots} aria-hidden="true">
+            <i />
+            <i />
+            <i />
+          </span>
+          <span className={styles.windowTitle} aria-hidden="true">
+            {host ? <Lock size={10} /> : null}
+            {host ?? project.name}
+          </span>
+          {enhanced && (
+            <button
+              type="button"
+              ref={pauseButton}
+              className={styles.pauseButton}
+              aria-label={`${userPaused ? t("Tiếp tục chuyển ảnh", "Resume slideshow") : t("Dừng chuyển ảnh", "Pause slideshow")} ${project.name}`}
+              title={
+                userPaused
+                  ? t("Tiếp tục chuyển ảnh", "Resume slideshow")
+                  : t("Dừng chuyển ảnh", "Pause slideshow")
+              }
+              aria-pressed={userPaused}
+              onFocus={() => setFocused(true)}
+              onBlur={(event) => {
+                if (
+                  !carousel.current?.contains(event.relatedTarget as Node | null)
+                )
+                  setFocused(false);
+              }}
+              onClick={() => setUserPaused((paused) => !paused)}
+            >
+              {userPaused ? (
+                <Play size={12} aria-hidden="true" />
+              ) : (
+                <Pause size={12} aria-hidden="true" />
+              )}
+            </button>
+          )}
+        </div>
+        <div
+          ref={carousel}
+          className={styles.carousel}
+          data-carousel={project.id}
+          data-slide-index={selected}
+          data-autoplay={autoplay ? "running" : "paused"}
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
+          onFocusCapture={() => setFocused(true)}
+          onBlurCapture={(event) => {
+            if (
+              !event.currentTarget.contains(
+                event.relatedTarget as Node | null,
+              ) &&
+              event.relatedTarget !== pauseButton.current
+            )
               setFocused(false);
           }}
-          onClick={() => setUserPaused((paused) => !paused)}
         >
-          {userPaused ? <Play size={14} aria-hidden="true" /> : <Pause size={14} aria-hidden="true" />}
-        </button>
-      )}
+          {enhanced ? (
+            <button
+              type="button"
+              className={styles.imageButton}
+              aria-label={`${t("Xem ảnh", "View images")} ${project.name}`}
+              title={`${t("Xem ảnh", "View images")} ${project.name}`}
+              onClick={(event) => open("gallery", event.currentTarget)}
+            >
+              {imageTrack(selected)}
+              <span className={styles.expand}>
+                <Maximize2 size={16} aria-hidden="true" />
+              </span>
+            </button>
+          ) : (
+            <a
+              className={styles.imageButton}
+              href={project.screenshots[0]!.src}
+              aria-label={`${t("Xem ảnh", "View images")} ${project.name}`}
+            >
+              {imageTrack(selected)}
+            </a>
+          )}
+        </div>
+      </div>
+      {children}
       {enhanced ? (
         <button
           type="button"
