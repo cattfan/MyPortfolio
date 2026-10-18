@@ -93,7 +93,14 @@ for (const language of ["vi", "en"]) {
     );
     await page.goto("/");
     await expect(page.locator("html")).toHaveAttribute("lang", language);
-    const sizes = await page.locator("header nav a").evaluateAll((nodes) =>
+    // At this width the header is one row and the links open from the menu button.
+    const header = page.getByRole("banner");
+    expect((await header.boundingBox())!.height).toBeLessThanOrEqual(64);
+    await header.locator("details summary").click();
+    const links = header.locator("nav a");
+    await expect(links).toHaveCount(4);
+    for (const link of await links.all()) await expect(link).toBeVisible();
+    const sizes = await links.evaluateAll((nodes) =>
       nodes.map((el) => ({
         height: el.getBoundingClientRect().height,
         whitespace: getComputedStyle(el).whiteSpace,
@@ -102,9 +109,12 @@ for (const language of ["vi", "en"]) {
     );
     expect(
       sizes.every(
-        (v) => v.height <= 36 && v.whitespace === "nowrap" && v.right <= 640,
+        (v) => v.height <= 48 && v.whitespace === "nowrap" && v.right <= 640,
       ),
     ).toBe(true);
+    await links.first().click();
+    await expect(header.locator("details")).not.toHaveAttribute("open", "");
+    await expect(links.first()).toBeHidden();
     await expect(page.locator("#lien-he a[download]")).toHaveCount(0);
     await expect(
       page.locator('#lien-he a[href="https://github.com/cattfan"]'),

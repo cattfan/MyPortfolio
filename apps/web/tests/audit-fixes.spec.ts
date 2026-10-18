@@ -67,7 +67,7 @@ for (const width of [320, 390, 640, 641, 1440]) {
 
 test("GeoJSON production có MIME và gzip đúng", async ({ request }) => {
   test.skip(process.env.PORTFOLIO_STATIC !== "1", "Cần static Nginx");
-  const response = await request.get("/portfolio/vietnam-boundary.geojson", { headers: { "Accept-Encoding": "gzip" } });
+  const response = await request.get("/portfolio/vietnam-outline.geojson", { headers: { "Accept-Encoding": "gzip" } });
   expect(response.status()).toBe(200);
   expect(response.headers()["content-type"]).toContain("application/geo+json");
   expect(response.headers()["content-encoding"]).toBe("gzip");

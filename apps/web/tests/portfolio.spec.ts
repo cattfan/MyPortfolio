@@ -412,9 +412,14 @@ test("two projects show clear descriptions without source-code links or removed 
   await expect(page.locator("[data-journey-frame]")).not.toContainText(
     "Web & App Developer",
   );
-  await expect(page.getByRole("link", { name: /OpenStreetMap/ })).toHaveCount(
-    0,
+  // Map data is credited once, in the colophon below the contact section.
+  const credit = page.getByRole("link", { name: /OpenStreetMap/ });
+  await expect(credit).toHaveCount(1);
+  await expect(credit).toHaveAttribute(
+    "href",
+    "https://www.openstreetmap.org/copyright",
   );
+  await expect(page.locator("#ve-trang-nay")).toContainText("OCHA COD-AB");
   await expect(page.locator('#du-an a[href*="github.com"]')).toHaveCount(0);
   await expect(
     page.locator('#lien-he a[href="https://github.com/cattfan"]'),
@@ -758,7 +763,7 @@ test("all map projections share the same geographic focal point", () => {
   }
 });
 
-test("book copy is personal and the removed source footer is absent", async ({
+test("book copy is personal and map data is credited outside the book", async ({
   page,
 }) => {
   await page.goto("/");
@@ -773,22 +778,26 @@ test("book copy is personal and the removed source footer is absent", async ({
   await expect(scene.getByRole("link", { name: /OpenStreetMap/ })).toHaveCount(
     0,
   );
-  await expect(page.getByRole("link", { name: /OpenStreetMap/ })).toHaveCount(
-    0,
-  );
+  await expect(
+    page.locator("#ve-trang-nay").getByRole("link", { name: /OpenStreetMap/ }),
+  ).toHaveCount(1);
   expect(mapAssets.journeyRoute.coordinates[0]).toEqual([105.854, 21.029]);
   expect(mapAssets.journeyRoute.coordinates.at(-1)).toEqual([108.438, 11.941]);
 });
 
-test("published land geometry and additional zoom detail are available", async ({
+test("the runtime outline is compact land geometry and zoom detail is available", async ({
   request,
 }) => {
-  const response = await request.get("/portfolio/vietnam-boundary.geojson");
+  const response = await request.get(mapAssets.outline.src);
   expect(response.ok()).toBe(true);
-  const boundary = (await response.json()) as GeoPermissibleObjects;
-  expect(geoContains(boundary, [108.438, 11.941])).toBe(true);
-  expect(geoContains(boundary, [105.854, 21.029])).toBe(true);
-  expect(geoContains(boundary, [0, 0])).toBe(false);
+  const outline = (await response.json()) as GeoPermissibleObjects & {
+    geometry: { type: string };
+  };
+  expect(outline.geometry.type).toBe("Polygon");
+  expect(geoContains(outline, [108.438, 11.941])).toBe(true);
+  expect(geoContains(outline, [105.854, 21.029])).toBe(true);
+  expect(geoContains(outline, [0, 0])).toBe(false);
+  expect((await response.body()).length).toBeLessThan(150_000);
   expect(mapAssets.detailMaps).toHaveLength(2);
 });
 
@@ -1313,19 +1322,28 @@ test("the pinned frame exits after the final chapter and the top link resets it"
   );
 });
 
+// Short laptops and tablets keep the zooming journey in a compact frame; only
+// viewports under 600px tall fall back to normal document flow.
 for (const viewport of [
   { width: 800, height: 700 },
   { width: 1440, height: 768 },
+  { width: 1366, height: 657 },
+  { width: 1280, height: 600 },
+  { width: 1024, height: 560 },
 ]) {
   test(`book text fits at ${viewport.width}x${viewport.height}`, async ({
     page,
   }) => {
     await page.setViewportSize(viewport);
     await page.goto("/");
-    if (viewport.height <= 700)
-      await expect(page.locator("section[data-static='true']")).toBeVisible();
-    for (let index = 0; index < (viewport.height <= 700 ? 1 : 4); index++) {
-      if (viewport.height > 700) {
+    await expect(page.locator("section[data-enhanced='true']")).toBeAttached();
+    const isStatic = viewport.height < 600;
+    await expect(page.locator("section[data-chapter]")).toHaveAttribute(
+      "data-static",
+      String(isStatic),
+    );
+    for (let index = 0; index < (isStatic ? 1 : 4); index++) {
+      if (!isStatic) {
         await page
           .getByRole("combobox", { name: "Nội dung cuốn sổ" })
           .selectOption(String(index));
@@ -1333,6 +1351,7 @@ for (const viewport of [
           "data-chapter",
           String(index),
         );
+        await page.waitForTimeout(450);
       }
       const overflow = await page
         .locator('[data-current="true"]')
@@ -1345,12 +1364,66 @@ for (const viewport of [
         });
       expect(overflow).toBe(false);
     }
-    if (viewport.height <= 700)
+    if (isStatic)
       await expect(
         page.locator("section[data-static='true'] article"),
       ).toHaveCount(3);
+    else
+      expect(
+        await page.evaluate(() => {
+          const rail = document
+            .querySelector("section[data-chapter] select")!
+            .getBoundingClientRect();
+          return rail.bottom <= innerHeight;
+        }),
+      ).toBe(true);
     await page.screenshot({
-      path: `test-results/compact-${viewport.width}.png`,
+      path: `test-results/compact-${viewport.width}x${viewport.height}.png`,
     });
+  });
+}
+
+for (const viewport of [
+  { width: 375, height: 667 },
+  { width: 360, height: 640 },
+  { width: 390, height: 664 },
+]) {
+  test(`short phones keep the journey at ${viewport.width}x${viewport.height}`, async ({
+    page,
+  }) => {
+    await page.setViewportSize(viewport);
+    await page.goto("/");
+    const journey = page.locator("section[data-chapter]");
+    await expect(journey).toHaveAttribute("data-enhanced", "true");
+    await expect(journey).toHaveAttribute("data-static", "false");
+    let railTop: number | undefined;
+    for (const chapter of [0, 1, 2, 3]) {
+      await journey.locator("select").selectOption(String(chapter));
+      await expect(journey).toHaveAttribute("data-chapter", String(chapter));
+      await page.waitForTimeout(450);
+      const geometry = await journey.evaluate((section) => {
+        const rect = (el: Element) => el.getBoundingClientRect();
+        const header = rect(document.querySelector("header")!);
+        const book = rect(section.querySelector("[data-book-frame]")!);
+        const controls = [...section.querySelectorAll("select, button")]
+          .map(rect)
+          .filter((r) => r.height > 0);
+        const text = [...section.querySelectorAll("h2 + p")]
+          .map(rect)
+          .filter((r) => r.height > 0);
+        return {
+          headerBottom: header.bottom,
+          bookTop: book.top,
+          railTop: Math.min(...controls.map((r) => r.top)),
+          railBottom: Math.max(...controls.map((r) => r.bottom)),
+          textBottom: Math.max(...text.map((r) => r.bottom)),
+        };
+      });
+      expect(geometry.bookTop).toBeGreaterThan(geometry.headerBottom);
+      expect(geometry.textBottom).toBeLessThanOrEqual(geometry.railTop);
+      expect(geometry.railBottom).toBeLessThanOrEqual(viewport.height);
+      railTop ??= geometry.railTop;
+      expect(Math.abs(geometry.railTop - railTop)).toBeLessThan(1);
+    }
   });
 }

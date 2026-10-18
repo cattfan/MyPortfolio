@@ -30,6 +30,8 @@ test.describe("static production hardening", () => {
       "/projects/riviu-manager/capture.json",
       "/portfolio/terrain-sources.json",
       "/portfolio/dalat-osm.json",
+      "/portfolio/vietnam-boundary.geojson",
+      "/projects/riviu-manager/overview.png",
       "/_next/static/source.js.map",
     ]) {
       expect((await request.get(path)).status(), path).toBe(404);
