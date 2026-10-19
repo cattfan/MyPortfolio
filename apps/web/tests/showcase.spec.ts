@@ -57,11 +57,22 @@ test("social previews use a large image card", async ({ page, request }) => {
   expect(response.headers()["content-type"]).toContain("image/jpeg");
 });
 
-test("the colophon credits map data in both languages", async ({ page }) => {
+test("the colophon credits map data and artwork in both languages", async ({
+  page,
+}) => {
   await page.goto("/#ve-trang-nay");
   const colophon = page.locator("#ve-trang-nay");
   await expect(colophon).toContainText(
     "Dữ liệu bản đồ © OpenStreetMap contributors",
+  );
+  // The watercolor wash and paper texture are MIT-licensed ThreeUI artwork.
+  await expect(
+    colophon.getByRole("link", {
+      name: /ThreeUI Sketchbook © Meng To \(MIT\)/,
+    }),
+  ).toHaveAttribute(
+    "href",
+    "https://github.com/MengTo/threeui/blob/main/LICENSE",
   );
   await expect(
     colophon.getByRole("link", { name: /Mã nguồn của trang này/ }),

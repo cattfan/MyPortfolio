@@ -140,6 +140,11 @@ const credits = [
     vi: "Nền địa lý: Natural Earth",
     en: "Base geography: Natural Earth",
   },
+  {
+    href: "https://github.com/MengTo/threeui/blob/main/LICENSE",
+    vi: "Nền màu nước và giấy: ThreeUI Sketchbook © Meng To (MIT)",
+    en: "Watercolor wash and paper: ThreeUI Sketchbook © Meng To (MIT)",
+  },
 ] as const;
 
 function Colophon() {
@@ -178,7 +183,11 @@ function Colophon() {
             </li>
           ))}
           <li>
-            <a href={portfolio.source} target="_blank" rel="noopener noreferrer">
+            <a
+              href={portfolio.source}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {t("Mã nguồn của trang này", "Source code for this site")}
               <ArrowUpRight size={13} aria-hidden="true" />
             </a>

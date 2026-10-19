@@ -67,7 +67,7 @@ pnpm --filter web assets:og
 
 The paper/ink/earth palette (#ece7dc / #2b2721 / #9a6a3e) follows the original ThreeUI Sketchbook reference. The atlas adds jade relief, pale blue sea and distinct lake/forest colors. `reference-wash.webp` is a local, recompressed conversion of its supplied `bg-wash.jpg`. A local book filter preserves the blue/green terrain rather than applying the previous sepia treatment.
 
-The original ThreeUI materials in the root `note` folder are read-only reference. Source fidelity is retained there; the portfolio is a separate adaptation.
+The original ThreeUI materials in the root `note` folder are read-only reference. Source fidelity is retained there; the portfolio is a separate adaptation. The wash and the paper crop come from the MIT-licensed [ThreeUI Community repository](https://github.com/MengTo/threeui): keep the notice in [THIRD_PARTY_NOTICES.md](../../THIRD_PARTY_NOTICES.md) and the credit in the site's colophon whenever they ship.
 
 ## Verification
 

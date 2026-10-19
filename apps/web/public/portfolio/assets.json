@@ -643,8 +643,19 @@
     {
       "name": "ThreeUI Sketchbook",
       "url": "https://threeui.com/landing-pages/meng-to-sketchbook/marina-bay-sands.png",
-      "usage": "Small blank-paper crop only. Original illustration is not included.",
+      "repository": "https://github.com/MengTo/threeui/tree/main/public/landing-pages/meng-to-sketchbook",
+      "license": "MIT",
+      "licenseUrl": "https://github.com/MengTo/threeui/blob/main/LICENSE",
+      "usage": "Small blank-paper crop only. Original illustration is not included. Notice in THIRD_PARTY_NOTICES.md.",
       "sha256": "c9cb4423072d69c4177833fa3f92923ce50ab7b395a257349793de3840b88608"
+    },
+    {
+      "name": "ThreeUI Sketchbook watercolor wash",
+      "url": "https://github.com/MengTo/threeui/blob/main/public/landing-pages/meng-to-sketchbook/bg-wash.jpg",
+      "license": "MIT",
+      "licenseUrl": "https://github.com/MengTo/threeui/blob/main/LICENSE",
+      "localSource": "/portfolio/reference-wash.webp",
+      "usage": "Page background: bg-wash.jpg resized to 2000px and recompressed as WebP (not produced by this script). Notice in THIRD_PARTY_NOTICES.md."
     },
     {
       "name": "Newsreader",
