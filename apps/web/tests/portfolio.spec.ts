@@ -19,7 +19,9 @@ test("footer thanks the visitor in both languages and the entrance runs once", a
   await page.goto("/");
   const footer = page.locator("footer");
   await expect(page.locator("section[data-enhanced='true']")).toBeAttached();
-  const stableHeight = await page.evaluate(() => document.documentElement.scrollHeight);
+  const stableHeight = await page.evaluate(
+    () => document.documentElement.scrollHeight,
+  );
   await footer.scrollIntoViewIfNeeded();
   await expect(footer).toHaveAttribute("data-reveal", "seen");
   await expect(footer).toContainText(
@@ -167,11 +169,19 @@ test("language: reduced motion switches immediately and missing storage still wo
     "data-language-transition",
     "idle",
   );
+  // Reduced motion shortens CSS transitions to 0.01ms (globals.css) rather than
+  // removing them, so they can read as running for one frame: count only
+  // animations long enough to see.
   expect(
-    await page.evaluate(() =>
-      document
-        .getAnimations()
-        .filter((animation) => animation.playState !== "finished").length,
+    await page.evaluate(
+      () =>
+        document
+          .getAnimations()
+          .filter(
+            (animation) =>
+              animation.playState !== "finished" &&
+              Number(animation.effect?.getComputedTiming().duration) > 1,
+          ).length,
     ),
   ).toBe(0);
 });
@@ -593,7 +603,9 @@ test("carousel slides after five seconds and pauses during interaction and offsc
   await carousel.scrollIntoViewIfNeeded();
   await carousel.hover();
   await expect(carousel).toHaveAttribute("data-autoplay", "paused");
-  await page.clock.pauseAt(new Date(Date.now() + 1));
+  // Pause relative to the page's fake clock; the test process's Date.now() can
+  // already be behind it on a slow load.
+  await page.clock.pauseAt(await page.evaluate(() => Date.now() + 1000));
   const initial = Number(await carousel.getAttribute("data-slide-index"));
   await page.mouse.move(0, 0);
   await expect(carousel).toHaveAttribute("data-autoplay", "running");
@@ -806,7 +818,10 @@ test("map detail transitions cover the visible page without enlarged labels", as
 }) => {
   await page.goto("/");
   await expect(page.locator("section[data-enhanced='true']")).toBeAttached();
-  await expect(page.locator('[data-layer="vietnam"]')).toHaveAttribute("data-ready", "true");
+  await expect(page.locator('[data-layer="vietnam"]')).toHaveAttribute(
+    "data-ready",
+    "true",
+  );
   for (const p of [0.1, 0.22, 0.42, 0.55, 0.74, 0.88]) {
     await page.evaluate((progress) => {
       const s = document.querySelector("section[data-chapter]") as HTMLElement;
@@ -827,9 +842,10 @@ test("map detail transitions cover the visible page without enlarged labels", as
       book.style.transform = "none";
       const box = book.getBoundingClientRect();
       const checks = [...document.querySelectorAll("[data-layer]")]
-        .filter((el) =>
-          getComputedStyle(el).display !== "none" &&
-          Number(getComputedStyle(el).opacity) > 0.03,
+        .filter(
+          (el) =>
+            getComputedStyle(el).display !== "none" &&
+            Number(getComputedStyle(el).opacity) > 0.03,
         )
         .map((el) => {
           const picture = el.querySelector("picture");
