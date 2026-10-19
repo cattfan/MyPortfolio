@@ -1,23 +1,26 @@
-"""Create an explicit source-only Docker build context; no credentials or local caches."""
+"""Create an explicit source-only Docker build context; no credentials or local caches.
+
+The archive is HEAD's tracked files (`git archive`), so a release always maps to a commit
+and text files keep LF endings even when packaged from a Windows checkout.
+"""
 from pathlib import Path
-import tarfile
+import subprocess
 
 root = Path(__file__).resolve().parents[1]
 target = root / "dist" / "cattfan-source.tar.gz"
 target.parent.mkdir(exist_ok=True)
-excluded = {"node_modules", ".next", "out", "test-results", "playwright-report", ".turbo", "__pycache__"}
 roots = ["package.json", "pnpm-lock.yaml", "pnpm-workspace.yaml", ".npmrc", "Dockerfile", ".dockerignore", "compose.yaml", "deploy", "packages", "apps/web"]
-count = 0
-with tarfile.open(target, "w:gz") as archive:
-    for item in roots:
-        path = root / item
-        paths = [path] if path.is_file() else path.rglob("*")
-        for file in paths:
-            relative = file.relative_to(root)
-            if not file.is_file() or file.is_symlink() or excluded.intersection(relative.parts):
-                continue
-            if file.name.startswith(".env") or file.suffix in {".pem", ".key", ".log", ".zip"}:
-                continue
-            archive.add(file, arcname=str(relative), recursive=False)
-            count += 1
-print(f"DEPLOY_PACKAGE_PASS: {count} files; {target.stat().st_size} bytes; {target}")
+
+
+def git(*args):
+    return subprocess.run(["git", "-c", "core.autocrlf=false", "-c", "core.eol=lf", *args], cwd=root, check=True, capture_output=True, text=True).stdout
+
+
+if git("status", "--porcelain", "--", *roots).strip():
+    raise SystemExit("Commit or stash changes first: the package is built from HEAD, not the working tree.")
+files = git("ls-files", "--", *roots).splitlines()
+risky = [file for file in files if Path(file).name.startswith(".env") or Path(file).suffix in {".pem", ".key", ".log", ".zip"}]
+if risky:
+    raise SystemExit(f"Refusing to package credential-like files: {risky}")
+git("archive", "--format=tar.gz", f"--output={target}", "HEAD", "--", *roots)
+print(f"DEPLOY_PACKAGE_PASS: {len(files)} files from {git('rev-parse', '--short', 'HEAD').strip()}; {target.stat().st_size} bytes; {target}")

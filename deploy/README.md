@@ -11,13 +11,13 @@ curl -I http://127.0.0.1:18088/
 curl -s http://127.0.0.1:18088/robots.txt   # production build: "Allow: /" and a Sitemap line
 ```
 
-Export both variables before building: `compose up` builds any missing `cattfan-portfolio:$RELEASE_TAG` image itself, and a build without `PORTFOLIO_INDEXABLE=1` ships noindex pages.
+Export both variables before building: `compose up` builds any missing `cattfan-portfolio:$RELEASE_TAG` image itself, and a build without `PORTFOLIO_INDEXABLE=1` ships noindex pages. On the server each release folder also records them, with `BIND_ADDRESS=127.0.0.1` and `PORTFOLIO_PORT=18088`, in a `.env` file that Compose reads, so later commands run there (including a rollback with `docker compose up -d --no-build --wait`) reuse the same values.
 
 The container runs as UID/GID 101 with a read-only filesystem, an isolated temporary directory, dropped Linux capabilities, no privilege escalation, resource limits, health checks and bounded logs. Base image digests and the dependency lockfile are pinned. Rebuild and refresh them when applying future patches.
 
 `compose.yaml` binds the container to loopback unless `BIND_ADDRESS` says otherwise. In production the host's Nginx (`host-nginx.conf`) is the only public origin: it terminates TLS for `cattfan.site` and `www.cattfan.site`, redirects HTTP and `www` to `https://cattfan.site/`, and proxies to the container over HTTP/1.1 so GeoJSON responses stay gzip-compressed. Set its `listen` address to the host's interface and validate with `sudo nginx -t` before every reload. Do not forward or open the container port in the router or firewall.
 
-TLS certificates come from Let's Encrypt through the host's Certbot timer and ACME webroot. Enable HSTS, without `preload` or `includeSubDomains`, once automatic renewal has succeeded at least once.
+TLS certificates come from Let's Encrypt through the host's Certbot timer and ACME webroot; a deploy hook shared by every certificate on the host reloads Nginx after each renewal. Both HTTPS server blocks send `Strict-Transport-Security: max-age=31536000`, without `preload` or `includeSubDomains`. It was enabled once other certificates on the host had renewed automatically through that hook and a `certbot renew --dry-run --cert-name cattfan.site` had passed; rerun that dry run after changing the port-80 block or the webroot.
 
 The build generates CSP hashes for Next's inline bootstrap scripts; see [SECURITY.md](SECURITY.md). Preview builds default to `PORTFOLIO_INDEXABLE=0`, with noindex metadata and a disallowing `robots.txt`; build the production image with `PORTFOLIO_INDEXABLE=1`. Build-time configuration is baked into the static HTML, not changed by a runtime environment variable.
 
