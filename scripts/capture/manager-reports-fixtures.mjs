@@ -51,7 +51,7 @@ export const devices = [
   ["Kiểm thử Android", "Pixel 8", "android", 96, "Đón bình minh mới", "sunrise.jpg"],
 ].map(([name, model, platform, battery, title, photo], index) => ({
   udid: `DEMO-DALAT-${String(index + 1).padStart(2, "0")}`, name, model, platform, battery, title, photo,
-  osVersion: platform === "ios" ? "18.6" : "15", connection: "mock", status: "ready", wdaReady: platform === "ios", tileStreamState: "live",
+  osVersion: platform === "ios" ? "18.6" : "15", connection: platform === "ios" ? "usb" : "wifi", status: "ready", wdaReady: platform === "ios", tileStreamState: "live",
 }));
 const id = (value) => `00000000-0000-0000-0000-${String(value).padStart(12, "0")}`;
 const node = (value, kind, x, y, config = {}, postcondition = null) => ({ id: id(value), kind, position: { x, y }, config, postcondition });

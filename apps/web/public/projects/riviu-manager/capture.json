@@ -1,13 +1,13 @@
 {
   "sourceRepo": "https://github.com/Riviudalat/Riviu_managers_phone",
-  "sourceCommit": "2cdb070d0843af64ea85495948ae80fe0c7cc788",
-  "sourceDirty": true,
+  "sourceCommit": "8a77b77ddb8019ed6646f3923684e76123ba23af",
+  "sourceDirty": false,
   "sourceSha256": {
-    "apps/desktop/package.json": "1d001b9a4f55f75452451a6e9d75f638ecd5bc4a0c5a046c86209a438a8c2ca6",
-    "apps/desktop/src/App.tsx": "fad821a57793b158bdb643e20e871d6baaa058f36da604139c0504fe195b0cfb",
-    "apps/desktop/e2e/fixtures/tauriMock.ts": "8e421657e6f064baad9da81ba5ff2e3d06c50d25ebf70ddc177f998c375dfd42"
+    "apps/desktop/package.json": "26e74dc23529bf5924c08fa161e96f9ed61bc88aae902cbfe3e545efc75610f4",
+    "apps/desktop/src/App.tsx": "4ed749d4886b431742039989e2846c535ad8ea965cb6a2bb7e0d8b699622aa22",
+    "apps/desktop/e2e/fixtures/tauriMock.ts": "6257aca9ca6519899c19258358c0e1e3d3757c3b892a37ecc407cbc23e9caf02"
   },
-  "capturedAt": "2026-09-07T08:35:51.554Z",
+  "capturedAt": "2026-10-27T07:03:18.212Z",
   "viewport": {
     "width": 1440,
     "height": 900
@@ -58,6 +58,7 @@
       "licenseUrl": "https://unsplash.com/license"
     }
   ],
+  "presentation": "Hid the Nuôi TikTok entries before capture; device tiles show their USB/Wi-Fi fixture connection",
   "screenshots": [
     {
       "name": "overview",

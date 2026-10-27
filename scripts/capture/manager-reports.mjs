@@ -1,12 +1,15 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { createServer } from "node:http";
+import { existsSync } from "node:fs";
 import { readFile, writeFile, mkdir } from "node:fs/promises";
-import { createRequire } from "node:module";
+import { createRequire, register } from "node:module";
 import path from "node:path";
 import { execFileSync, spawn } from "node:child_process";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { fixtureRevision, sheets, partnerNames, posts, columns, rows, summaryColumns, summaryRows, totals, photos, devices, createFlow, validateFixtures } from "./manager-reports-fixtures.mjs";
+
+register("./extensionless-resolve.mjs", import.meta.url);
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const desktop = path.dirname(root);
@@ -21,6 +24,8 @@ const output = path.join(root, "apps/web/public/projects");
 const fixtureSummary = validateFixtures();
 console.log(`FIXTURES_PASS: ${JSON.stringify(fixtureSummary)}`);
 if (process.argv.includes("--validate-fixtures")) process.exit(0);
+// Reports is archived: --manager-only recaptures Riviu Manager without its source.
+const managerOnly = process.argv.includes("--manager-only");
 
 function reportsFixture(url) {
   const pathname = url.pathname;
@@ -101,6 +106,21 @@ async function installPortfolioMock(page, flow) {
   }, { roster: devices, document: flow });
 }
 
+// The portfolio shows the general device tools; the TikTok nurture module is left out of
+// the screenshots (recorded as `presentation` in capture.json).
+const hiddenLabels = ["Nuôi TikTok"];
+async function hideModules(page) {
+  const hidden = await page.evaluate((labels) => {
+    let count = 0;
+    for (const element of document.querySelectorAll("button, a, [role=tab], li")) {
+      if (labels.includes(element.textContent.trim())) { element.style.display = "none"; count += 1; }
+    }
+    return count;
+  }, hiddenLabels);
+  assert.ok(hidden > 0, "Expected the nurture entry to be present before hiding it");
+  assert.ok(!(await page.evaluate((labels) => labels.some((label) => document.body.innerText.includes(label)), hiddenLabels)), "Hidden labels must not remain visible");
+}
+
 async function save(page, project, name) {
   await page.evaluate(() => document.fonts.ready);
   await page.mouse.move(1430, 890);
@@ -122,7 +142,7 @@ const managerFiles = ["apps/desktop/package.json", "apps/desktop/src/App.tsx", "
 const reportsFiles = ["templates/index.html", "static/styles.css", "static/app.js", "requirements.txt", "package.json"];
 const before = {
   manager: { ...gitState(managerRoot), sha256: await sourceHashes(managerRoot, managerFiles) },
-  reports: { ...gitState(reportsRoot), sha256: await sourceHashes(reportsRoot, reportsFiles) },
+  ...(!managerOnly && { reports: { ...gitState(reportsRoot), sha256: await sourceHashes(reportsRoot, reportsFiles) } }),
 };
 const errors = [];
 const streamTimers = new Set();
@@ -168,7 +188,7 @@ try {
   const managerPage = await context.newPage();
   managerPage.on("pageerror", (error) => errors.push(`Manager: ${error.message}`));
   const { installTauriMock } = await import(pathToFileURL(path.join(managerDir, "e2e/fixtures/tauriMock.ts")).href);
-  const { encodeViewEnvelope } = await import(pathToFileURL(path.join(managerDir, "src/viewProtocol.ts")).href);
+  const { encodeViewEnvelope } = await import(pathToFileURL(["src/shared/lib/viewProtocol.ts", "src/viewProtocol.ts"].map((file) => path.join(managerDir, file)).find((file) => existsSync(file))).href);
   const { frames, templatePngBase64 } = await prepareDeviceFrames();
   const flow = createFlow(templatePngBase64);
   await installTauriMock(managerPage, { fleetSize: 6 });
@@ -188,8 +208,23 @@ try {
     const statistics = await sharp(pixels).stats();
     assert.ok(statistics.channels.every((channel) => channel.stdev > 35), "Each device fixture must show decoded photo detail");
   }
+  // Size the device previews so all six screens fill one row of the grid.
+  const tileSlider = managerPage.getByLabel("Kích thước ô xem trước", { exact: true });
+  if (await tileSlider.count()) {
+    await tileSlider.evaluate((input) => {
+      const grid = document.querySelector('[style*="--device-tile-min-width"]');
+      const gap = parseFloat(getComputedStyle(grid).columnGap) || 8;
+      const fit = Math.floor((grid.clientWidth - 5 * gap) / 6 / 2) * 2 - 2;
+      const width = Math.max(Number(input.min), Math.min(Number(input.max), fit));
+      Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value").set.call(input, String(width));
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+    });
+    await managerPage.waitForTimeout(1200);
+  }
+  await hideModules(managerPage);
   await save(managerPage, "riviu-manager", "overview");
-  await managerPage.getByRole("button", { name: "Flow", exact: true }).click();
+  // The Flow page is labelled "Flow" in older builds and "Flow thiết bị" in newer ones.
+  await managerPage.getByRole("button", { name: /^Flow( thiết bị)?$/ }).first().click();
   await managerPage.getByRole("button", { name: "Chạy Flow", exact: true }).waitFor();
   await managerPage.waitForFunction(() => !document.querySelector(".loading-state"));
   await managerPage.getByRole("button", { name: "Bật/tắt bảng hành động", exact: true }).click();
@@ -198,10 +233,12 @@ try {
   if (await fitView.count()) await fitView.click();
   await managerPage.locator('.react-flow__node[data-id="00000000-0000-0000-0000-000000000103"]').click();
   assert.equal(await managerPage.locator(".react-flow__node").count(), flow.nodes.length);
+  await hideModules(managerPage);
   await save(managerPage, "riviu-manager", "detail");
   const managerCommands = await managerPage.evaluate(() => window.__RIVIU_TEST__.calls().map((call) => call.command));
   assert.ok(!managerCommands.some((command) => ["flow_run", "nurture_start", "interaction_start"].includes(command)), "Capture must not start device workflows");
 
+  if (!managerOnly) {
   const reportsPage = await context.newPage();
   reportsPage.on("pageerror", (error) => errors.push(`Reports: ${error.message}`));
   await reportsPage.routeWebSocket("**/ws", (socket) => {
@@ -214,22 +251,24 @@ try {
   await reportsPage.getByRole("button", { name: sheets[1], exact: true }).click();
   await reportsPage.waitForFunction(() => document.querySelectorAll(".summary-table tbody tr").length === 8);
   await save(reportsPage, "riviu-reports", "detail");
+  }
   const after = {
     manager: { ...gitState(managerRoot), sha256: await sourceHashes(managerRoot, managerFiles) },
-    reports: { ...gitState(reportsRoot), sha256: await sourceHashes(reportsRoot, reportsFiles) },
+    ...(!managerOnly && { reports: { ...gitState(reportsRoot), sha256: await sourceHashes(reportsRoot, reportsFiles) } }),
   };
   assert.deepEqual(after, before, "Source repo tracked state and inspected file hashes must be unchanged");
   assert.deepEqual(errors, [], "No page errors or unexpected Reports requests");
   for (const [project, source, sourceRepo, captions] of [
     ["riviu-manager", "manager", "https://github.com/Riviudalat/Riviu_managers_phone", ["Quản lý sáu thiết bị demo", "Trình biên tập Flow"]],
     ["riviu-reports", "reports", "https://github.com/Riviudalat/Riviu_reports", ["Bảng dữ liệu bài đăng", "Tổng kết theo đối tác"]],
-  ]) {
+  ].filter(([project]) => !managerOnly || project === "riviu-manager")) {
     await writeFile(path.join(output, project, "capture.json"), JSON.stringify({
       sourceRepo, sourceCommit: before[source].commit, sourceDirty: Boolean(before[source].status), sourceSha256: before[source].sha256,
       capturedAt: new Date().toISOString(), viewport, deviceScaleFactor: 2, dataMode: "demo", sourceUnchanged: true,
       fixtureRevision, fixtureSummary,
       method: source === "manager" ? "Actual Vite desktop frontend + existing Tauri mock extended with six named devices and branched Flow; JPEG fixtures decoded through original view worker/protocol; no native shell" : "Unmodified HTML/CSS/JS served by isolated read-only HTTP fixture; 24 linked posts and 8 partner totals computed from same source rows; no production backend/database",
       photoSources: source === "manager" ? photos : undefined,
+      presentation: source === "manager" ? `Hid the ${hiddenLabels.join(", ")} entries before capture; device tiles show their USB/Wi-Fi fixture connection` : undefined,
       screenshots: ["overview", "detail"].map((name, i) => ({ name, caption: captions[i], png: { width: 2880, height: 1800 }, webp: { width: 1920, height: 1200 }, disclosure: "Ảnh chụp với dữ liệu demo" })),
       pageErrors: errors,
     }, null, 2) + "\n");
