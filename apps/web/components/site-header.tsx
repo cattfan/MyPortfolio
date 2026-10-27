@@ -104,6 +104,10 @@ export function SiteHeader() {
           </a>
         </nav>
         <div className={styles.headerTools}>
+          {/* Phones keep the projects one tap away; the full nav is in the menu. */}
+          <a href="#du-an" className={styles.projectsShortcut}>
+            {t("Dự án", "Projects")}
+          </a>
           <button
             type="button"
             className={styles.copyContact}

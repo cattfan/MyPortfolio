@@ -57,28 +57,24 @@ test("social previews use a large image card", async ({ page, request }) => {
   expect(response.headers()["content-type"]).toContain("image/jpeg");
 });
 
-test("the colophon credits map data and artwork in both languages", async ({
+test("the footer credits map data and artwork in both languages", async ({
   page,
 }) => {
-  await page.goto("/#ve-trang-nay");
-  const colophon = page.locator("#ve-trang-nay");
-  await expect(colophon).toContainText(
-    "Dữ liệu bản đồ © OpenStreetMap contributors",
-  );
+  await page.goto("/");
+  const credits = page.locator("footer p");
+  await expect(credits).toContainText("Nguồn bản đồ và hình nền:");
+  await expect(
+    credits.getByRole("link", { name: "© OpenStreetMap contributors" }),
+  ).toHaveAttribute("href", "https://www.openstreetmap.org/copyright");
   // The watercolor wash and paper texture are MIT-licensed ThreeUI artwork.
   await expect(
-    colophon.getByRole("link", {
-      name: /ThreeUI Sketchbook © Meng To \(MIT\)/,
-    }),
+    credits.getByRole("link", { name: "ThreeUI Sketchbook (MIT)" }),
   ).toHaveAttribute(
     "href",
     "https://github.com/MengTo/threeui/blob/main/LICENSE",
   );
-  await expect(
-    colophon.getByRole("link", { name: /Mã nguồn của trang này/ }),
-  ).toHaveAttribute("href", "https://github.com/cattfan/MyPortfolio");
   await page.locator("[data-language-toggle]").click();
-  await expect(colophon).toContainText("Map data © OpenStreetMap contributors");
+  await expect(credits).toContainText("Map and artwork sources:");
 });
 
 test("the compact mobile menu opens, closes and returns focus", async ({
@@ -132,4 +128,70 @@ test("the 404 page carries a single noindex directive", async ({ page }) => {
   const robots = page.locator('meta[name="robots"]');
   await expect(robots).toHaveCount(1);
   await expect(robots).toHaveAttribute("content", /noindex/);
+});
+
+test("language: /en serves English HTML, metadata and structured data", async ({
+  page,
+  request,
+}) => {
+  // The server HTML itself is English, before any script runs.
+  const html = await (await request.get("/en")).text();
+  expect(html).toContain("Skip to projects");
+  expect(html).not.toContain("Đến dự án");
+  await page.goto("/en");
+  await expect(page.locator("html")).toHaveAttribute("lang", "en");
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    "href",
+    "https://cattfan.site/en",
+  );
+  await expect(
+    page.locator('link[rel="alternate"][hreflang="vi"]'),
+  ).toHaveAttribute("href", "https://cattfan.site");
+  await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute(
+    "content",
+    "en_US",
+  );
+  const person = JSON.parse(
+    (await page.locator('script[type="application/ld+json"]').textContent()) ??
+      "{}",
+  );
+  expect(person).toMatchObject({
+    "@type": "Person",
+    name: "Đỗ Hiền Dinh",
+    jobTitle: "Freelance Software Engineer",
+  });
+  // A Vietnamese preference saved earlier does not override an English link.
+  await page.evaluate(() => localStorage.setItem("portfolio-language", "vi"));
+  await page.reload();
+  await expect(page.getByRole("heading", { level: 2 }).first()).not.toHaveText(
+    /Lập trình/,
+  );
+  await expect(page.locator("html")).toHaveAttribute("lang", "en");
+});
+
+test("language: the address follows the language toggle", async ({ page }) => {
+  await page.goto("/#du-an");
+  await page.locator("[data-language-toggle]").click();
+  await expect(page.locator("html")).toHaveAttribute("lang", "en");
+  await expect(page).toHaveURL(/\/en#du-an$/);
+  await page.locator("[data-language-toggle]").click();
+  await expect(page.locator("html")).toHaveAttribute("lang", "vi");
+  await expect(page).toHaveURL(/\/#du-an$/);
+});
+
+test("projects are one tap away from the hero and the phone header", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const hero = page.locator("[data-journey-frame]").getByRole("link", {
+    name: "Xem dự án",
+  });
+  await expect(hero).toHaveAttribute("href", "#du-an");
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(hero).toBeHidden();
+  const shortcut = page.getByRole("banner").getByRole("link", {
+    name: "Dự án",
+    exact: true,
+  });
+  await expect(shortcut.filter({ visible: true })).toHaveCount(1);
 });

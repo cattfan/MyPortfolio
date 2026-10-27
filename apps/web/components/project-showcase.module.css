@@ -337,12 +337,15 @@
   border: 0;
 }
 @media (max-width: 700px) {
+  /* Always visible on touch screens, so keep it off the screenshot's toolbar. */
   .expand {
     opacity: 1;
-    right: 9px;
-    top: 9px;
-    width: 27px;
-    height: 27px;
+    right: 8px;
+    top: auto;
+    bottom: 8px;
+    width: 28px;
+    height: 28px;
+    background: #fffef9c7;
   }
 
   .dialogHeader {

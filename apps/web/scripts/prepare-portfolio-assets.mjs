@@ -271,7 +271,7 @@ for(const map of [...maps, ...detailMaps]) {
   // Overscan keeps each incoming detail plate beyond the visible page during its crossfade.
   const svg=(content)=>Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${W * OVERSCAN}" height="${H * OVERSCAN}" viewBox="${MAP_BOUNDS[0][0]} ${MAP_BOUNDS[0][1]} ${W * OVERSCAN} ${H * OVERSCAN}">${content}</svg>`);
   const rendered=await sharp(svg(base)).composite([{input:terrain.buffer},{input:svg(art)}]).flatten({background:"#daeaf0"}).png().toBuffer();
-  await writeFile(path.join(output,`map-${map.name}.webp`),await sharp(rendered).webp({quality:88,effort:6}).toBuffer());
+  await writeFile(path.join(output,`map-${map.name}.webp`),await sharp(rendered).webp({quality:76,effort:6}).toBuffer());
   await writeFile(path.join(output,`map-${map.name}-mobile.webp`),await sharp(rendered).resize(W,H).webp({quality:86,effort:6}).toBuffer());
   const anchor=projection(DALAT).map((n,i)=>Number((n/(i?H:W)).toFixed(6)));
   (map.detail ? detailMetadata : metadata).push({id:map.name,src:`/portfolio/map-${map.name}.webp?v=atlas-20260907`,mobileSrc:`/portfolio/map-${map.name}-mobile.webp?v=atlas-20260907`,width:W,height:H,overscan:OVERSCAN,anchor:{x:anchor[0],y:anchor[1]},projection:{type:"geoMercator",center:map.center,scale:map.scale,translate:map.translate},kind:map.kind});

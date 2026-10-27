@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeft, ArrowRight, ChevronDown } from "lucide-react";
+import { ArrowDown, ArrowLeft, ArrowRight, ChevronDown } from "lucide-react";
 import {
   motion,
   useMotionValueEvent,
@@ -155,9 +155,14 @@ export function BookJourney() {
             <h1>Đỗ Hiền Dinh</h1>
             <p className={styles.introDescription}>
               {t(
-                "Software Engineer · Web & ứng dụng desktop, từ giao diện đến server.",
-                "Software Engineer · Web and desktop apps, from interface to server.",
-              )}
+                "Freelance Software Engineer · Web & ứng dụng desktop, từ giao diện đến server.",
+                "Freelance Software Engineer · Web and desktop apps, from interface to server.",
+              )}{" "}
+              {/* A shortcut past the journey for visitors who came for the work. */}
+              <a href="#du-an" className={styles.introLink}>
+                {t("Xem dự án", "See projects")}
+                <ArrowDown size={13} aria-hidden="true" />
+              </a>
             </p>
           </div>
         </div>

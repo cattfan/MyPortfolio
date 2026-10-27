@@ -45,6 +45,21 @@
   color: var(--muted);
   margin-top: 14px;
 }
+.introLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-left: 4px;
+  padding: 4px 0;
+  color: var(--forest);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: #9a6a3e66;
+  text-underline-offset: 3px;
+}
+.introLink:hover {
+  text-decoration-color: currentColor;
+}
 .marginNote {
   justify-self: start;
   font-family: var(--font-book), Georgia, serif;
@@ -645,6 +660,10 @@
   }
 }
 @media (max-width: 640px) {
+  /* Phones reach the projects from the header shortcut instead. */
+  .introLink {
+    display: none;
+  }
   .journey {
     height: 380svh;
   }
@@ -660,7 +679,7 @@
     font-size: 40px;
   }
   .subtitle {
-    font-size: 10px;
+    font-size: 11px;
     margin-bottom: 16px;
   }
   .introDescription {
@@ -706,10 +725,10 @@
     mask-image: linear-gradient(90deg, transparent 0%, #000 7%);
   }
   .compass {
-    grid-template-columns: 8px 24px 8px;
-    grid-template-rows: 8px 24px 8px;
+    grid-template-columns: 9px 24px 9px;
+    grid-template-rows: 9px 24px 9px;
     gap: 2px;
-    font-size: 8px;
+    font-size: 9px;
   }
   .compassRose {
     width: 24px;
