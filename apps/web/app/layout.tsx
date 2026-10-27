@@ -4,7 +4,7 @@ import "./globals.css";
 
 const siteUrl = new URL("https://cattfan.site");
 const description =
-  "Software Engineer ở Đà Lạt với 2 năm kinh nghiệm làm web và ứng dụng desktop, từ giao diện đến server. Dự án, công nghệ và thông tin liên hệ.";
+  "Freelance Software Engineer ở Đà Lạt với 2 năm kinh nghiệm làm web và ứng dụng desktop, từ giao diện đến server. Dự án, công nghệ và thông tin liên hệ.";
 
 const geistSans = localFont({
   src: "./fonts/Geist-Regular.woff2",
@@ -49,26 +49,12 @@ const bookSerif = localFont({
   display: "swap",
 });
 
+// Shared defaults; app/page-metadata.ts sets each language page's own metadata.
 export const metadata: Metadata = {
   metadataBase: siteUrl,
-  alternates: { canonical: "/" },
-  title: "Đỗ Hiền Dinh | Software Engineer",
+  title: "Đỗ Hiền Dinh | Freelance Software Engineer",
   description,
   authors: [{ name: "Đỗ Hiền Dinh", url: siteUrl }],
-  openGraph: {
-    title: "Đỗ Hiền Dinh | Software Engineer",
-    description,
-    siteName: "Đỗ Hiền Dinh",
-    locale: "vi_VN",
-    alternateLocale: "en_US",
-    type: "website",
-    url: "/",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Đỗ Hiền Dinh | Software Engineer",
-    description,
-  },
 };
 
 export const viewport: Viewport = {
@@ -81,7 +67,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="vi">
+    // The English page is exported with lang="en"; the client keeps it in sync.
+    <html lang="vi" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${newsreader.variable} ${bookSerif.variable}`}
       >

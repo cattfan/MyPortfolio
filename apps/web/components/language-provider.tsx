@@ -32,7 +32,17 @@ const getLanguage = (): Language => {
     return "vi";
   }
 };
-const serverLanguage = (): Language => "vi";
+// "/" follows the visitor's saved choice; "/en" always opens in English so a
+// shared English link shows English. The server renders each page's own language.
+const snapshots: Record<Language, () => Language> = {
+  vi: getLanguage,
+  en: () => "en",
+};
+const serverSnapshots: Record<Language, () => Language> = {
+  vi: () => "vi",
+  en: () => "en",
+};
+export const languagePath: Record<Language, string> = { vi: "/", en: "/en" };
 
 function textElements() {
   const all = Array.from(
@@ -59,8 +69,18 @@ function textElements() {
   );
 }
 
-export function LanguageProvider({ children }: { children: ReactNode }) {
-  const stored = useSyncExternalStore(subscribe, getLanguage, serverLanguage);
+export function LanguageProvider({
+  children,
+  initialLanguage = "vi",
+}: {
+  children: ReactNode;
+  initialLanguage?: Language;
+}) {
+  const stored = useSyncExternalStore(
+    subscribe,
+    snapshots[initialLanguage],
+    serverSnapshots[initialLanguage],
+  );
   const [override, setOverride] = useState<Language | null>(null);
   const [requested, setRequested] = useState<Language | null>(null);
   const animations = useRef<Animation[]>([]);
@@ -102,6 +122,13 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       } catch {
         /* Switching works without storage access. */
       }
+      // Keep the address on the page for the shown language, so a copied link matches.
+      if (window.location.pathname !== languagePath[next])
+        window.history.replaceState(
+          window.history.state,
+          "",
+          languagePath[next] + window.location.search + window.location.hash,
+        );
       animations.current.forEach((animation) => animation.cancel());
       animations.current = [];
       if (reduced || typeof Element.prototype.animate !== "function") {

@@ -6,10 +6,11 @@ import { PortfolioSections, SiteFooter } from "./portfolio-sections";
 import { LanguageProvider, useLanguage } from "./language-provider";
 import { SiteHeader } from "./site-header";
 import styles from "../app/page.module.css";
+import type { Language } from "../content/translations";
 
-export function Home() {
+export function Home({ language = "vi" }: { language?: Language }) {
   return (
-    <LanguageProvider>
+    <LanguageProvider initialLanguage={language}>
       <HomeContent />
     </LanguageProvider>
   );

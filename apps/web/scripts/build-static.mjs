@@ -38,6 +38,19 @@ for (const file of await readdir(out, { withFileTypes: true })) {
   )
     await cp(path.join(out, file.name), path.join(site, file.name));
 }
+// The English edition: its RSC segments and social preview live in out/en/.
+await cp(path.join(out, "en"), path.join(site, "en"), { recursive: true });
+// One root layout renders <html lang="vi">; the exported English page declares its own.
+const englishPage = path.join(site, "en.html");
+const englishHtml = await readFile(englishPage, "utf8");
+assert.ok(
+  englishHtml.includes('<html lang="vi"'),
+  "en.html must start from the shared root layout",
+);
+await writeFile(
+  englishPage,
+  englishHtml.replace('<html lang="vi"', '<html lang="en"'),
+);
 const local = (src) => new URL(src, "http://local").pathname.slice(1);
 const allowed = new Set([
   "cv/do-hien-dinh-vi.pdf",
@@ -95,12 +108,27 @@ await writeFile(
     ? "User-agent: *\nAllow: /\nSitemap: https://cattfan.site/sitemap.xml\n"
     : "User-agent: *\nDisallow: /\n",
 );
-// Only the indexable production build advertises the single canonical page.
-if (indexable)
+// Only the indexable production build advertises the two language pages.
+if (indexable) {
+  const lastmod = new Date().toISOString().slice(0, 10);
+  const pages = { vi: "https://cattfan.site/", en: "https://cattfan.site/en" };
+  const alternates = Object.entries(pages)
+    .map(
+      ([lang, href]) =>
+        `<xhtml:link rel="alternate" hreflang="${lang}" href="${href}"/>`,
+    )
+    .join("");
+  const urls = Object.values(pages)
+    .map(
+      (loc) =>
+        `  <url><loc>${loc}</loc><lastmod>${lastmod}</lastmod>${alternates}</url>\n`,
+    )
+    .join("");
   await writeFile(
     path.join(site, "sitemap.xml"),
-    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url><loc>https://cattfan.site/</loc><lastmod>${new Date().toISOString().slice(0, 10)}</lastmod></url>\n</urlset>\n`,
+    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls}</urlset>\n`,
   );
+}
 const scripts = new Set();
 for (const file of await readdir(site)) {
   if (!file.endsWith(".html")) continue;
