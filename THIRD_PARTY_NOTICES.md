@@ -39,4 +39,4 @@ Geist, Source Serif 4 and Newsreader are licensed under the SIL Open Font Licens
 
 ## Map data
 
-Every map layer's source, license and checksum is recorded in `apps/web/public/portfolio/assets.json`, and the site credits them in its "Về trang này" (About this site) section: OpenStreetMap contributors (ODbL), OCHA COD-AB (CC BY 3.0 IGO), Mapzen Terrain Tiles and Natural Earth.
+Every map layer's source, license and checksum is recorded in `apps/web/public/portfolio/assets.json`, and the site credits them in its footer: OpenStreetMap contributors (ODbL), OCHA COD-AB (CC BY 3.0 IGO), Mapzen Terrain Tiles and Natural Earth.

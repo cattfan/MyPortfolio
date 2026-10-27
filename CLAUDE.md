@@ -84,9 +84,9 @@ The Dockerfile builds `build:static` and serves `dist/site` with `deploy/nginx.c
 
 ### Tests
 
-- `portfolio.spec.ts` forces Vietnamese in `beforeEach` unless the test title starts with `language:`; `showcase.spec.ts` covers the window frames/thumbnails, social metadata, colophon credits, mobile menu and the mid-page upgrade.
+- `portfolio.spec.ts` forces Vietnamese in `beforeEach` unless the test title starts with `language:`; `showcase.spec.ts` covers the window frames/thumbnails, social metadata, footer source credits, mobile menu and the mid-page upgrade.
 - Tests locate elements by Vietnamese accessible names and by `data-*` hooks (`data-enhanced`/`data-static`/`data-chapter`, `data-layer`/`data-ready`, `data-carousel`/`data-slide-index`/`data-autoplay`, `data-window`, dialog `data-phase`, `data-language-toggle`, `data-header-copy`, `data-reveal`, canvas `data-labels`/`data-label-boxes`/`data-scale-*`) — treat them as test API.
-- Tests also pin content decisions: exactly two projects, "2 năm kinh nghiệm", one map request on cold load, absence of removed copy (Riviu Reports, ShopOfCatt, project source links), exactly one OpenStreetMap credit link (in the colophon, never inside the book), and the colophon's ThreeUI (MIT) credit for `reference-wash.webp`/`paper-texture.webp`, whose license notice lives in `THIRD_PARTY_NOTICES.md` — change them deliberately alongside content.
+- Tests also pin content decisions: exactly two projects, "2 năm kinh nghiệm", one map request on cold load, absence of removed copy (Riviu Reports, ShopOfCatt, project source links), exactly one OpenStreetMap credit link (in the footer source line, never inside the book; ODbL and CC BY require it to stay visible), and the footer's ThreeUI (MIT) credit for `reference-wash.webp`/`paper-texture.webp`, whose license notice lives in `THIRD_PARTY_NOTICES.md` — change them deliberately alongside content.
 
 ## Changing a project
 

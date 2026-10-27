@@ -34,7 +34,7 @@ const projectCopy: Record<string, ProjectCopy> = {
     category: "Multi-device mobile management",
     description:
       "Desktop software for managing multiple Android and iOS devices, with screen monitoring, remote control and workflow automation.",
-    role: "Full product development",
+    role: "Freelance for Riviu · full product development",
     challenge:
       "Manage multiple phones, monitor connections and handle repetitive operations without working on each device separately.",
     contribution:
@@ -53,7 +53,7 @@ const projectCopy: Record<string, ProjectCopy> = {
     category: "Brand and services website",
     description:
       "Riviu's brand website, presenting media services and pricing with content management and contact enquiries.",
-    role: "Full product development",
+    role: "Freelance for Riviu · full product development",
     challenge:
       "Present services and pricing clearly while helping the team update content and monitor the website.",
     contribution:
@@ -61,7 +61,7 @@ const projectCopy: Record<string, ProjectCopy> = {
     engineering:
       "Separated the Next.js frontend from the NestJS API for content, enquiries and analytics. PostgreSQL and Prisma store the data; the Puck editor lets the team edit and publish page sections without changing interface code.",
     outcome:
-      "A live website at taskscatt.click, with customer-facing service pages and an administration area for the team.",
+      "The site I deployed for Riviu is live at taskscatt.click, with customer-facing service pages and an administration area for the team.",
     alts: [
       "The live Riviu homepage presenting the brand and media services",
       "Service package comparison on the live Riviu website",
@@ -97,7 +97,7 @@ const chapterCopy: Record<
   "da-lat": {
     title: "Ready for what's next.",
     description:
-      "I'm looking to build web and desktop software with a team that communicates openly, where I can own work end to end and improve it with every release.",
+      "I take on freelance web and desktop projects: agreeing the scope clearly up front, building from interface to server and improving with every release.",
     label: "Let's work together",
     place: "Da Lat",
   },
@@ -143,7 +143,7 @@ const en = {
   portfolio: {
     ...portfolio,
     introduction:
-      "I'm a Software Engineer with two years of experience across interfaces, APIs, databases and server deployment. I built both products below end to end: a desktop app that controls many phones at once and a brand website that is live today.",
+      "I'm a freelance Software Engineer with two years of experience, taking on everything from interfaces and APIs to databases and server deployment. Both products below are freelance projects I built end to end for Riviu: a desktop app that controls many phones at once and a brand website that is live today.",
     approach:
       "Before writing code, I clarify the problem and ask about anything I'm unsure of. Once it's built, I use it myself, write tests for the important flows and fix what still feels awkward.",
   },

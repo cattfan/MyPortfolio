@@ -52,8 +52,8 @@ styles={
 content={
  'vi':{
   'location':'Đà Lạt, Việt Nam','summary':'Giới thiệu',
-  'about':'Software Engineer với 2 năm kinh nghiệm phát triển web và ứng dụng desktop. Phụ trách giao diện, backend, cơ sở dữ liệu và triển khai trong các dự án Riviu. Thích tìm hiểu nguyên nhân của vấn đề, trao đổi bằng ví dụ cụ thể và kiểm tra lại sản phẩm sau khi hoàn thành.',
-  'skills':'Công nghệ sử dụng','projects':'Dự án tiêu biểu','role':'Vai trò: Phát triển toàn bộ sản phẩm',
+  'about':'Freelance Software Engineer với 2 năm kinh nghiệm phát triển web và ứng dụng desktop. Nhận trọn giao diện, backend, cơ sở dữ liệu và triển khai; hai dự án tiêu biểu bên dưới làm cho khách hàng Riviu. Thích tìm hiểu nguyên nhân của vấn đề, trao đổi bằng ví dụ cụ thể và kiểm tra lại sản phẩm sau khi hoàn thành.',
+  'skills':'Công nghệ sử dụng','projects':'Dự án tiêu biểu','role':'Freelance cho Riviu · Phát triển toàn bộ sản phẩm',
   'manager':[
     'Phát triển phần mềm quản lý nhiều thiết bị Android và iOS: theo dõi màn hình, điều khiển thiết bị và tạo kịch bản thao tác bằng trình Flow.',
     'Tách phần kết nối thiết bị và thực thi kịch bản trong Rust khỏi giao diện React. Đóng gói các thành phần cần thiết cùng ứng dụng Tauri để giảm thao tác cài đặt.',
@@ -66,8 +66,8 @@ content={
  },
  'en':{
   'location':'Da Lat, Vietnam','summary':'Profile',
-  'about':'Software Engineer with two years of experience building web and desktop applications. Responsible for interfaces, backend services, databases and deployment in Riviu projects. I enjoy finding the cause of a problem, discussing concrete examples and testing the finished product.',
-  'skills':'Technical skills','projects':'Selected projects','role':'Role: Full product development',
+  'about':'Freelance Software Engineer with two years of experience building web and desktop applications. I take on interfaces, backend services, databases and deployment; the two projects below were built for my client Riviu. I enjoy finding the cause of a problem, discussing concrete examples and testing the finished product.',
+  'skills':'Technical skills','projects':'Selected projects','role':'Freelance for Riviu · Full product development',
   'manager':[
     'Built desktop software for managing multiple Android and iOS devices, with screen monitoring, device control and a visual Flow editor for repeatable workflows.',
     'Separated device connections and workflow execution in Rust from the React interface. Bundled required components with the Tauri application to reduce installation steps.',
@@ -82,7 +82,7 @@ content={
 for language,c in content.items():
     elements=[]
     def p(text,style='body'):elements.append(Paragraph(text,styles[style]))
-    p(escape(person['name']),'title');p('Software Engineer','role')
+    p(escape(person['name']),'title');p('Freelance Software Engineer','role')
     p(c['location']+'  |  '+person['phone'],'contact')
     p(f'<link href="mailto:{person["email"]}">{person["email"]}</link>  |  <link href="https://cattfan.site/">cattfan.site</link>  |  <link href="{person["github"]}">github.com/cattfan</link>','contact')
     elements.extend([Spacer(1,12),HRFlowable(width='100%',thickness=.6,color=colors.HexColor('#cad1cb'))])

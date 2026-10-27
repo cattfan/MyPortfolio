@@ -98,7 +98,7 @@ test("language: Vietnamese is default and the toggle translates content and pers
     name: "Project details Riviu Manager",
   });
   await expect(modal).toContainText("My contribution");
-  await expect(modal).toContainText("Full product development");
+  await expect(modal).toContainText("Freelance for Riviu · full product development");
   await modal.getByRole("button", { name: "Close details" }).click();
   await expect(modal).not.toBeVisible();
   await page.reload();
@@ -414,7 +414,7 @@ test("two projects show clear descriptions without source-code links or removed 
   await expect(page.locator("body")).not.toContainText("Ba dự án:");
   await expect(page.locator("#kinh-nghiem")).not.toContainText("Năm 01");
   await expect(page.locator("#kinh-nghiem")).not.toContainText("Năm 02");
-  await expect(page).toHaveTitle("Đỗ Hiền Dinh | Software Engineer");
+  await expect(page).toHaveTitle("Đỗ Hiền Dinh | Freelance Software Engineer");
   for (const chapter of journeyChapters) {
     expect(chapter.description).not.toMatch(/Riviu|Mình xây giao diện/);
   }
@@ -422,14 +422,15 @@ test("two projects show clear descriptions without source-code links or removed 
   await expect(page.locator("[data-journey-frame]")).not.toContainText(
     "Web & App Developer",
   );
-  // Map data is credited once, in the colophon below the contact section.
+  // Map data is credited once, in the footer's source line.
   const credit = page.getByRole("link", { name: /OpenStreetMap/ });
   await expect(credit).toHaveCount(1);
   await expect(credit).toHaveAttribute(
     "href",
     "https://www.openstreetmap.org/copyright",
   );
-  await expect(page.locator("#ve-trang-nay")).toContainText("OCHA COD-AB");
+  await expect(page.locator("footer")).toContainText("OCHA COD-AB");
+  await expect(page.locator("#ve-trang-nay")).toHaveCount(0);
   await expect(page.locator('#du-an a[href*="github.com"]')).toHaveCount(0);
   await expect(
     page.locator('#lien-he a[href="https://github.com/cattfan"]'),
@@ -460,7 +461,7 @@ test("two projects show clear descriptions without source-code links or removed 
       name: `Chi tiết dự án ${project.name}`,
     });
     await expect(details).toHaveAttribute("data-phase", "open");
-    await expect(details).toContainText("Phát triển toàn bộ sản phẩm");
+    await expect(details).toContainText("Freelance cho Riviu · phát triển toàn bộ sản phẩm");
     const website = article.getByRole("link", {
       name: `Xem website ${project.name}`,
       exact: true,
@@ -791,7 +792,7 @@ test("book copy is personal and map data is credited outside the book", async ({
     0,
   );
   await expect(
-    page.locator("#ve-trang-nay").getByRole("link", { name: /OpenStreetMap/ }),
+    page.locator("footer").getByRole("link", { name: /OpenStreetMap/ }),
   ).toHaveCount(1);
   expect(mapAssets.journeyRoute.coordinates[0]).toEqual([105.854, 21.029]);
   expect(mapAssets.journeyRoute.coordinates.at(-1)).toEqual([108.438, 11.941]);

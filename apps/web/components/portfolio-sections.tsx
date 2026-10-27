@@ -119,84 +119,14 @@ function Contact() {
   );
 }
 
+// Map data licenses (ODbL, CC BY) require visible attribution; the artwork is MIT.
 const credits = [
-  {
-    href: "https://www.openstreetmap.org/copyright",
-    vi: "Dữ liệu bản đồ © OpenStreetMap contributors (ODbL)",
-    en: "Map data © OpenStreetMap contributors (ODbL)",
-  },
-  {
-    href: "https://data.humdata.org/dataset/cod-ab-vnm",
-    vi: "Ranh giới: OCHA COD-AB (CC BY 3.0 IGO)",
-    en: "Boundaries: OCHA COD-AB (CC BY 3.0 IGO)",
-  },
-  {
-    href: "https://github.com/tilezen/joerd/blob/master/docs/attribution.md",
-    vi: "Địa hình: Mapzen Terrain Tiles (SRTM, GMTED2010, ETOPO1)",
-    en: "Elevation: Mapzen Terrain Tiles (SRTM, GMTED2010, ETOPO1)",
-  },
-  {
-    href: "https://www.naturalearthdata.com/",
-    vi: "Nền địa lý: Natural Earth",
-    en: "Base geography: Natural Earth",
-  },
-  {
-    href: "https://github.com/MengTo/threeui/blob/main/LICENSE",
-    vi: "Nền màu nước và giấy: ThreeUI Sketchbook © Meng To (MIT)",
-    en: "Watercolor wash and paper: ThreeUI Sketchbook © Meng To (MIT)",
-  },
+  { href: "https://www.openstreetmap.org/copyright", label: "© OpenStreetMap contributors" },
+  { href: "https://data.humdata.org/dataset/cod-ab-vnm", label: "OCHA COD-AB" },
+  { href: "https://github.com/tilezen/joerd/blob/master/docs/attribution.md", label: "Mapzen Terrain Tiles" },
+  { href: "https://www.naturalearthdata.com/", label: "Natural Earth" },
+  { href: "https://github.com/MengTo/threeui/blob/main/LICENSE", label: "ThreeUI Sketchbook (MIT)" },
 ] as const;
-
-function Colophon() {
-  const {
-    t,
-    language,
-    content: { portfolio },
-  } = useLanguage();
-  return (
-    <section
-      id="ve-trang-nay"
-      className={styles.colophon}
-      aria-labelledby="colophon-title"
-    >
-      <div data-reveal>
-        <span className={styles.eyebrow}>
-          {t("Ghi chú cuối sổ", "Back-of-the-notebook notes")}
-        </span>
-        <h2 id="colophon-title">
-          {t("Trang này được làm thế nào", "How this site is made")}
-        </h2>
-      </div>
-      <div className={styles.colophonBody} data-reveal>
-        <p>
-          {t(
-            "Bản đồ trong cuốn sổ được dựng từ dữ liệu thật: độ cao địa hình, đường bờ biển, sông hồ và đường phố Đà Lạt, cùng một phép chiếu Mercator để zoom liền mạch từ cả nước tới một thành phố. Trang được xuất tĩnh bằng Next.js, chạy trong Docker sau Nginx với Content Security Policy chặt, và được kiểm thử tự động bằng Playwright.",
-            "The atlas in the notebook is built from real data: terrain elevation, coastlines, rivers, lakes and Da Lat's streets, all in one Mercator projection so the zoom flows from the whole country to a single city. The site is exported as static files with Next.js, served from Docker behind Nginx with a strict Content Security Policy, and tested automatically with Playwright.",
-          )}
-        </p>
-        <ul className={styles.credits}>
-          {credits.map((credit) => (
-            <li key={credit.href}>
-              <a href={credit.href} target="_blank" rel="noopener noreferrer">
-                {language === "vi" ? credit.vi : credit.en}
-              </a>
-            </li>
-          ))}
-          <li>
-            <a
-              href={portfolio.source}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {t("Mã nguồn của trang này", "Source code for this site")}
-              <ArrowUpRight size={13} aria-hidden="true" />
-            </a>
-          </li>
-        </ul>
-      </div>
-    </section>
-  );
-}
 
 export function PortfolioSections() {
   const sectionRef = useSectionReveal();
@@ -363,7 +293,6 @@ export function PortfolioSections() {
         </ul>
       </section>
       <Contact />
-      <Colophon />
     </div>
   );
 }
@@ -390,6 +319,17 @@ export function SiteFooter() {
           {t("Về đầu trang", "Back to top")}{" "}
           <ArrowUp aria-hidden="true" size={15} />
         </a>
+        <p className={styles.footerCredits}>
+          {t("Nguồn bản đồ và hình nền:", "Map and artwork sources:")}{" "}
+          {credits.map((credit, index) => (
+            <span key={credit.href}>
+              {index > 0 && " · "}
+              <a href={credit.href} target="_blank" rel="noopener noreferrer">
+                {credit.label}
+              </a>
+            </span>
+          ))}
+        </p>
       </footer>
     </div>
   );

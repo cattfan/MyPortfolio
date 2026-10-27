@@ -1,6 +1,6 @@
 export const portfolio = {
   name: "Đỗ Hiền Dinh",
-  title: "Software Engineer",
+  title: "Freelance Software Engineer",
   experienceYears: 2,
   email: "dohiendinh.work@gmail.com",
   phone: "+84 964 173 913",
@@ -8,7 +8,7 @@ export const portfolio = {
   github: "https://github.com/cattfan",
   source: "https://github.com/cattfan/MyPortfolio",
   introduction:
-    "Mình là Software Engineer với 2 năm kinh nghiệm, làm từ giao diện, API, cơ sở dữ liệu đến triển khai server. Hai sản phẩm bên dưới do mình phát triển toàn bộ: một ứng dụng desktop điều khiển nhiều điện thoại cùng lúc và một website thương hiệu đang chạy thật.",
+    "Mình là Software Engineer làm freelance với 2 năm kinh nghiệm, nhận trọn từ giao diện, API, cơ sở dữ liệu đến triển khai server. Hai sản phẩm bên dưới là dự án freelance mình làm cho Riviu, từ đầu đến cuối: một ứng dụng desktop điều khiển nhiều điện thoại cùng lúc và một website thương hiệu đang chạy thật.",
   approach:
     "Trước khi code, mình làm rõ bài toán và hỏi lại những chỗ chưa chắc. Làm xong, mình tự dùng thử, viết kiểm thử cho các luồng quan trọng và sửa những chỗ còn bất tiện.",
 } as const;
@@ -42,7 +42,7 @@ export const journeyChapters = [
     id: "da-lat",
     title: "Sẵn sàng cho dự án tiếp theo.",
     description:
-      "Mình tìm cơ hội làm web và ứng dụng cùng một nhóm trao đổi rõ ràng, nơi mình nhận việc từ đầu đến cuối và cải thiện qua từng phiên bản.",
+      "Mình nhận dự án freelance về web và ứng dụng desktop: trao đổi rõ phạm vi từ đầu, làm từ giao diện đến server và cải thiện qua từng phiên bản.",
     label: "Hợp tác",
     place: "Đà Lạt",
   },
@@ -58,7 +58,7 @@ export const projects = [
     screenshotSource: "demo",
     description:
       "Phần mềm quản lý đa thiết bị di động Android và iOS trên máy tính, hỗ trợ theo dõi màn hình, điều khiển và tự động hóa thao tác.",
-    role: "Phát triển toàn bộ sản phẩm",
+    role: "Freelance cho Riviu · phát triển toàn bộ sản phẩm",
     technologies: ["Tauri 2", "Rust", "React", "TypeScript", "React Flow"],
     challenge:
       "Quản lý nhiều điện thoại cùng lúc, theo dõi kết nối và thực hiện các thao tác lặp lại mà không phải xử lý từng máy riêng lẻ.",
@@ -70,14 +70,14 @@ export const projects = [
       "Từ danh sách thiết bị, người dùng mở màn hình, điều khiển điện thoại và chạy cùng một luồng thao tác trên nhiều máy thay vì làm tay từng máy.",
     screenshots: [
       {
-        src: "/projects/riviu-manager/overview.webp?v=20260907-2",
+        src: "/projects/riviu-manager/overview.webp?v=20261027-1",
         card: "/projects/riviu-manager/overview-card.webp",
         alt: "Riviu Manager hiển thị màn hình và trạng thái kết nối của nhiều thiết bị di động",
         width: 1920,
         height: 1200,
       },
       {
-        src: "/projects/riviu-manager/detail.webp?v=20260907-2",
+        src: "/projects/riviu-manager/detail.webp?v=20261027-1",
         card: "/projects/riviu-manager/detail-card.webp",
         alt: "Trình biên tập Flow với sơ đồ hành động và bảng cấu hình",
         width: 1920,
@@ -94,7 +94,7 @@ export const projects = [
     screenshotSource: "live",
     description:
       "Website giới thiệu thương hiệu Riviu, dịch vụ truyền thông và bảng giá, tích hợp quản trị nội dung và tiếp nhận liên hệ.",
-    role: "Phát triển toàn bộ sản phẩm",
+    role: "Freelance cho Riviu · phát triển toàn bộ sản phẩm",
     technologies: ["Next.js", "NestJS", "Prisma", "PostgreSQL", "Puck"],
     challenge:
       "Trình bày dịch vụ và bảng giá rõ ràng cho khách hàng, đồng thời giúp đội ngũ cập nhật nội dung và theo dõi website.",
@@ -103,7 +103,7 @@ export const projects = [
     engineering:
       "Tách frontend Next.js và API NestJS để quản lý nội dung, liên hệ và thống kê. Nội dung được lưu trong PostgreSQL qua Prisma; trang quản trị dùng Puck để chỉnh sửa và xuất bản các section mà không phải sửa trực tiếp mã giao diện.",
     outcome:
-      "Website đang hoạt động tại taskscatt.click, với các trang dịch vụ dành cho khách hàng và hệ thống quản trị cho đội ngũ vận hành.",
+      "Website mình triển khai cho Riviu đang hoạt động tại taskscatt.click, với các trang dịch vụ dành cho khách hàng và hệ thống quản trị cho đội ngũ vận hành.",
     screenshots: [
       {
         src: "/projects/riviu-web/live-overview.webp",
